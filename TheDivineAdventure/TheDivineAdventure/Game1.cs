@@ -101,22 +101,6 @@ namespace TheDivineAdventure
             enemy = new Enemy(enemySounds, enemyRole);
             enemyList = new List<Enemy>();
 
-            // Camera
-            camDistFromPlayer = new Vector3(0f, 20f, -90f);
-            camPosition = player.Pos + camDistFromPlayer;
-            camTarget = player.Pos;
-            fov = 45f;
-            renderDistance = 2000f;
-
-            view = Matrix.CreateLookAt(camPosition,
-                                        camTarget,
-                                        Vector3.Up);
-            proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(fov),
-                                                        _graphics.GraphicsDevice.Viewport.AspectRatio,
-                                                        1.0f,
-                                                        renderDistance);
-
-
             // Set intiial screen size
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
@@ -239,7 +223,7 @@ namespace TheDivineAdventure
             // Basic kill player for (will improve once some UI is built up)
             if (player.Health <= 0)
             {
-                player = new Player(playerSounds);
+                player = new Player(playerSounds, playerRole);
                 score = 0;
             }
 
@@ -331,7 +315,7 @@ namespace TheDivineAdventure
             }
 
 
-            // Render Hud
+            // Render HUD
             drawHud();
             
             base.Draw(gameTime);

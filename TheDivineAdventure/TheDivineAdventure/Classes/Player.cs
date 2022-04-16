@@ -49,7 +49,7 @@ namespace TheDivineAdventure
 
 
 
-        //Health and secodnary stat
+        //Health and secondary stat
         private float health, secondary, secondaryRegenRate;
         private int healthMax, secondaryMax;
         //swaps stamina for mana when true
@@ -67,15 +67,16 @@ namespace TheDivineAdventure
             rot = new Vector3(0, 0, 0);
             minHeight = pos.Y;
             prevMouseState = Mouse.GetState();
-            pos = new Vector3(0, clericHeight, 0);
-            minHeight = clericHeight;
+            pos = new Vector3(0, CLERIC_HEIGHT, 0);
+            minHeight = CLERIC_HEIGHT;
 
             //set health and secondary bar (will later be set by character, or perhaps altered by powerups)
             healthMax = 100;
             health = 100;
             secondaryMax = 100;
             secondary = 100;
-            isCaster = false;
+            if(role.Equals("CLERIC") || role.Equals("MAGE"))
+                isCaster = true;
         }
 
 
