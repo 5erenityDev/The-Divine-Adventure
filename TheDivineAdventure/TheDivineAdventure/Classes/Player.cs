@@ -60,17 +60,21 @@ namespace TheDivineAdventure
         /////////////////
         public Player(List<SoundEffect> s, string r)
         {
+            // Imported values
             soundEffects = s;
             role = r;
+
+            // Set player position
             height = HEIGHTS[Array.IndexOf(ROLES, role)];
             pos = new Vector3(0, height, 0);
             rot = new Vector3(0, 0, 0);
             minHeight = pos.Y;
-            prevMouseState = Mouse.GetState();
-            pos = new Vector3(0, CLERIC_HEIGHT, 0);
-            minHeight = CLERIC_HEIGHT;
 
-            //set health and secondary bar (will later be set by character, or perhaps altered by powerups)
+            // Prepare mouse state
+            prevMouseState = Mouse.GetState();
+
+            // Set health and secondary bar
+            // (will later be set by character, or perhaps altered by powerups)
             healthMax = 100;
             health = 100;
             secondaryMax = 100;

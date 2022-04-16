@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Audio;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -28,10 +29,28 @@ namespace TheDivineAdventure
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        // Render Settings
+        private float currentScreenScale;
+
+
+        // 2D Assets
+        private SpriteFont BigFont;
+        private Texture2D hudL1, hudL2, progIcon, healthBar,secondaryBar;
+        private Rectangle healthBarRec, secondBarRec;
+        // (Distance to end Boss)
+        private int levelLength;
+        private float travel;
+
+        // Font Color
+        Color textGold;
+
+        // Songs
+        private Song gameTheme;
+
         // 3D Assets
-        private Model   clericModel;
-        private Model   demonModel;
-        private Model   level1Model;
+        private Model clericModel;
+        private Model demonModel;
+        private Model level1Model;
         /*
         //28 Planned Character Models in total
         //8 Planned World Models in total
@@ -45,22 +64,6 @@ namespace TheDivineAdventure
         private model   level2Model, level3Model, level4Model,
                         level5Model, level6Model, level7Model, level8Model;
         */
-        // Render Settings
-        private float currentScreenScale;
-
-        // 2D Assets
-        private SpriteFont BigFont,gameFont;
-        private Texture2D cursor, titleLogo, hudL1, hudL2, progIcon, healthBar,secondaryBar;
-        private Rectangle healthBarRec, secondBarRec;
-        //distance to end Boss
-        private int levelLength;
-        private float travel;
-
-        // Font Color
-        Color textGold;
-
-        // Songs
-        private Song gameTheme;
 
         // Camera
         private Camera camera;
@@ -83,14 +86,18 @@ namespace TheDivineAdventure
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                IsFullScreen = false
+            };
             Content.RootDirectory = "Content";
+
+            Window.IsBorderless = true;
             IsMouseVisible = false;
         }
 
         protected override void Initialize()
         {
-
             // Role Info
             playerRole = Player.ROLES[3];
             enemyRole = Enemy.ROLES[0];
@@ -101,26 +108,31 @@ namespace TheDivineAdventure
             enemy = new Enemy(enemySounds, enemyRole);
             enemyList = new List<Enemy>();
 
-            // Set intiial screen size
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.IsFullScreen = false;
+            // Set initial screen size
+            // (Determine size of display)
+            int desktop_width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            int desktop_height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            // (Apply the determined size)
+            // Current Bug: Screen resolutions other than 16:9 render incorrectly
+            // Possible Fix: Limit possible resolutions to 16:9 or rework to support other resolutions
+            _graphics.PreferredBackBufferWidth = desktop_width;
+            _graphics.PreferredBackBufferHeight = desktop_height;
             _graphics.ApplyChanges();
 
-            //set screen scale to determins size of UI
+            // Set screen scale to determine size of UI
             currentScreenScale = _graphics.PreferredBackBufferWidth / 1920f;
 
             // Generate resource Bars rectangles
             healthBarRec = new Rectangle(
-                (int)Math.Round(_graphics.PreferredBackBufferWidth*0.099f),
-                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.044f),
-                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth),
-                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight));
+                (int)Math.Round(_graphics.PreferredBackBufferWidth*0.099f / currentScreenScale),
+                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.044f / currentScreenScale),
+                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth / currentScreenScale),
+                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight / currentScreenScale));
             secondBarRec = new Rectangle(
-                (int)Math.Round(_graphics.PreferredBackBufferWidth * 0.088f),
-                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.099f),
-                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth),
-                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight));
+                (int)Math.Round(_graphics.PreferredBackBufferWidth * 0.088f / currentScreenScale),
+                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.099f / currentScreenScale),
+                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth / currentScreenScale),
+                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight / currentScreenScale));
 
             // Initialize Distance to Boss(kept as a variable in case we have multiple levels)
             levelLength = 2250;
@@ -155,11 +167,13 @@ namespace TheDivineAdventure
 
 
             // Load 3D models
-            // Heroes
+            
             clericModel = Content.Load<Model>("MODEL_Cleric");
             demonModel = Content.Load<Model>("MODEL_Demon");
             level1Model = Content.Load<Model>("MODEL_Level1");
+
             /*
+            // Heroes
             warriorModel = Content.Load<Model>("MODEL_Warrior");
             rogueModel = Content.Load<Model>("MODEL_Rogue");
             mageModel = Content.Load<Model>("MODEL_Mage");
