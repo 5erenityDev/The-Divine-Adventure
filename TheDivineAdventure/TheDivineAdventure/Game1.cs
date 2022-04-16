@@ -53,24 +53,22 @@ namespace TheDivineAdventure
         // Songs
         private Song gameTheme;
 
+        // Camera
+        private Camera camera;
+
         // Player
         private Player player;
         private List<SoundEffect> playerSounds = new List<SoundEffect>();
+        private string playerRole;
 
         // Enemy
         private Enemy enemy;
         private List<Enemy> enemyList;
         private List<SoundEffect> enemySounds = new List<SoundEffect>();
-
-        // Camera
-        private Vector3 camTarget;
-        private Vector3 camPosition, camDistFromPlayer;
-        private float fov;
-        private float renderDistance;
+        private string enemyRole;
 
         // Matrices
         private Matrix worldPlayer, worldEnemy, worldLevel;
-        private Matrix view, proj;
 
 
         public Game1()
@@ -84,27 +82,15 @@ namespace TheDivineAdventure
         {
             base.Initialize();
 
+            // Role Info
+            playerRole = Player.ROLES[3];
+            enemyRole = Enemy.ROLES[0];
+
             // Initialize game objects
-            player = new Player(playerSounds);
-            enemy = new Enemy(enemySounds);
+            camera = new Camera(GraphicsDevice, Vector3.Up);
+            player = new Player(playerSounds, playerRole);
+            enemy = new Enemy(enemySounds, enemyRole);
             enemyList = new List<Enemy>();
-
-            // Camera
-            camDistFromPlayer = new Vector3(0f, 30f, -70f);
-            camPosition = player.Pos + camDistFromPlayer;
-            camTarget = player.Pos;
-            fov = 45f;
-            renderDistance = 2000f;
-
-            view = Matrix.CreateLookAt(camPosition,
-                                        camTarget,
-                                        Vector3.Up);
-            proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(fov),
-                                                        _graphics.GraphicsDevice.Viewport.AspectRatio,
-                                                        1.0f,
-                                                        renderDistance);
-
-
         }
 
         protected override void LoadContent()
@@ -113,11 +99,15 @@ namespace TheDivineAdventure
 
             // Load fonts
 
+
             // Load sounds
+
 
             // Load 2D textures
 
+
             // Load 3D models
+            // Heroes
             clericModel = Content.Load<Model>("MODEL_Cleric");
             demonModel = Content.Load<Model>("MODEL_Demon");
             level1Model = Content.Load<Model>("MODEL_Level1");
@@ -125,11 +115,16 @@ namespace TheDivineAdventure
             warriorModel = Content.Load<Model>("MODEL_Warrior");
             rogueModel = Content.Load<Model>("MODEL_Rogue");
             mageModel = Content.Load<Model>("MODEL_Mage");
+
+            // Enemies
+            houndModel = Content.Load<Model>("MODEL_HellHound");
             impModel  = Content.Load<Model>("MODEL_Imp");
             goblinModel = Content.Load<Model>("MODEL_Goblin");
             ogreModel = Content.Load<Model>("MODEL_Ogre");
             gargoyModel = Content.Load<Model>("MODEL_Gargoyle");
             skeleModel = Content.Load<Model>("MODEL_Skeleton");
+
+            // Minibosses
             baelModel = Content.Load<Model>("MODEL_Bael");
             agaresModel = Content.Load<Model>("MODEL_Agares");
             vassaModel = Content.Load<Model>("MODEL_Vassago");
@@ -138,6 +133,8 @@ namespace TheDivineAdventure
             valeModel = Content.Load<Model>("MODEL_Valefor");
             amonModel = Content.Load<Model>("MODEL_Amon");
             barbaModel = Content.Load<Model>("MODEL_Barbatos");
+
+            // Bosses
             luciModel = Content.Load<Model>("MODEL_Lucifer");
             leviModel = Content.Load<Model>("MODEL_Leviathan");
             satanModel = Content.Load<Model>("MODEL_Satan");
@@ -146,6 +143,15 @@ namespace TheDivineAdventure
             beelzModel = Content.Load<Model>("MODEL_Beelzebub");
             asmoModel = Content.Load<Model>("MODEL_Asmodeus");
             angelModel = Content.Load<Model>("MODEL_Angel");
+
+            // Levels
+            level2Model = Content.Load<Model>("MODEL_Level2");
+            level3Model = Content.Load<Model>("MODEL_Level3");
+            level4Model = Content.Load<Model>("MODEL_Level4");
+            level5Model = Content.Load<Model>("MODEL_Level5");
+            level6Model = Content.Load<Model>("MODEL_Level6");
+            level7Model = Content.Load<Model>("MODEL_Level7");
+            level8Model = Content.Load<Model>("MODEL_Level8");
             */
         }
 
@@ -155,6 +161,7 @@ namespace TheDivineAdventure
                 Exit();
 
             player.Update(gameTime);
+            camera.Update(gameTime, player);
             enemy.Update(gameTime);
 
             base.Update(gameTime);
@@ -165,32 +172,67 @@ namespace TheDivineAdventure
             // Graphics device settings
             GraphicsDevice.Clear(new Color(40, 20, 20));
 
-            // Camera
-            camPosition = player.Pos + camDistFromPlayer;
-            camTarget = player.Pos;
-            view = Matrix.CreateLookAt(camPosition,
-                                        camTarget,
-                                        Vector3.Up);
 
             // Render world
             worldLevel = Matrix.CreateScale(1f) *
                         Matrix.CreateRotationY(MathHelper.ToRadians(180f)) *
                         Matrix.CreateTranslation(new Vector3(0,0,-5));
 
-            level1Model.Draw(worldLevel, view, proj);
+            level1Model.Draw(worldLevel, camera.View, camera.Proj);
 
             // Render single enemy
             // THIS IS TEMPORARY
             worldEnemy = Matrix.CreateScale(1f) *
                         Matrix.CreateRotationY(MathHelper.ToRadians(180f)) *
                         Matrix.CreateTranslation(enemy.Pos);
-            demonModel.Draw(worldEnemy, view, proj);
+            switch (enemy.role)
+            {
+                case "DEMON":
+                    demonModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    break;
+                case "HELLHOUND":
+                    //houndModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    break;
+                case "IMP":
+                    //impModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    break;
+                case "GOBLIN":
+                    //goblinModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    break;
+                case "OGRE":
+                    //ogreModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    break;
+                case "GARGOYLE":
+                    //gargoyModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    break;
+                case "SKELETON":
+                    //skeleModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    clericModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    break;
+            }
+            
 
             // Render player
             worldPlayer = Matrix.CreateScale(1f) *
-                        Matrix.CreateRotationY(MathHelper.ToRadians(0f)) *
+                        Matrix.CreateRotationY(MathHelper.ToRadians(player.Rot.Y)) *
                         Matrix.CreateTranslation(player.Pos);
-            clericModel.Draw(worldPlayer, view, proj);
+            switch(player.role)
+            {
+                case "WARRIOR":
+                    //warriorModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    demonModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    break;
+                case "ROGUE":
+                    //rogueModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    break;
+                case "MAGE":
+                    //mageModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    break;
+                case "CLERIC":
+                    clericModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    break;
+            }
+
 
             base.Draw(gameTime);
         }
