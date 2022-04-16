@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -41,6 +42,12 @@ namespace TheDivineAdventure
         // Sound
         private List<SoundEffect> soundEffects;
 
+        // MouseState
+        MouseState prevMouseState;
+        MouseState curMouseState;
+
+
+
         /////////////////
         ///CONSTRUCTOR///
         /////////////////
@@ -52,23 +59,33 @@ namespace TheDivineAdventure
             pos = new Vector3(0, height, 0);
             rot = new Vector3(0, 0, 0);
             minHeight = pos.Y;
+            prevMouseState = Mouse.GetState();
         }
+
+
 
         ///////////////
         ///FUNCTIONS///
         ///////////////
         public void Update(GameTime gameTime)
         {
-            // Comment out whichever one you DON'T want to be able to do
-            //Move(gameTime);
-            NoClip(gameTime);
-            SwitchRole();
+            // Regular Gameplay
+            Move(gameTime);
+            Shoot(gameTime);
+
+            // Debugging
+            //NoClip(gameTime);
+            //SwitchRole();
         }
 
         private void Move(GameTime gameTime)
         {
             // Move forward
-            pos.Z++;
+            // FOR NOW the player stops at z = 2200 as the current test stage ends there.
+            if (pos.Z < 2200)
+                pos.Z++;
+            else
+                pos.Z = 2200;
 
             // Move left
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
@@ -113,6 +130,20 @@ namespace TheDivineAdventure
                 jumping = false;
             }
         }
+
+        private void Shoot(GameTime gameTime)
+        {
+            curMouseState = Mouse.GetState();
+
+            if (curMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton != ButtonState.Pressed)
+            {
+                Debug.WriteLine("Shoot Projectile");
+            }
+
+            prevMouseState = curMouseState;
+        }
+
+
 
         /////////////////////////
         ///DEBUGGING FUNCTIONS///
@@ -175,6 +206,9 @@ namespace TheDivineAdventure
                 minHeight = height;
             }
         }
+
+
+
         ////////////////////
         ///GETTER/SETTERS///
         ////////////////////

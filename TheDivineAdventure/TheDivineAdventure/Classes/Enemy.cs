@@ -36,6 +36,8 @@ namespace TheDivineAdventure
         // Sound
         private List<SoundEffect> soundEffects;
 
+
+
         /////////////////
         ///CONSTRUCTOR///
         /////////////////
@@ -47,6 +49,8 @@ namespace TheDivineAdventure
             pos = new Vector3(0, height, 100);
         }
 
+
+
         ///////////////
         ///FUNCTIONS///
         ///////////////
@@ -54,6 +58,8 @@ namespace TheDivineAdventure
         {
 
         }
+
+
 
         ////////////////////
         ///GETTER/SETTERS///

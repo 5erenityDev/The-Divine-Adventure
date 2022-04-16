@@ -75,7 +75,7 @@ namespace TheDivineAdventure
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()
@@ -87,8 +87,8 @@ namespace TheDivineAdventure
             enemyRole = Enemy.ROLES[0];
 
             // Initialize game objects
-            camera = new Camera(GraphicsDevice, Vector3.Up);
             player = new Player(playerSounds, playerRole);
+            camera = new Camera(GraphicsDevice, Vector3.Up, player);
             enemy = new Enemy(enemySounds, enemyRole);
             enemyList = new List<Enemy>();
         }
