@@ -30,12 +30,12 @@ namespace TheDivineAdventure
         private SpriteBatch _spriteBatch;
 
         // Render Settings
-        private float currentScreenScale;
+        private Vector2 currentScreenScale;
 
 
         // 2D Assets
         private SpriteFont BigFont;
-        private Texture2D hudL1, hudL2, progIcon, healthBar,secondaryBar;
+        private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar;
         private Rectangle healthBarRec, secondBarRec;
         // (Distance to end Boss)
         private int levelLength;
@@ -98,6 +98,8 @@ namespace TheDivineAdventure
 
         protected override void Initialize()
         {
+            base.Initialize();
+
             // Role Info
             playerRole = Player.ROLES[3];
             enemyRole = Enemy.ROLES[0];
@@ -113,32 +115,27 @@ namespace TheDivineAdventure
             int desktop_width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             int desktop_height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             // (Apply the determined size)
-            // Current Bug: Screen resolutions other than 16:9 render incorrectly
-            // Possible Fix: Limit possible resolutions to 16:9 or rework to support other resolutions
             _graphics.PreferredBackBufferWidth = desktop_width;
             _graphics.PreferredBackBufferHeight = desktop_height;
             _graphics.ApplyChanges();
 
             // Set screen scale to determine size of UI
-            currentScreenScale = _graphics.PreferredBackBufferWidth / 1920f;
+            currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
 
             // Generate resource Bars rectangles
             healthBarRec = new Rectangle(
-                (int)Math.Round(_graphics.PreferredBackBufferWidth*0.099f / currentScreenScale),
-                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.044f / currentScreenScale),
-                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth / currentScreenScale),
-                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight / currentScreenScale));
+                (int)Math.Round(_graphics.PreferredBackBufferWidth*0.099f / currentScreenScale.X),
+                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.044f / currentScreenScale.Y),
+                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth / currentScreenScale.X),
+                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight / currentScreenScale.Y));
             secondBarRec = new Rectangle(
-                (int)Math.Round(_graphics.PreferredBackBufferWidth * 0.088f / currentScreenScale),
-                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.099f / currentScreenScale),
-                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth / currentScreenScale),
-                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight / currentScreenScale));
+                (int)Math.Round(_graphics.PreferredBackBufferWidth * 0.088f / currentScreenScale.X),
+                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.099f / currentScreenScale.Y),
+                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth / currentScreenScale.X),
+                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight / currentScreenScale.Y));
 
-            // Initialize Distance to Boss(kept as a variable in case we have multiple levels)
+            // Initialize Distance to Boss(kept as a variable in case we have multiple level length)
             levelLength = 2250;
-
-            //needed to call later in function, so that I could simplify the mana or stamina code, let me know if this is a problem
-            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -160,10 +157,8 @@ namespace TheDivineAdventure
             hudL2 = Content.Load<Texture2D>("TEX_HolyHUD_L2");
             progIcon = Content.Load<Texture2D>("TEX_ProgressionIcon");
             healthBar = Content.Load<Texture2D>("TEX_HealthBar");
-            if(player.IsCaster)
-                secondaryBar = Content.Load<Texture2D>("TEX_ManaBar");
-            else
-                secondaryBar = Content.Load<Texture2D>("TEX_StaminaBar");
+            manaBar = Content.Load<Texture2D>("TEX_ManaBar");
+            staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
 
 
             // Load 3D models
@@ -245,10 +240,10 @@ namespace TheDivineAdventure
             if (Keyboard.GetState().IsKeyDown(Keys.PageUp))
             {
                 _graphics.PreferredBackBufferWidth = 1920;
-                _graphics.PreferredBackBufferHeight = 1080;
-                _graphics.IsFullScreen = true;
+                _graphics.PreferredBackBufferHeight = 400;
+                _graphics.IsFullScreen = false;
                 _graphics.ApplyChanges();
-                currentScreenScale = _graphics.PreferredBackBufferWidth / 1920f;
+                currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.PageDown))
             {
@@ -256,7 +251,7 @@ namespace TheDivineAdventure
                 _graphics.PreferredBackBufferHeight = 540;
                 _graphics.IsFullScreen = false;
                 _graphics.ApplyChanges();
-                currentScreenScale = _graphics.PreferredBackBufferWidth / 1920f;
+                currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
             }
 
             base.Update(gameTime);
@@ -353,9 +348,14 @@ namespace TheDivineAdventure
             _spriteBatch.Draw(healthBar,
                 player.resourceBarUpdate(true, healthBarRec,
                 new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
-            _spriteBatch.Draw(secondaryBar,
-                player.resourceBarUpdate(false, secondBarRec,
-                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
+            if(player.IsCaster)
+                _spriteBatch.Draw(manaBar,
+                    player.resourceBarUpdate(false, secondBarRec,
+                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
+            else
+                _spriteBatch.Draw(staminaBar,
+                    player.resourceBarUpdate(false, secondBarRec,
+                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
             //topHUD layer
             _spriteBatch.Draw(hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
             _spriteBatch.End();

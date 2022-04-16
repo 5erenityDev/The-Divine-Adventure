@@ -215,7 +215,7 @@ namespace TheDivineAdventure
         }
 
         //update health and stamina bar
-        public Rectangle resourceBarUpdate(bool isHealth, Rectangle bar, Vector2 screen, float scale)
+        public Rectangle resourceBarUpdate(bool isHealth, Rectangle bar, Vector2 screen, Vector2 scale)
         {
             int nWid;
             Rectangle newRect;
@@ -228,7 +228,7 @@ namespace TheDivineAdventure
                 //define new rectangle for bar
                 newRect = new Rectangle(
                     (int)System.Math.Round(0.099f * screen.X),
-                    (int)System.Math.Round(0.044f * screen.Y), nWid, (int)System.Math.Round(bar.Height * scale));
+                    (int)System.Math.Round(0.044f * screen.Y), nWid, (int)System.Math.Round(bar.Height * scale.Y));
             }
             else
             {
@@ -237,7 +237,7 @@ namespace TheDivineAdventure
                 //define new rectangle for bar
                 newRect = new Rectangle(
                     (int)System.Math.Round(0.088f * screen.X),
-                    (int)System.Math.Round(0.099f * screen.Y), nWid, (int)System.Math.Round(bar.Height * scale));
+                    (int)System.Math.Round(0.099f * screen.Y), nWid, (int)System.Math.Round(bar.Height * scale.Y));
             }
 
             return newRect;

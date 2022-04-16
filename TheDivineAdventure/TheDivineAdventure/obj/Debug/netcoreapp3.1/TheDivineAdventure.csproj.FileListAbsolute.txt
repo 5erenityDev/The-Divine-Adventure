@@ -77,3 +77,5 @@ D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAd
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_ManaBar.xnb
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_ProgressionIcon.xnb
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_StaminaBar.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_EnemyProjectile.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_PlayerProjectile.xnb

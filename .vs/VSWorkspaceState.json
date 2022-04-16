@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\TheDivineAdventure",
-    "\\TheDivineAdventure\\TheDivineAdventure"
+    "\\TheDivineAdventure\\TheDivineAdventure",
+    "\\TheDivineAdventure\\TheDivineAdventure\\Classes"
   ],
-  "SelectedNode": "\\TheDivineAdventure\\TheDivineAdventure\\Game1.cs",
+  "SelectedNode": "\\TheDivineAdventure\\TheDivineAdventure\\Classes\\Player.cs",
   "PreviewInSolutionExplorer": false
 }
