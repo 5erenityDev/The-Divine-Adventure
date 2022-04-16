@@ -28,6 +28,7 @@ namespace TheDivineAdventure
         // Info
         public string role;
         private int height;
+        public List<Projectile> projList = new List<Projectile>();
 
         // Movement
         private Vector3 pos;

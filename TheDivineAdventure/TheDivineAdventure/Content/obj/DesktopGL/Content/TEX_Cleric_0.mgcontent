@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Cleric.png</SourceFile>
-  <SourceTime>2022-04-15T21:32:08.7219769-04:00</SourceTime>
-  <DestFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/TEX_Cleric_0.xnb</DestFile>
-  <DestTime>2022-04-16T18:03:16.9048671-04:00</DestTime>
+  <SourceFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Cleric.png</SourceFile>
+  <SourceTime>2022-04-16T19:07:36.9689097-04:00</SourceTime>
+  <DestFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/TEX_Cleric_0.xnb</DestFile>
+  <DestTime>2022-04-16T19:07:53.7378926-04:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
+  <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2020-08-10T12:17:54-04:00</ProcessorTime>
+  <ProcessorTime>2020-08-10T16:17:54-04:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>0,0,0,0</Value>

@@ -26,6 +26,7 @@ namespace TheDivineAdventure
         // Info
         public string role;
         private int height;
+        public List<Projectile> projList = new List<Projectile>();
 
         // Movement
         private Vector3 pos;
@@ -55,6 +56,10 @@ namespace TheDivineAdventure
         //swaps stamina for mana when true
         private bool isCaster;
 
+        // Timer
+        private float maxTime; //time between shots
+        private float timer;
+
         /////////////////
         ///CONSTRUCTOR///
         /////////////////
@@ -73,6 +78,10 @@ namespace TheDivineAdventure
             // Prepare mouse state
             prevMouseState = Mouse.GetState();
 
+            // Timer stats
+            maxTime = 0.5f;
+            timer = 0f;
+
             // Set health and secondary bar
             // (will later be set by character, or perhaps altered by powerups)
             healthMax = 100;
@@ -88,11 +97,11 @@ namespace TheDivineAdventure
         ///////////////
         ///FUNCTIONS///
         ///////////////
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Camera cam)
         {
             // Regular Gameplay
             Move(gameTime);
-            Shoot(gameTime);
+            Shoot(gameTime, cam);
 
             // Debugging
             //NoClip(gameTime);
@@ -159,13 +168,30 @@ namespace TheDivineAdventure
             }
         }
 
-        private void Shoot(GameTime gameTime)
+        private void Shoot(GameTime gameTime, Camera cam)
         {
             curMouseState = Mouse.GetState();
 
-            if (curMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton != ButtonState.Pressed)
+            if (timer > 0)
             {
-                Debug.WriteLine("Shoot Projectile");
+                timer = timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if (curMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton != ButtonState.Pressed)
+                {
+                    projList.Add(new Projectile(this, cam.Rot));
+                    timer = maxTime;
+                }
+            }
+
+            foreach (Projectile p in projList)
+            {
+                if (p.TimeToDestroy)
+                {
+                    projList.Remove(p);
+                    break;
+                }
             }
 
             prevMouseState = curMouseState;

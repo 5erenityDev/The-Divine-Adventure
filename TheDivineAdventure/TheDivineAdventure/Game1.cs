@@ -51,6 +51,7 @@ namespace TheDivineAdventure
         private Model clericModel;
         private Model demonModel;
         private Model level1Model;
+        private Model playerProjModel, enemyProjModel;
         /*
         //28 Planned Character Models in total
         //8 Planned World Models in total
@@ -81,7 +82,7 @@ namespace TheDivineAdventure
         private string enemyRole;
 
         // Matrices
-        private Matrix worldPlayer, worldEnemy, worldLevel;
+        private Matrix worldPlayer, worldEnemy, worldProj, worldLevel;
 
 
         public Game1()
@@ -166,6 +167,8 @@ namespace TheDivineAdventure
             clericModel = Content.Load<Model>("MODEL_Cleric");
             demonModel = Content.Load<Model>("MODEL_Demon");
             level1Model = Content.Load<Model>("MODEL_Level1");
+            playerProjModel = Content.Load<Model>("MODEL_PlayerProjectile");
+            enemyProjModel = Content.Load<Model>("MODEL_EnemyProjectile");
 
             /*
             // Heroes
@@ -217,12 +220,23 @@ namespace TheDivineAdventure
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.Update(gameTime);
+            player.Update(gameTime, camera);
             camera.Update(gameTime, player);
             enemy.Update(gameTime);
 
+            foreach (Projectile p in player.projList)
+            {
+                p.Update(gameTime);
+            }
+
+
+            foreach (Projectile p in enemy.projList)
+            {
+                p.Update(gameTime);
+            }
+
             //update distance to boss
-            if(player.Pos.Z>0 && player.Pos.Z<levelLength)
+            if (player.Pos.Z>0 && player.Pos.Z<levelLength)
                 travel = (player.Pos.Z * _graphics.PreferredBackBufferWidth*0.276f) / Math.Abs(levelLength);
 
             //test score
@@ -323,6 +337,21 @@ namespace TheDivineAdventure
                     break;
             }
 
+            // Render player bullets
+            foreach (Projectile p in player.projList)
+            {
+                worldProj = Matrix.CreateScale(1f) *
+                        Matrix.CreateTranslation(p.Pos);
+                playerProjModel.Draw(worldProj, camera.View, camera.Proj);
+            }
+
+            // Render enemy bullets
+            foreach (Projectile p in enemy.projList)
+            {
+                worldProj = Matrix.CreateScale(1f) *
+                    Matrix.CreateTranslation(p.Pos);
+                enemyProjModel.Draw(worldProj, camera.View, camera.Proj);
+            }
 
             // Render HUD
             drawHud();
