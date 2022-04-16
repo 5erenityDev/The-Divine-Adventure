@@ -45,10 +45,19 @@ namespace TheDivineAdventure
         private model   level2Model, level3Model, level4Model,
                         level5Model, level6Model, level7Model, level8Model;
         */
+        // Render Settings
+        private float currentScreenScale;
 
         // 2D Assets
-        private SpriteFont gameFont;
-        private Texture2D cursor, titleLogo;
+        private SpriteFont BigFont,gameFont;
+        private Texture2D cursor, titleLogo, hudL1, hudL2, progIcon, healthBar,secondaryBar;
+        private Rectangle healthBarRec, secondBarRec;
+        //distance to end Boss
+        private int levelLength;
+        private float travel;
+
+        // Font Color
+        Color textGold;
 
         // Songs
         private Song gameTheme;
@@ -56,6 +65,7 @@ namespace TheDivineAdventure
         // Player
         private Player player;
         private List<SoundEffect> playerSounds = new List<SoundEffect>();
+        private int score;
 
         // Enemy
         private Enemy enemy;
@@ -82,7 +92,6 @@ namespace TheDivineAdventure
 
         protected override void Initialize()
         {
-            base.Initialize();
 
             // Initialize game objects
             player = new Player(playerSounds);
@@ -90,7 +99,7 @@ namespace TheDivineAdventure
             enemyList = new List<Enemy>();
 
             // Camera
-            camDistFromPlayer = new Vector3(0f, 30f, -70f);
+            camDistFromPlayer = new Vector3(0f, 20f, -90f);
             camPosition = player.Pos + camDistFromPlayer;
             camTarget = player.Pos;
             fov = 45f;
@@ -105,6 +114,32 @@ namespace TheDivineAdventure
                                                         renderDistance);
 
 
+            // Set intiial screen size
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.IsFullScreen = false;
+            _graphics.ApplyChanges();
+
+            //set screen scale to determins size of UI
+            currentScreenScale = _graphics.PreferredBackBufferWidth / 1920f;
+
+            // Generate resource Bars rectangles
+            healthBarRec = new Rectangle(
+                (int)Math.Round(_graphics.PreferredBackBufferWidth*0.099f),
+                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.044f),
+                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth),
+                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight));
+            secondBarRec = new Rectangle(
+                (int)Math.Round(_graphics.PreferredBackBufferWidth * 0.088f),
+                (int)Math.Round(_graphics.PreferredBackBufferHeight * 0.099f),
+                (int)Math.Round(.201f * _graphics.PreferredBackBufferWidth),
+                (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight));
+
+            // Initialize Distance to Boss(kept as a variable in case we have multiple levels)
+            levelLength = 2250;
+
+            //needed to call later in function, so that I could simplify the mana or stamina code, let me know if this is a problem
+            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -112,10 +147,23 @@ namespace TheDivineAdventure
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load fonts
+            BigFont = Content.Load<SpriteFont>("BigFont");
+
+            //set font color
+            textGold = new Color(175, 127, 16);
+
 
             // Load sounds
 
             // Load 2D textures
+            hudL1 = Content.Load<Texture2D>("TEX_HolyHUD_L1");
+            hudL2 = Content.Load<Texture2D>("TEX_HolyHUD_L2");
+            progIcon = Content.Load<Texture2D>("TEX_ProgressionIcon");
+            healthBar = Content.Load<Texture2D>("TEX_HealthBar");
+            if(player.IsCaster)
+                secondaryBar = Content.Load<Texture2D>("TEX_ManaBar");
+            else
+                secondaryBar = Content.Load<Texture2D>("TEX_StaminaBar");
 
             // Load 3D models
             clericModel = Content.Load<Model>("MODEL_Cleric");
@@ -157,6 +205,39 @@ namespace TheDivineAdventure
             player.Update(gameTime);
             enemy.Update(gameTime);
 
+            //update distance to boss
+            if(player.Pos.Z>0 && player.Pos.Z<levelLength)
+                travel = (player.Pos.Z * _graphics.PreferredBackBufferWidth*0.276f) / Math.Abs(levelLength);
+
+            //test score
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+                score += 3;
+
+            // Basic kill player for (will improve once some UI is built up)
+            if (player.Health <= 0)
+            {
+                player = new Player(playerSounds);
+                score = 0;
+            }
+
+            //DEBUG SCREEN RESOLUTION THINGS
+            if (Keyboard.GetState().IsKeyDown(Keys.PageUp))
+            {
+                _graphics.PreferredBackBufferWidth = 1920;
+                _graphics.PreferredBackBufferHeight = 1080;
+                _graphics.IsFullScreen = true;
+                _graphics.ApplyChanges();
+                currentScreenScale = _graphics.PreferredBackBufferWidth / 1920f;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.PageDown))
+            {
+                _graphics.PreferredBackBufferWidth = 960;
+                _graphics.PreferredBackBufferHeight = 540;
+                _graphics.IsFullScreen = false;
+                _graphics.ApplyChanges();
+                currentScreenScale = _graphics.PreferredBackBufferWidth / 1920f;
+            }
+
             base.Update(gameTime);
         }
 
@@ -192,7 +273,38 @@ namespace TheDivineAdventure
                         Matrix.CreateTranslation(player.Pos);
             clericModel.Draw(worldPlayer, view, proj);
 
+            // Render Hud
+            drawHud();
+            
             base.Draw(gameTime);
+        }
+
+        protected void drawHud()
+        {
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(hudL1, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+            //progessIcon
+            _spriteBatch.Draw(progIcon,
+                new Vector2(_graphics.PreferredBackBufferWidth * 0.348f + travel, _graphics.PreferredBackBufferHeight * 0.873f),
+                null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+            //Score
+            _spriteBatch.DrawString(BigFont, score.ToString(),
+                new Vector2(_graphics.PreferredBackBufferWidth * 0.498f - (BigFont.MeasureString(score.ToString()) * .5f * currentScreenScale).X, _graphics.PreferredBackBufferHeight * -0.01f),
+                textGold, 0f, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
+            //resource bars
+            _spriteBatch.Draw(healthBar,
+                player.resourceBarUpdate(true, healthBarRec,
+                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
+            _spriteBatch.Draw(secondaryBar,
+                player.resourceBarUpdate(false, secondBarRec,
+                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
+            //topHUD layer
+            _spriteBatch.Draw(hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
+            _spriteBatch.End();
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
     }
 }
