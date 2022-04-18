@@ -79,3 +79,10 @@ D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAd
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_StaminaBar.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_EnemyProjectile.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_PlayerProjectile.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_DemonSpriteSheet.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_EmberSheet01.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_TitleScreen_Back.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_TitleScreen_Front.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Title_Lightning_01.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Title_Lightning_02.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Title_Lightning_03.xnb
