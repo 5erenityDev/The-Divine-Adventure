@@ -5,7 +5,7 @@ using System;
 
 namespace TheDivineAdventure
 {
-    class Button : Game
+    class Button
     {
         private Vector2 pos, size, scale, center;
         private MouseState mouseState;

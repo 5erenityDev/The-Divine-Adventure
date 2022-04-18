@@ -250,7 +250,7 @@ namespace TheDivineAdventure
                     break;
                 default:
                     UpdateTitleScreen(gameTime);
-                    break;                    
+                    break;
             }
 
             //DEBUG SCREEN RESOLUTION THINGS
@@ -317,7 +317,7 @@ namespace TheDivineAdventure
             _spriteBatch.Draw(healthBar,
                 player.resourceBarUpdate(true, healthBarRec,
                 new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
-            if(player.IsCaster)
+            if (player.IsCaster)
                 _spriteBatch.Draw(manaBar,
                     player.resourceBarUpdate(false, secondBarRec,
                     new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
@@ -488,8 +488,8 @@ namespace TheDivineAdventure
         //function to do updates when player is playing in level.
         private void InitializeTitleScreen()
         {
-            titleDemons = new AnimatedSprite[rand.Next(3)+2];
-            for(int i=0;i<titleDemons.Length;i++)
+            titleDemons = new AnimatedSprite[rand.Next(3) + 2];
+            for (int i = 0; i < titleDemons.Length; i++)
             {
                 titleDemons[i] = new AnimatedSprite(109, 108, distantDemonSheet, 7);
                 titleDemons[i].Pos = new Vector2((-1 * rand.Next(400)) * currentScreenScale.X, (50 + rand.Next(500)) * currentScreenScale.Y);
@@ -500,11 +500,11 @@ namespace TheDivineAdventure
             for (int i = 0; i < titleEmbers.Length; i++)
             {
                 titleEmbers[i] = new AnimatedSprite(174, 346, emberSheet01, 6);
-                titleEmbers[i].Pos = new Vector2(rand.Next(1920) * currentScreenScale.X, rand.Next(450,750) * currentScreenScale.Y);
-                titleEmbers[i].Scale = 1 - (rand.Next(-200,50) / 100f);
+                titleEmbers[i].Pos = new Vector2(rand.Next(1920) * currentScreenScale.X, rand.Next(450, 750) * currentScreenScale.Y);
+                titleEmbers[i].Scale = 1 - (rand.Next(-200, 50) / 100f);
                 titleEmbers[i].Frame = rand.Next(6);
             }
-            titleStartGame = new Button(null,new Vector2(247, 686), new Vector2(366, 60), currentScreenScale);
+            titleStartGame = new Button(null, new Vector2(247, 686), new Vector2(366, 60), currentScreenScale);
             titleLevelSelect = new Button(null, new Vector2(247, 750), new Vector2(366, 60), currentScreenScale);
             titleSettings = new Button(null, new Vector2(247, 812), new Vector2(366, 60), currentScreenScale);
             titleCredits = new Button(null, new Vector2(247, 870), new Vector2(366, 60), currentScreenScale);
@@ -555,12 +555,12 @@ namespace TheDivineAdventure
             _spriteBatch.Begin();
             _spriteBatch.Draw(titleScreenBack, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
             //randomly draw lightning
-            if(rand.Next(50) > 48)
+            if (rand.Next(50) > 48)
             {
                 switch (rand.Next(3))
                 {
                     case 1:
-                        _spriteBatch.Draw(titleLightning01, Vector2.Zero, null, new Color(Color.White, 1-(rand.Next(50) / 100f)),
+                        _spriteBatch.Draw(titleLightning01, Vector2.Zero, null, new Color(Color.White, 1 - (rand.Next(50) / 100f)),
                             0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
                         break;
                     case 2:
@@ -575,17 +575,17 @@ namespace TheDivineAdventure
                         break;
                 }
             }
-            foreach(AnimatedSprite demon in titleDemons)
+            foreach (AnimatedSprite demon in titleDemons)
             {
                 if (demon.Pos.X > _graphics.PreferredBackBufferWidth)
                 {
-                    demon.Pos = new Vector2(-1*rand.Next(1500)*currentScreenScale.X,(50+rand.Next(500))*currentScreenScale.Y);
+                    demon.Pos = new Vector2(-1 * rand.Next(1500) * currentScreenScale.X, (50 + rand.Next(500)) * currentScreenScale.Y);
                     demon.Scale = 1 - (rand.Next(50) / 100f);
                     demon.Tint = new Color(Color.White, demon.Scale);
                 }
                 else
                 {
-                    demon.Pos = new Vector2(demon.Pos.X + (demon.Scale*10*currentScreenScale.X), demon.Pos.Y);
+                    demon.Pos = new Vector2(demon.Pos.X + (demon.Scale * 10 * currentScreenScale.X), demon.Pos.Y);
                 }
                 demon.Draw(_spriteBatch, currentScreenScale);
             }
