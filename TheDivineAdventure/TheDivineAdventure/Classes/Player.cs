@@ -88,6 +88,7 @@ namespace TheDivineAdventure
             health = 100;
             secondaryMax = 100;
             secondary = 100;
+            secondaryRegenRate = 0.1f;
             if(role.Equals("CLERIC") || role.Equals("MAGE"))
                 isCaster = true;
         }
@@ -182,6 +183,9 @@ namespace TheDivineAdventure
                 {
                     projList.Add(new Projectile(this, cam.Rot));
                     timer = maxTime;
+
+                    //expend resource
+                    secondary -= 10;
                 }
             }
 

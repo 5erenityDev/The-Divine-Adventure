@@ -42,10 +42,11 @@ namespace TheDivineAdventure
         // 2D Assets
         private SpriteFont BigFont;
         private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, titleScreenBack, TitleScreenFront,
-            distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01;
+            distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01, cursor;
         private Rectangle healthBarRec, secondBarRec;
         private AnimatedSprite[] titleDemons, titleEmbers;
         private Button titleStartGame, titleLevelSelect, titleSettings, titleCredits, titleQuitGame;
+        private bool showCursor;
 
 
         // (Distance to end Boss)
@@ -108,7 +109,7 @@ namespace TheDivineAdventure
             Content.RootDirectory = "Content";
 
             Window.IsBorderless = true;
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()
@@ -157,6 +158,8 @@ namespace TheDivineAdventure
 
 
             // Load 2D textures
+            //Cursor
+            cursor = Content.Load<Texture2D>("TEX_cursor");
 
             //HUD
             if (currentScene == 5)
@@ -238,6 +241,7 @@ namespace TheDivineAdventure
 
         protected override void Update(GameTime gameTime)
         {
+            mouseState = Mouse.GetState();
             //Update based on current scene
             //game info was moved to the PlayingScene function below
             switch (currentScene)
@@ -296,6 +300,14 @@ namespace TheDivineAdventure
                     break;
             }
 
+            //draw cursor
+            if (showCursor == true)
+            {
+                _spriteBatch.Begin();
+                _spriteBatch.Draw(cursor, new Vector2(mouseState.X,mouseState.Y), null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+                _spriteBatch.End();
+            }
+
             base.Draw(gameTime);
         }
 
@@ -336,6 +348,9 @@ namespace TheDivineAdventure
         //initialize game objects and load level
         private void InitializePlayingScene()
         {
+            //hide cursor
+            showCursor = false; ;
+
             // Role Info
             playerRole = Player.ROLES[3];
             enemyRole = Enemy.ROLES[0];
@@ -485,9 +500,12 @@ namespace TheDivineAdventure
         }
 
 
-        //function to do updates when player is playing in level.
+        //Initialize Title Screen.
         private void InitializeTitleScreen()
         {
+            //show custom cursor
+            showCursor = true;
+            //create background demons
             titleDemons = new AnimatedSprite[rand.Next(3) + 2];
             for (int i = 0; i < titleDemons.Length; i++)
             {
@@ -496,6 +514,7 @@ namespace TheDivineAdventure
                 titleDemons[i].Scale = 1 - (rand.Next(50) / 100f);
                 titleDemons[i].Tint = new Color(Color.White, titleDemons[i].Scale);
             }
+            //create embers
             titleEmbers = new AnimatedSprite[10];
             for (int i = 0; i < titleEmbers.Length; i++)
             {
@@ -504,6 +523,7 @@ namespace TheDivineAdventure
                 titleEmbers[i].Scale = 1 - (rand.Next(-200, 50) / 100f);
                 titleEmbers[i].Frame = rand.Next(6);
             }
+            //create menu buttons
             titleStartGame = new Button(null, new Vector2(247, 686), new Vector2(366, 60), currentScreenScale);
             titleLevelSelect = new Button(null, new Vector2(247, 750), new Vector2(366, 60), currentScreenScale);
             titleSettings = new Button(null, new Vector2(247, 812), new Vector2(366, 60), currentScreenScale);
@@ -514,7 +534,7 @@ namespace TheDivineAdventure
         //function to do updates when player is in the title Screen.
         private void UpdateTitleScreen(GameTime gameTime)
         {
-            mouseState = Mouse.GetState();
+            //get mouse clocks and check buttons
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 if (titleStartGame.IsPressed())
@@ -575,6 +595,7 @@ namespace TheDivineAdventure
                         break;
                 }
             }
+            //draw background demons
             foreach (AnimatedSprite demon in titleDemons)
             {
                 if (demon.Pos.X > _graphics.PreferredBackBufferWidth)
@@ -589,6 +610,7 @@ namespace TheDivineAdventure
                 }
                 demon.Draw(_spriteBatch, currentScreenScale);
             }
+            //draw embers
             foreach (AnimatedSprite ember in titleEmbers)
             {
                 if (ember.Frame == 0)
