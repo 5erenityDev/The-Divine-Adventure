@@ -10,8 +10,12 @@ namespace TheDivineAdventure
         private Vector2 pos, size, scale, center;
         private MouseState mouseState;
         private Vector2 mousePos;
-        private Texture2D? texture;
-        public Button(Texture2D? tex, Vector2 position, Vector2 size, Vector2 screenScale)
+        private Texture2D textureMain, texturePushed;
+        private bool active;
+        private String? buttonText;
+
+        //for invisible butttons
+        public Button(Vector2 position, Vector2 size, Vector2 screenScale)
         {
             pos.X = position.X * screenScale.X;
             pos.Y = position.Y * screenScale.Y;
@@ -19,14 +23,28 @@ namespace TheDivineAdventure
             this.size.Y = size.Y * screenScale.Y;
             scale = screenScale;
             center = new Vector2(pos.X + (this.size.X / 2), pos.Y + (this.size.Y / 2));
-            texture = tex;
+            textureMain = null;
+        }
+
+        //for buttons with a a texture
+        public Button(Texture2D idle, Texture2D pushed,String? Text, Vector2 position, Vector2 size, Vector2 screenScale)
+        {
+            pos.X = position.X * screenScale.X;
+            pos.Y = position.Y * screenScale.Y;
+            this.size.X = size.X * screenScale.X;
+            this.size.Y = size.Y * screenScale.Y;
+            scale = screenScale;
+            center = new Vector2(pos.X + (this.size.X / 2), pos.Y + (this.size.Y / 2));
+            textureMain = idle;
+            texturePushed = pushed;
+            buttonText = Text;
         }
 
         public bool IsPressed()
         {
             mouseState = Mouse.GetState();
             mousePos = new Vector2(mouseState.X, mouseState.Y);
-            if (Math.Abs(center.X-mousePos.X ) < (size.X / 2f) && Math.Abs(center.Y - mousePos.Y) < (size.Y / 2f))
+            if (Math.Abs(center.X - mousePos.X) < (size.X / 2f) && Math.Abs(center.Y - mousePos.Y) < (size.Y / 2f))
                 return true;
             else
                 return false;
@@ -34,8 +52,22 @@ namespace TheDivineAdventure
 
         public void DrawButton(SpriteBatch sb)
         {
-            sb.Draw(texture, pos, new Rectangle(0,0, (int)size.X, (int)size.Y), Color.White, 0, Vector2.Zero,
-                1, SpriteEffects.None, 0);
+            if (IsActive)
+            {
+                sb.Draw(texturePushed, pos, new Rectangle(0, 0, (int)size.X, (int)size.Y), Color.White, 0, Vector2.Zero,
+                    scale, SpriteEffects.None, 0);
+            }
+            else
+            {
+                sb.Draw(textureMain, pos, new Rectangle(0, 0, (int)size.X, (int)size.Y), Color.White, 0, Vector2.Zero,
+                    scale, SpriteEffects.None, 0);
+            }
+        }
+
+        public bool IsActive
+        {
+            get { return active; }
+            set {active = value;}
         }
     }
 }

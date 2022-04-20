@@ -11,25 +11,42 @@ namespace TheDivineAdventure
         private int curFrame, frames;
         private float extendFrame, scale;
         private Color tint;
+        bool loops;
 
         public AnimatedSprite(int width, int height, Texture2D spriteTex, int frames)
         {
             spriteRes.X = width;
             spriteRes.Y = height;
             sprite = spriteTex;
-            currentBox = new Rectangle(218, 0, (int)spriteRes.X, (int)spriteRes.Y);
+            currentBox = new Rectangle(0, 0, (int)spriteRes.X, (int)spriteRes.Y);
             curFrame = 0;
             extendFrame = 0;
             scale = 1;
             tint = Color.White;
             this.frames = frames;
+            loops = true;
+        }
+        public AnimatedSprite(int width, int height, Texture2D spriteTex, int frames, bool repeats)
+        {
+            spriteRes.X = width;
+            spriteRes.Y = height;
+            sprite = spriteTex;
+            currentBox = new Rectangle(0, 0, (int)spriteRes.X, (int)spriteRes.Y);
+            curFrame = 0;
+            extendFrame = 0;
+            scale = 1;
+            tint = Color.White;
+            this.frames = frames;
+            loops = repeats;
         }
 
         public void Draw(SpriteBatch sb, Vector2 screenScale)
         {
-            sb.Draw(sprite, pos, currentBox, tint, 0, Vector2.Zero, screenScale*scale, SpriteEffects.None, 0);
+            sb.Draw(sprite, pos*screenScale, currentBox, tint, 0, Vector2.Zero, screenScale*scale, SpriteEffects.None, 0);
+            if (loops==false && curFrame == frames)
+                return;
             //progress animation
-            if (curFrame < frames)
+            if (curFrame < frames )
             {
                 currentBox = new Rectangle((int)spriteRes.X * curFrame, 0, (int)spriteRes.X, (int)spriteRes.Y);
                 //slow sprite framerate
@@ -70,6 +87,11 @@ namespace TheDivineAdventure
         {
             get { return curFrame; }
             set { curFrame = value; }
+        }
+        public float Framerate
+        {
+            get { return extendFrame; }
+            set { extendFrame = value; }
         }
 
     }

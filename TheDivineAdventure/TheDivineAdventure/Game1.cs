@@ -35,21 +35,25 @@ namespace TheDivineAdventure
 
         //Menu Navigation
         public static readonly string[] SCENES = { "TITLE_SCREEN", "LEVEL_SELECT", "CHARACTER_SELECT",
-            "SCOREBOARD", "SETTINGS", "PLAYING", "DEATH_SCREEN", "CREDITS"};
+            "SCOREBOARD", "SETTINGS", "PLAYING", "IS_PAUSED", "CREDITS"};
         public int currentScene;
         MouseState mouseState;
+        KeyboardState lastKeyboard;
 
         // 2D Assets
         private SpriteFont BigFont, creditsFont;
         private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, titleScreenBack, TitleScreenFront,
-            distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01, cursor, titleBox, titleLava;
+            distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01, cursor, titleBox, titleLava,
+            pauseMenu,pauseMenuSheet;
         private Rectangle healthBarRec, secondBarRec;
         private AnimatedSprite[] titleDemons, titleEmbers;
-        private Button titleStartGame, titleScoreboard, titleSettings, titleCredits, titleQuitGame;
+        private AnimatedSprite secondaryPauseMenu;
+        private Button titleStartGame, titleScoreboard, titleSettings, titleCredits, titleQuitGame, pauseResume, pauseRestart, pauseSettings,
+            pauseQuitMenu, pauseQuitGame, pauseYes,pauseNo;
         private bool showCursor,glowState;
         private String[] credits;
         private float creditsRuntime;
-        private int glowRef;
+        private int glowRef, pauseIsConfirming;
 
 
         // (Distance to end Boss)
@@ -103,6 +107,7 @@ namespace TheDivineAdventure
         private Random rand;
 
 
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this)
@@ -152,7 +157,7 @@ namespace TheDivineAdventure
 
             // Load fonts
             BigFont = Content.Load<SpriteFont>("BigFont");
-            if(currentScene==4)
+            if(currentScene==7)
                 creditsFont = Content.Load<SpriteFont>("CreditsFont");
 
             //set font color
@@ -191,8 +196,17 @@ namespace TheDivineAdventure
                 return;
             }
 
+            //pause screen
+            if (currentScene == 6)
+            {
+                emberSheet01 = Content.Load<Texture2D>("TEX_EmberSheet01");
+                pauseMenu = Content.Load<Texture2D>("TEX_Pause_Menu");
+                pauseMenuSheet = Content.Load<Texture2D>("TEX_SideMenu_Sheet");
+                return;
+            }
+
             //Credits Scene
-            if (currentScene == 4)
+            if (currentScene == 7)
             {
                 titleBox = Content.Load<Texture2D>("TEX_TitleBox03");
             }
@@ -261,11 +275,14 @@ namespace TheDivineAdventure
                 case 0:
                     UpdateTitleScreen(gameTime);
                     break;
-                case 4:
-                    UpdateCreditsScene(gameTime);
-                    break;
                 case 5:
                     UpdatePlayingScene(gameTime);
+                    break;
+                case 6:
+                    UpdatePause(gameTime);
+                    break;
+                case 7:
+                    UpdateCreditsScene(gameTime);
                     break;
                 default:
                     UpdateTitleScreen(gameTime);
@@ -276,10 +293,9 @@ namespace TheDivineAdventure
             if (Keyboard.GetState().IsKeyDown(Keys.PageUp))
             {
                 _graphics.PreferredBackBufferWidth = 1920;
-                _graphics.PreferredBackBufferHeight = 400;
+                _graphics.PreferredBackBufferHeight = 1080;
                 _graphics.IsFullScreen = false;
                 _graphics.ApplyChanges();
-                InitializeTitleScreen();
                 currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.PageDown))
@@ -289,8 +305,9 @@ namespace TheDivineAdventure
                 _graphics.IsFullScreen = false;
                 _graphics.ApplyChanges();
                 currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
-                InitializeTitleScreen();
             }
+            lastKeyboard = Keyboard.GetState();
+
 
             base.Update(gameTime);
         }
@@ -307,11 +324,19 @@ namespace TheDivineAdventure
                 case 0:
                     DrawTitleScreen(gameTime);
                     break;
-                case 4:
-                    DrawCreditsScene(gameTime);
-                    break;
                 case 5:
                     DrawPlayingScene(gameTime);
+                    break;
+                case 6:
+                    DrawPlayingScene(gameTime);
+                    GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                    GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+                    DrawPause(gameTime);
+                    GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                    GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+                    break;
+                case 7:
+                    DrawCreditsScene(gameTime);
                     break;
                 default:
                     DrawTitleScreen(gameTime);
@@ -321,17 +346,25 @@ namespace TheDivineAdventure
             //draw cursor
             if (showCursor == true)
             {
+                GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
                 _spriteBatch.Begin();
                 _spriteBatch.Draw(cursor, new Vector2(mouseState.X,mouseState.Y), null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
                 _spriteBatch.End();
+                GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
             }
 
             base.Draw(gameTime);
         }
 
         ///////////////
-         ///SCENES///
-        ///////////////
+        ///SCENES/////
+        /////////////
+
+        ///////////////////////////////////////////////////////////
+        /////////////////////////////////////////MAINGAME////////
+        ////////////////////////////////////////////////////////
 
         //initialize game objects and load level
         private void InitializePlayingScene()
@@ -365,13 +398,20 @@ namespace TheDivineAdventure
 
             // Initialize Distance to Boss(kept as a variable in case we have multiple level length)
             levelLength = 2250;
+
+            //set score to 0
+            score = 0;
         }
 
         //function to do updates when player is playing in level.
         private void UpdatePlayingScene(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && lastKeyboard.IsKeyUp(Keys.Escape))
+            {
+                currentScene = 6;
+                InitializePause();
+                return;
+            }
 
             player.Update(gameTime, camera);
             camera.Update(gameTime, player);
@@ -516,6 +556,11 @@ namespace TheDivineAdventure
         }
 
 
+        ///////////////////////////////////////////////////////////
+        /////////////////////////////////////////TITLESCREEN//////
+        /////////////////////////////////////////////////////////
+        
+
         //Initialize Title Screen.
         private void InitializeTitleScreen()
         {
@@ -524,13 +569,14 @@ namespace TheDivineAdventure
             //show custom cursor
             showCursor = true;
             //create background demons
-            titleDemons = new AnimatedSprite[rand.Next(3) + 2];
+            titleDemons = new AnimatedSprite[rand.Next(40,180)];
             for (int i = 0; i < titleDemons.Length; i++)
             {
                 titleDemons[i] = new AnimatedSprite(109, 108, distantDemonSheet, 7);
-                titleDemons[i].Pos = new Vector2((-1 * rand.Next(400)) * currentScreenScale.X, (50 + rand.Next(500)) * currentScreenScale.Y);
+                titleDemons[i].Pos = new Vector2((-1 * rand.Next(-1920,1000)) * currentScreenScale.X, rand.Next(10,600) * currentScreenScale.Y);
                 titleDemons[i].Scale = 1 - (rand.Next(50) / 100f);
                 titleDemons[i].Tint = new Color(Color.White, titleDemons[i].Scale);
+                titleDemons[i].Frame = rand.Next(7);
             }
             //create embers
             titleEmbers = new AnimatedSprite[10];
@@ -543,11 +589,11 @@ namespace TheDivineAdventure
             }
             glowRef = 0;
             //create menu buttons
-            titleStartGame = new Button(null, new Vector2(247, 686), new Vector2(366, 60), currentScreenScale);
-            titleScoreboard = new Button(null, new Vector2(247, 750), new Vector2(366, 60), currentScreenScale);
-            titleSettings = new Button(null, new Vector2(247, 812), new Vector2(366, 60), currentScreenScale);
-            titleCredits = new Button(null, new Vector2(247, 870), new Vector2(366, 60), currentScreenScale);
-            titleQuitGame = new Button(null, new Vector2(247, 928), new Vector2(366, 60), currentScreenScale);
+            titleStartGame = new Button(new Vector2(247, 686), new Vector2(366, 60), currentScreenScale);
+            titleScoreboard = new Button(new Vector2(247, 750), new Vector2(366, 60), currentScreenScale);
+            titleSettings = new Button(new Vector2(247, 812), new Vector2(366, 60), currentScreenScale);
+            titleCredits = new Button(new Vector2(247, 870), new Vector2(366, 60), currentScreenScale);
+            titleQuitGame = new Button(new Vector2(247, 928), new Vector2(366, 60), currentScreenScale);
         }
 
         //function to do updates when player is in the title Screen.
@@ -577,7 +623,7 @@ namespace TheDivineAdventure
                 if (titleCredits.IsPressed())
                 {
                     UnloadContent();
-                    currentScene = 4;
+                    currentScene = 7;
                     InitializeCreditScene();
                     return;
                 }
@@ -668,6 +714,11 @@ namespace TheDivineAdventure
             _spriteBatch.End();
         }
 
+
+        ///////////////////////////////////////////////////////////
+        /////////////////////////////////////////CREDITS_SCENE////
+        /////////////////////////////////////////////////////////
+
         //initialize Credits scene
         private void InitializeCreditScene()
         {
@@ -687,7 +738,7 @@ namespace TheDivineAdventure
         private void UpdateCreditsScene(GameTime gameTime)
         {
             //return to ttitle screen
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 UnloadContent();
                 currentScene = 0;
@@ -726,6 +777,144 @@ namespace TheDivineAdventure
             }
             creditsRuntime -= 5f*currentScreenScale.Y;
             _spriteBatch.End();
+        }
+
+        ///////////////////////////////////////////////////////////
+        /////////////////////////////////////////PAUSEMENU////////
+        /////////////////////////////////////////////////////////
+
+        //initialize Pause Menu
+        private void InitializePause()
+        {
+            LoadContent();
+            showCursor = true;
+            pauseIsConfirming = 0;
+            //create embers
+            titleEmbers = new AnimatedSprite[30];
+            for (int i = 0; i < titleEmbers.Length; i++)
+            {
+                titleEmbers[i] = new AnimatedSprite(174, 346, emberSheet01, 6);
+                titleEmbers[i].Pos = new Vector2(rand.Next(1920) * currentScreenScale.X, rand.Next(450, 750) * currentScreenScale.Y);
+                titleEmbers[i].Scale = 1 - (rand.Next(-200, 50) / 100f);
+                titleEmbers[i].Frame = rand.Next(6);
+            }
+
+            //create buttons
+            pauseResume = new Button(new Vector2(665, 304), new Vector2(284, 60), currentScreenScale);
+            pauseRestart = new Button(new Vector2(656, 405), new Vector2(204, 60), currentScreenScale);
+            pauseSettings = new Button(new Vector2(650, 504), new Vector2(222, 60), currentScreenScale);
+            pauseQuitMenu = new Button(new Vector2(579, 596), new Vector2(366, 38), currentScreenScale);
+            pauseQuitGame = new Button(new Vector2(620, 700), new Vector2(283, 38), currentScreenScale);
+            pauseYes = new Button(new Vector2(1053, 527), new Vector2(134, 55), currentScreenScale);
+            pauseNo = new Button(new Vector2(1055, 604), new Vector2(135, 55), currentScreenScale);
+
+        }
+
+        //update Pause Menu
+        private void UpdatePause(GameTime gameTime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && lastKeyboard.IsKeyUp(Keys.Escape))
+            {
+                showCursor =false;
+                Mouse.SetPosition(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+                currentScene = 5;
+                return;
+            }
+
+            //get mouse clocks and check buttons
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (pauseResume.IsPressed())
+                {
+                    showCursor = false;
+                    Mouse.SetPosition(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+                    currentScene = 5;
+                    return;
+                }
+                if (pauseRestart.IsPressed())
+                {
+                    secondaryPauseMenu = new AnimatedSprite(439, 488, pauseMenuSheet, 4, false);
+                    secondaryPauseMenu.Pos = new Vector2(910, 306);
+                    secondaryPauseMenu.Framerate = 1.5f;
+                    pauseIsConfirming = 1;
+                    //currentScene = (1);
+                    return;
+                }
+                if (pauseSettings.IsPressed())
+                {
+                    return;
+
+                }
+                if (pauseQuitMenu.IsPressed())
+                {
+                    secondaryPauseMenu = new AnimatedSprite(439, 488, pauseMenuSheet, 4, false);
+                    secondaryPauseMenu.Pos = new Vector2(910, 306);
+                    secondaryPauseMenu.Framerate = 1.5f;
+                    pauseIsConfirming = 2;
+                    return;
+                }
+                if (pauseQuitGame.IsPressed())
+                {
+                    secondaryPauseMenu = new AnimatedSprite(439, 488, pauseMenuSheet, 4, false);
+                    secondaryPauseMenu.Pos = new Vector2(910, 306);
+                    secondaryPauseMenu.Framerate = 1.5f;
+                    pauseIsConfirming = 3;
+                }
+                if(pauseIsConfirming != 0)
+                {
+                    if (pauseYes.IsPressed())
+                    {
+                        switch (pauseIsConfirming)
+                        {
+                            case 1:
+                                UnloadContent();
+                                currentScene = 5;
+                                InitializePlayingScene();
+                                return;
+                            case 2:
+                                UnloadContent();
+                                currentScene = 0;
+                                InitializeTitleScreen();
+                                break;
+                            case 3:
+                                Exit();
+                                break;
+                            default:
+                                pauseIsConfirming = 0;
+                                break;
+                        }
+                    }
+                    if (pauseNo.IsPressed())
+                    {
+                        pauseIsConfirming = 0;
+                    }
+                }
+            }
+
+        }
+
+        //update Draw Menu
+        private void DrawPause(GameTime gameTime)
+        {
+            //draw menu
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(pauseMenu, Vector2.Zero,null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+            //draw embers
+            foreach (AnimatedSprite ember in titleEmbers)
+            {
+                if (ember.Frame == 0)
+                {
+                    ember.Pos = new Vector2((rand.Next(1920)) * currentScreenScale.X, rand.Next(450, 750) * currentScreenScale.Y);
+                    ember.Scale = 1 - (rand.Next(-200, 50) / 100f);
+                }
+                ember.Draw(_spriteBatch, currentScreenScale);
+            }
+            if (pauseIsConfirming != 0)
+            {
+                secondaryPauseMenu.Draw(_spriteBatch, currentScreenScale);
+            }
+            _spriteBatch.End();
+
         }
 
 
