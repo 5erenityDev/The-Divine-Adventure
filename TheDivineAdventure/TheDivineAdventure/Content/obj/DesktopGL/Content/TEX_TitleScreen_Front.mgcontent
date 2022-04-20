@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_TitleScreen_Front.png</SourceFile>
-  <SourceTime>2022-04-17T20:48:45.9738083-04:00</SourceTime>
+  <SourceTime>2022-04-19T19:37:10.9486065-04:00</SourceTime>
   <DestFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/TEX_TitleScreen_Front.xnb</DestFile>
-  <DestTime>2022-04-18T11:27:57.3441808-04:00</DestTime>
+  <DestTime>2022-04-19T19:40:49.0132963-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

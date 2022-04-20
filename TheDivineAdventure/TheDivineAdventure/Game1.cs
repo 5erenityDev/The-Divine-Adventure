@@ -40,13 +40,16 @@ namespace TheDivineAdventure
         MouseState mouseState;
 
         // 2D Assets
-        private SpriteFont BigFont;
+        private SpriteFont BigFont, creditsFont;
         private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, titleScreenBack, TitleScreenFront,
-            distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01, cursor;
+            distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01, cursor, titleBox, titleLava;
         private Rectangle healthBarRec, secondBarRec;
         private AnimatedSprite[] titleDemons, titleEmbers;
-        private Button titleStartGame, titleLevelSelect, titleSettings, titleCredits, titleQuitGame;
-        private bool showCursor;
+        private Button titleStartGame, titleScoreboard, titleSettings, titleCredits, titleQuitGame;
+        private bool showCursor,glowState;
+        private String[] credits;
+        private float creditsRuntime;
+        private int glowRef;
 
 
         // (Distance to end Boss)
@@ -149,6 +152,8 @@ namespace TheDivineAdventure
 
             // Load fonts
             BigFont = Content.Load<SpriteFont>("BigFont");
+            if(currentScene==4)
+                creditsFont = Content.Load<SpriteFont>("CreditsFont");
 
             //set font color
             textGold = new Color(175, 127, 16);
@@ -182,7 +187,14 @@ namespace TheDivineAdventure
                 titleLightning02 = Content.Load<Texture2D>("TEX_Title_Lightning_02");
                 titleLightning03 = Content.Load<Texture2D>("TEX_Title_Lightning_03");
                 emberSheet01 = Content.Load<Texture2D>("TEX_EmberSheet01");
+                titleLava = Content.Load<Texture2D>("TEX_Title_LavaGlow");
                 return;
+            }
+
+            //Credits Scene
+            if (currentScene == 4)
+            {
+                titleBox = Content.Load<Texture2D>("TEX_TitleBox03");
             }
 
 
@@ -249,6 +261,9 @@ namespace TheDivineAdventure
                 case 0:
                     UpdateTitleScreen(gameTime);
                     break;
+                case 4:
+                    UpdateCreditsScene(gameTime);
+                    break;
                 case 5:
                     UpdatePlayingScene(gameTime);
                     break;
@@ -292,6 +307,9 @@ namespace TheDivineAdventure
                 case 0:
                     DrawTitleScreen(gameTime);
                     break;
+                case 4:
+                    DrawCreditsScene(gameTime);
+                    break;
                 case 5:
                     DrawPlayingScene(gameTime);
                     break;
@@ -311,43 +329,15 @@ namespace TheDivineAdventure
             base.Draw(gameTime);
         }
 
-        protected void DrawHud()
-        {
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(hudL1, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
-            //progessIcon
-            _spriteBatch.Draw(progIcon,
-                new Vector2(_graphics.PreferredBackBufferWidth * 0.348f + travel, _graphics.PreferredBackBufferHeight * 0.873f),
-                null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
-            //Score
-            _spriteBatch.DrawString(BigFont, score.ToString(),
-                new Vector2(_graphics.PreferredBackBufferWidth * 0.498f - (BigFont.MeasureString(score.ToString()) * .5f * currentScreenScale).X, _graphics.PreferredBackBufferHeight * -0.01f),
-                textGold, 0f, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
-            //resource bars
-            _spriteBatch.Draw(healthBar,
-                player.resourceBarUpdate(true, healthBarRec,
-                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
-            if (player.IsCaster)
-                _spriteBatch.Draw(manaBar,
-                    player.resourceBarUpdate(false, secondBarRec,
-                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
-            else
-                _spriteBatch.Draw(staminaBar,
-                    player.resourceBarUpdate(false, secondBarRec,
-                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
-            //topHUD layer
-            _spriteBatch.Draw(hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
-            _spriteBatch.End();
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
-        }
-
+        ///////////////
+         ///SCENES///
+        ///////////////
 
         //initialize game objects and load level
         private void InitializePlayingScene()
         {
+
+            LoadContent();
             //hide cursor
             showCursor = false; ;
 
@@ -417,8 +407,6 @@ namespace TheDivineAdventure
         //function to do draw when player is playing in level.
         private void DrawPlayingScene(GameTime gameTime)
         {
-
-            LoadContent();
             // Render world
             worldLevel = Matrix.CreateScale(1f) *
                         Matrix.CreateRotationY(MathHelper.ToRadians(180f)) *
@@ -495,14 +483,44 @@ namespace TheDivineAdventure
                 enemyProjModel.Draw(worldProj, camera.View, camera.Proj);
             }
 
-            // Render HUD
-            DrawHud();
+            // ** Render HUD **
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(hudL1, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+            //progessIcon
+            _spriteBatch.Draw(progIcon,
+                new Vector2(_graphics.PreferredBackBufferWidth * 0.348f + travel, _graphics.PreferredBackBufferHeight * 0.873f),
+                null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+            //Score
+            _spriteBatch.DrawString(BigFont, score.ToString(),
+                new Vector2(_graphics.PreferredBackBufferWidth * 0.498f - (BigFont.MeasureString(score.ToString()) * .5f * currentScreenScale).X, _graphics.PreferredBackBufferHeight * -0.01f),
+                textGold, 0f, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
+            //resource bars
+            _spriteBatch.Draw(healthBar,
+                player.resourceBarUpdate(true, healthBarRec,
+                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
+            if (player.IsCaster)
+                _spriteBatch.Draw(manaBar,
+                    player.resourceBarUpdate(false, secondBarRec,
+                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
+            else
+                _spriteBatch.Draw(staminaBar,
+                    player.resourceBarUpdate(false, secondBarRec,
+                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), currentScreenScale), Color.White);
+            //topHUD layer
+            _spriteBatch.Draw(hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
+            _spriteBatch.End();
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
 
 
         //Initialize Title Screen.
         private void InitializeTitleScreen()
         {
+
+            LoadContent();
             //show custom cursor
             showCursor = true;
             //create background demons
@@ -523,9 +541,10 @@ namespace TheDivineAdventure
                 titleEmbers[i].Scale = 1 - (rand.Next(-200, 50) / 100f);
                 titleEmbers[i].Frame = rand.Next(6);
             }
+            glowRef = 0;
             //create menu buttons
             titleStartGame = new Button(null, new Vector2(247, 686), new Vector2(366, 60), currentScreenScale);
-            titleLevelSelect = new Button(null, new Vector2(247, 750), new Vector2(366, 60), currentScreenScale);
+            titleScoreboard = new Button(null, new Vector2(247, 750), new Vector2(366, 60), currentScreenScale);
             titleSettings = new Button(null, new Vector2(247, 812), new Vector2(366, 60), currentScreenScale);
             titleCredits = new Button(null, new Vector2(247, 870), new Vector2(366, 60), currentScreenScale);
             titleQuitGame = new Button(null, new Vector2(247, 928), new Vector2(366, 60), currentScreenScale);
@@ -540,11 +559,11 @@ namespace TheDivineAdventure
                 if (titleStartGame.IsPressed())
                 {
                     UnloadContent();
-                    InitializePlayingScene();
                     currentScene = 5;
+                    InitializePlayingScene();
                     return;
                 }
-                if (titleLevelSelect.IsPressed())
+                if (titleScoreboard.IsPressed())
                 {
                     //currentScene = (1);
                     return;
@@ -557,7 +576,9 @@ namespace TheDivineAdventure
                 }
                 if (titleCredits.IsPressed())
                 {
-                    //currentScene = (7);
+                    UnloadContent();
+                    currentScene = 4;
+                    InitializeCreditScene();
                     return;
                 }
                 if (titleQuitGame.IsPressed())
@@ -620,7 +641,90 @@ namespace TheDivineAdventure
                 }
                 ember.Draw(_spriteBatch, currentScreenScale);
             }
+            //draw title foreground
             _spriteBatch.Draw(TitleScreenFront, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+            //draw lava glow
+            if (glowState)
+            {
+                _spriteBatch.Draw(titleLava, Vector2.Zero, null, new Color(Color.White, glowRef), 0, Vector2.Zero,
+                    currentScreenScale, SpriteEffects.None, 1);
+                glowRef += 5;
+            }
+            else
+            {
+                _spriteBatch.Draw(titleLava, Vector2.Zero, null, new Color(Color.White, glowRef), 0, Vector2.Zero,
+                    currentScreenScale, SpriteEffects.None, 1);
+                glowRef -= 5;
+            }
+
+            if (glowRef >= 255 && glowState!)
+                glowState = false;
+            else if (glowRef <= 0)
+                glowState = true;
+
+            if (rand.Next(0, 100) > 90)
+                glowState = !glowState;
+
+            _spriteBatch.End();
+        }
+
+        //initialize Credits scene
+        private void InitializeCreditScene()
+        {
+            LoadContent();
+            //hide cursor
+            showCursor = false; ;
+
+            credits = new string[]  {"Game Programmers", "       Christopher Adkins", "       Sean Blankenship", "       Michael Hayden", "       Lucas Reed",
+                " ","Game Artists", "       2D assets: Christopher Adkins", "       3D Assets: Sean Blankenship",
+                " ","Sound Engineers", "       Lucas Reed",
+                " ","Game Testers", "       Christopher Adkins", "       Sean Blankenship", "       Michael Hayden", "       Lucas Reed",
+                " ","Created using MonoGame ",
+                " ","Thank you for your time! "};
+            creditsRuntime = 800;
+        }
+        //update credits scene
+        private void UpdateCreditsScene(GameTime gameTime)
+        {
+            //return to ttitle screen
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                UnloadContent();
+                currentScene = 0;
+                InitializeTitleScreen();
+            }
+                
+
+        }
+
+        //Draw Credits Scene
+        private void DrawCreditsScene(GameTime gameTime)
+        {
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(titleBox, 
+                new Vector2 ((_graphics.PreferredBackBufferWidth/2)-(390*currentScreenScale.X), creditsRuntime - (800*currentScreenScale.Y) + _graphics.PreferredBackBufferHeight),
+                null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+            int cIndex = 0;
+            foreach(String c in credits)
+            {
+                cIndex++;
+                //draw each line in the credits array
+                if (creditsRuntime + (120f * cIndex * currentScreenScale.Y) + _graphics.PreferredBackBufferHeight
+                    < _graphics.PreferredBackBufferHeight &&
+                    creditsRuntime + (120f * cIndex * currentScreenScale.Y) + _graphics.PreferredBackBufferHeight >-80)
+                    _spriteBatch.DrawString(creditsFont, c,
+                    new Vector2(_graphics.PreferredBackBufferWidth * 0.05f, creditsRuntime +(120f*cIndex* currentScreenScale.Y)
+                    + _graphics.PreferredBackBufferHeight),
+                    textGold, 0f, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
+            }
+            if(creditsRuntime + (120f * credits.Length-1) + _graphics.PreferredBackBufferHeight < -120f)
+            {
+                UnloadContent();
+                currentScene = 0;
+                InitializeTitleScreen();
+                return;
+            }
+            creditsRuntime -= 5f*currentScreenScale.Y;
             _spriteBatch.End();
         }
 

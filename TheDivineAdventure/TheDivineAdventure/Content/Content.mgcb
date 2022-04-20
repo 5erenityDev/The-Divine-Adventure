@@ -32,6 +32,13 @@
 /processorParam:TextureFormat=Compressed
 /build:BigFont.spritefont
 
+#begin CreditsFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:CreditsFont.spritefont
+
 #begin MODEL_Cleric.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
@@ -247,6 +254,18 @@
 /processorParam:TextureFormat=Color
 /build:TEX_StaminaBar.png
 
+#begin TEX_Title_LavaGlow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TEX_Title_LavaGlow.png
+
 #begin TEX_Title_Lightning_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -282,6 +301,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:TEX_Title_Lightning_03.png
+
+#begin TEX_TitleBox03.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TEX_TitleBox03.png
 
 #begin TEX_TitleScreen_Back.png
 /importer:TextureImporter

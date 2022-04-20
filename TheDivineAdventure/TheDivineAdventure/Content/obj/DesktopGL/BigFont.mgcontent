@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/BigFont.spritefont</SourceFile>
-  <SourceTime>2022-04-15T23:38:12.3785272-04:00</SourceTime>
+  <SourceTime>2022-04-19T19:08:24.3912746-04:00</SourceTime>
   <DestFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/BigFont.xnb</DestFile>
-  <DestTime>2022-04-18T01:07:45.9867235-04:00</DestTime>
+  <DestTime>2022-04-19T19:12:46.7987033-04:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>
