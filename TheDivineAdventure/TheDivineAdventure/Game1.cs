@@ -146,7 +146,7 @@ namespace TheDivineAdventure
             //Regular gameplay (e.g. start at title screen)
             currentScene = 0;
 
-            //DEBUG uncomment to start in gameplay
+            //DEBUG: uncomment to start in gameplay
             //InitializeLevel();
             //currentScene = 5;
         }
@@ -289,7 +289,7 @@ namespace TheDivineAdventure
                     break;
             }
 
-            //DEBUG SCREEN RESOLUTION THINGS
+            //DEBUG: SCREEN RESOLUTION THINGS
             if (Keyboard.GetState().IsKeyDown(Keys.PageUp))
             {
                 _graphics.PreferredBackBufferWidth = 1920;
@@ -306,6 +306,9 @@ namespace TheDivineAdventure
                 _graphics.ApplyChanges();
                 currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
             }
+            //DEBUG: FPS COUNTER IN DEBUG LOG
+            //Debug.WriteLine(1 / gameTime.ElapsedGameTime.TotalSeconds);
+
             lastKeyboard = Keyboard.GetState();
 
 
@@ -726,10 +729,10 @@ namespace TheDivineAdventure
             //hide cursor
             showCursor = false; ;
 
-            credits = new string[]  {"Game Programmers", "       Christopher Adkins", "       Sean Blankenship", "       Michael Hayden", "       Lucas Reed",
+            credits = new string[]  {"Game Programmers", "       Christopher Adkins", "       Sean Blankenship", "       Hayden Michael", "       Lucas Reed",
                 " ","Game Artists", "       2D assets: Christopher Adkins", "       3D Assets: Sean Blankenship",
                 " ","Sound Engineers", "       Lucas Reed",
-                " ","Game Testers", "       Christopher Adkins", "       Sean Blankenship", "       Michael Hayden", "       Lucas Reed",
+                " ","Game Testers", "       Christopher Adkins", "       Sean Blankenship", "       Hayden Michael", "       Lucas Reed",
                 " ","Created using MonoGame ",
                 " ","Thank you for your time! "};
             creditsRuntime = 800;

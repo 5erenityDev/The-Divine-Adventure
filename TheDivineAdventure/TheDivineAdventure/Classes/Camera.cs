@@ -145,6 +145,11 @@ namespace TheDivineAdventure
             get { return Matrix.CreateLookAt(pos, cameraLookAt, Vector3.Up); }
         }
 
+        public Vector3 LookAt
+        {
+            get { return new Vector3(View.M41, View.M42, View.M43); }
+        }
+
         public Vector3 Pos
         {
             get { return pos; }

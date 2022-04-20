@@ -92,3 +92,16 @@ D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\T
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Title_LavaGlow.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Pause_Menu.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_SideMenu_Sheet.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\CreditsFont.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_cursor.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_DemonSpriteSheet.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_EmberSheet01.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Pause_Menu.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_SideMenu_Sheet.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_TitleBox03.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_TitleScreen_Back.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_TitleScreen_Front.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Title_LavaGlow.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Title_Lightning_01.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Title_Lightning_02.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Title_Lightning_03.xnb

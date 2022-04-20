@@ -1,8 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
