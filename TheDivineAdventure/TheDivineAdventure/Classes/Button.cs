@@ -11,6 +11,7 @@ namespace TheDivineAdventure
         private MouseState mouseState;
         private Vector2 mousePos;
         private Texture2D textureMain, texturePushed;
+        private SpriteFont font;
         private bool active;
         private String? buttonText;
 
@@ -27,7 +28,7 @@ namespace TheDivineAdventure
         }
 
         //for buttons with a a texture
-        public Button(Texture2D idle, Texture2D pushed,String? Text, Vector2 position, Vector2 size, Vector2 screenScale)
+        public Button(Texture2D idle, Texture2D pushed,String? Text, SpriteFont font, Vector2 position, Vector2 size, Vector2 screenScale)
         {
             pos.X = position.X * screenScale.X;
             pos.Y = position.Y * screenScale.Y;
@@ -38,6 +39,7 @@ namespace TheDivineAdventure
             textureMain = idle;
             texturePushed = pushed;
             buttonText = Text;
+            this.font = font;
         }
 
         public bool IsPressed()
@@ -54,14 +56,15 @@ namespace TheDivineAdventure
         {
             if (IsActive)
             {
-                sb.Draw(texturePushed, pos, new Rectangle(0, 0, (int)size.X, (int)size.Y), Color.White, 0, Vector2.Zero,
-                    scale, SpriteEffects.None, 0);
+                sb.Draw(texturePushed, pos, new Rectangle(0, 0, (int)size.X, (int)size.Y), Color.Gold, 0, Vector2.Zero,
+                    1, SpriteEffects.None, 0);
             }
             else
             {
                 sb.Draw(textureMain, pos, new Rectangle(0, 0, (int)size.X, (int)size.Y), Color.White, 0, Vector2.Zero,
-                    scale, SpriteEffects.None, 0);
+                    1, SpriteEffects.None, 0);
             }
+            sb.DrawString(font, buttonText, new Vector2(center.X - font.MeasureString(buttonText).X*.5f*scale.X, center.Y - font.MeasureString(buttonText).Y * .5f*scale.Y), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 1);
         }
 
         public bool IsActive

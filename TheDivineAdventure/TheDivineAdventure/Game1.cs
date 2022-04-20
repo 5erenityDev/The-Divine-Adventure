@@ -36,20 +36,24 @@ namespace TheDivineAdventure
         //Menu Navigation
         public static readonly string[] SCENES = { "TITLE_SCREEN", "LEVEL_SELECT", "CHARACTER_SELECT",
             "SCOREBOARD", "SETTINGS", "PLAYING", "IS_PAUSED", "CREDITS"};
-        public int currentScene;
-        MouseState mouseState;
-        KeyboardState lastKeyboard;
+        public int currentScene, lastScene;
+        public MouseState mouseState;
+        public KeyboardState lastKeyboard;
+        public GameWindow _gameWindow;
+
 
         // 2D Assets
-        private SpriteFont BigFont, creditsFont;
+        private SpriteFont BigFont, creditsFont,smallFont;
         private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, titleScreenBack, TitleScreenFront,
             distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01, cursor, titleBox, titleLava,
-            pauseMenu,pauseMenuSheet;
+            pauseMenu,pauseMenuSheet, whiteBox, settingsWindow, settingsButton1, settingsButton2;
         private Rectangle healthBarRec, secondBarRec;
         private AnimatedSprite[] titleDemons, titleEmbers;
         private AnimatedSprite secondaryPauseMenu;
+        private TextBox resWidth, resHeight;
         private Button titleStartGame, titleScoreboard, titleSettings, titleCredits, titleQuitGame, pauseResume, pauseRestart, pauseSettings,
-            pauseQuitMenu, pauseQuitGame, pauseYes,pauseNo;
+            pauseQuitMenu, pauseQuitGame, pauseYes, pauseNo, settingsWindowed, settingsBorderless, settingsFullscreen, settingsNoAA, settingsAA2,
+            settingsAA4, settingsAA8, settingsCancel, settingsApply;
         private bool showCursor,glowState;
         private String[] credits;
         private float creditsRuntime;
@@ -134,13 +138,21 @@ namespace TheDivineAdventure
             // (Apply the determined size)
             _graphics.PreferredBackBufferWidth = desktop_width;
             _graphics.PreferredBackBufferHeight = desktop_height;
+            //enable antialiasing (currently breaks game)
+            //_graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            //_graphics.PreferMultiSampling = true;
+            //GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
             _graphics.ApplyChanges();
+
+            //set gamew window
+            _gameWindow = Window;
 
             // Set screen scale to determine size of UI
             currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
 
             //initialize title menu
             InitializeTitleScreen();
+
 
             //Start at either the title screen or in gameplay
             //Regular gameplay (e.g. start at title screen)
@@ -157,8 +169,8 @@ namespace TheDivineAdventure
 
             // Load fonts
             BigFont = Content.Load<SpriteFont>("BigFont");
-            if(currentScene==7)
-                creditsFont = Content.Load<SpriteFont>("CreditsFont");
+            creditsFont = Content.Load<SpriteFont>("CreditsFont");
+            smallFont = Content.Load<SpriteFont>("SmallFont");
 
             //set font color
             textGold = new Color(175, 127, 16);
@@ -168,19 +180,13 @@ namespace TheDivineAdventure
 
 
             // Load 2D textures
+
+            //procedural textures
+            whiteBox = new Texture2D(GraphicsDevice, 1, 1);
+            whiteBox.SetData(new[] { Color.White });
             //Cursor
             cursor = Content.Load<Texture2D>("TEX_cursor");
 
-            //HUD
-            if (currentScene == 5)
-            {
-                hudL1 = Content.Load<Texture2D>("TEX_HolyHUD_L1");
-                hudL2 = Content.Load<Texture2D>("TEX_HolyHUD_L2");
-                progIcon = Content.Load<Texture2D>("TEX_ProgressionIcon");
-                healthBar = Content.Load<Texture2D>("TEX_HealthBar");
-                manaBar = Content.Load<Texture2D>("TEX_ManaBar");
-                staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
-            }
 
             //Title Screen
             if (currentScene == 0)
@@ -195,7 +201,24 @@ namespace TheDivineAdventure
                 titleLava = Content.Load<Texture2D>("TEX_Title_LavaGlow");
                 return;
             }
+            //Settings
+            if (currentScene == 4)
+            {
+                settingsWindow = Content.Load<Texture2D>("TEX_Settings_Window");
+                settingsButton1 = Content.Load<Texture2D>("TEX_Settings_Button1_Passive");
+                settingsButton2 = Content.Load<Texture2D>("TEX_Settings_Button2");
+            }
 
+            //HUD
+            if (currentScene == 5)
+            {
+                hudL1 = Content.Load<Texture2D>("TEX_HolyHUD_L1");
+                hudL2 = Content.Load<Texture2D>("TEX_HolyHUD_L2");
+                progIcon = Content.Load<Texture2D>("TEX_ProgressionIcon");
+                healthBar = Content.Load<Texture2D>("TEX_HealthBar");
+                manaBar = Content.Load<Texture2D>("TEX_ManaBar");
+                staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
+            }
             //pause screen
             if (currentScene == 6)
             {
@@ -275,6 +298,9 @@ namespace TheDivineAdventure
                 case 0:
                     UpdateTitleScreen(gameTime);
                     break;
+                case 4:
+                    UpdateSettings(gameTime);
+                    break;
                 case 5:
                     UpdatePlayingScene(gameTime);
                     break;
@@ -289,13 +315,13 @@ namespace TheDivineAdventure
                     break;
             }
 
-            //DEBUG SCREEN RESOLUTION THINGS
             if (Keyboard.GetState().IsKeyDown(Keys.PageUp))
             {
                 _graphics.PreferredBackBufferWidth = 1920;
                 _graphics.PreferredBackBufferHeight = 1080;
                 _graphics.IsFullScreen = false;
                 _graphics.ApplyChanges();
+                InitializeSettings();
                 currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.PageDown))
@@ -304,11 +330,10 @@ namespace TheDivineAdventure
                 _graphics.PreferredBackBufferHeight = 540;
                 _graphics.IsFullScreen = false;
                 _graphics.ApplyChanges();
+                InitializeSettings();
                 currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
             }
             lastKeyboard = Keyboard.GetState();
-
-
             base.Update(gameTime);
         }
 
@@ -323,6 +348,9 @@ namespace TheDivineAdventure
             {
                 case 0:
                     DrawTitleScreen(gameTime);
+                    break;
+                case 4:
+                    DrawSettings(gameTime);
                     break;
                 case 5:
                     DrawPlayingScene(gameTime);
@@ -616,9 +644,10 @@ namespace TheDivineAdventure
                 }
                 if (titleSettings.IsPressed())
                 {
-                    //currentScene = (4);
+                    lastScene = 0;
+                    currentScene = 4;
+                    InitializeSettings();
                     return;
-
                 }
                 if (titleCredits.IsPressed())
                 {
@@ -842,6 +871,9 @@ namespace TheDivineAdventure
                 }
                 if (pauseSettings.IsPressed())
                 {
+                    lastScene = 6;
+                    currentScene = 4;
+                    InitializeSettings();
                     return;
 
                 }
@@ -914,6 +946,216 @@ namespace TheDivineAdventure
                 secondaryPauseMenu.Draw(_spriteBatch, currentScreenScale);
             }
             _spriteBatch.End();
+
+        }
+
+
+
+        ///////////////////////////////////////////////////////////
+        /////////////////////////////////////////SETTINGS/////////
+        /////////////////////////////////////////////////////////
+
+        //initialize settings Menu
+        private void InitializeSettings()
+        {
+            LoadContent();
+            showCursor = true;
+            //create resolution buttons
+            resWidth = new TextBox(_graphics.PreferredBackBufferWidth.ToString(), 4,
+                smallFont, new Vector2 (492,325), 30 , currentScreenScale, new Color(Color.Black,60), whiteBox);
+            resHeight = new TextBox(_graphics.PreferredBackBufferHeight.ToString(), 4,
+                smallFont, new Vector2(682, 325), 30, currentScreenScale, new Color(Color.Black, 60), whiteBox);
+
+            //create window buttons
+            settingsWindowed = new Button(settingsButton1, settingsButton1, "Windowed",smallFont, new Vector2(392, 404), new Vector2(180, 29), currentScreenScale);
+            if (Window.IsBorderless == false)
+                settingsWindowed.IsActive=true;
+            settingsBorderless = new Button(settingsButton1, settingsButton1, "Borderless",smallFont, new Vector2(392, 455), new Vector2(180, 29), currentScreenScale);
+            if (Window.IsBorderless == true)
+                settingsBorderless.IsActive = true;
+            settingsFullscreen = new Button(settingsButton1, settingsButton1, "Fullscreen",smallFont, new Vector2(392, 505), new Vector2(180, 29), currentScreenScale);
+            if (_graphics.IsFullScreen == true)
+                settingsFullscreen.IsActive = true;
+
+
+            //create antialiasing buttons
+            settingsNoAA = new Button(settingsButton1, settingsButton1, "None", smallFont, new Vector2(392, 585), new Vector2(180, 29), currentScreenScale);
+            if (GraphicsDevice.PresentationParameters.MultiSampleCount == 0)
+                settingsNoAA.IsActive = true;
+            settingsAA2 = new Button(settingsButton1, settingsButton1, "2x", smallFont, new Vector2(392, 635), new Vector2(180, 29), currentScreenScale);
+            if (GraphicsDevice.PresentationParameters.MultiSampleCount == 2)
+                settingsAA2.IsActive = true;
+            settingsAA4 = new Button(settingsButton1, settingsButton1, "4x", smallFont, new Vector2(392, 685), new Vector2(180, 29), currentScreenScale);
+            if (GraphicsDevice.PresentationParameters.MultiSampleCount == 4)
+                settingsAA4.IsActive = true;
+            settingsAA8 = new Button(settingsButton1, settingsButton1, "8x", smallFont, new Vector2(392, 735), new Vector2(180, 29), currentScreenScale);
+            if (GraphicsDevice.PresentationParameters.MultiSampleCount == 8)
+                settingsAA8.IsActive = true;
+
+            //create back and apply buttons
+            settingsCancel = new Button(settingsButton2, settingsButton2, "Cancel", smallFont, new Vector2(70, 972), new Vector2(210, 76), currentScreenScale);
+            settingsApply = new Button(settingsButton2, settingsButton2, "Apply", smallFont, new Vector2(375, 972), new Vector2(210, 76), currentScreenScale);
+        }
+
+        //update settings
+        private void UpdateSettings(GameTime gameTime)
+        {
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                //apply settings or cancel
+                if (settingsCancel.IsPressed())
+                {
+                    settingsCancel.IsActive = true;
+                    currentScene = lastScene;
+                    return;
+                }
+                if (settingsApply.IsPressed())
+                {
+                    _graphics.PreferredBackBufferWidth = Int32.Parse(resWidth.Text);
+                    _graphics.PreferredBackBufferHeight = Int32.Parse(resHeight.Text);
+                    if (settingsWindowed.IsActive == true) {
+                        Window.IsBorderless = false;
+                        _graphics.IsFullScreen = false;
+                    } else if (settingsBorderless.IsActive == true) {
+                        Window.IsBorderless = true;
+                        _graphics.IsFullScreen = false;
+                    } else if (settingsFullscreen.IsActive == true)
+                        _graphics.IsFullScreen = true;
+
+                    if (settingsNoAA.IsActive == true)
+                    {
+                        _graphics.PreferMultiSampling = false;
+                        GraphicsDevice.PresentationParameters.MultiSampleCount = 0;
+                    }else if (settingsAA2.IsActive == true)
+                    {
+                        _graphics.PreferMultiSampling = true;
+                        GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
+                    }
+                    else if (settingsAA4.IsActive == true)
+                    {
+                        _graphics.PreferMultiSampling = true;
+                        GraphicsDevice.PresentationParameters.MultiSampleCount = 4;
+                    }
+                    else if (settingsAA8.IsActive == true)
+                    {
+                        _graphics.PreferMultiSampling = true;
+                        GraphicsDevice.PresentationParameters.MultiSampleCount = 8;
+                    }
+                    GraphicsDevice.PresentationParameters.MultiSampleCount = 8;
+                    _graphics.ApplyChanges();
+                    currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
+                    if (lastScene == 0)
+                        InitializeTitleScreen();
+                    if (lastScene == 6)
+                        InitializePause();
+                    InitializeSettings();
+
+                    settingsApply.IsActive = true;
+                    currentScene = lastScene;
+                    return;
+                }
+                //update texboxes;
+                resWidth.IsPressed();
+                resHeight.IsPressed();
+                //update window buttons
+                if (settingsWindowed.IsPressed())
+                {
+                    settingsWindowed.IsActive = true;
+                    settingsFullscreen.IsActive = false;
+                    settingsBorderless.IsActive = false;
+                    return;
+                }
+                if (settingsBorderless.IsPressed())
+                {
+                    settingsBorderless.IsActive = true;
+                    settingsFullscreen.IsActive = false;
+                    settingsWindowed.IsActive = false;
+                    return;
+                }
+                if (settingsFullscreen.IsPressed())
+                {
+                    settingsFullscreen.IsActive = true;
+                    settingsBorderless.IsActive = false;
+                    settingsWindowed.IsActive = false;
+                    return;
+                }
+                //update antialiasing buttons
+                if (settingsNoAA.IsPressed())
+                {
+                    settingsNoAA.IsActive = true;
+                    settingsAA2.IsActive = false;
+                    settingsAA4.IsActive = false;
+                    settingsAA8.IsActive = false;
+                    return;
+                }
+                if (settingsAA2.IsPressed())
+                {
+                    settingsNoAA.IsActive = false;
+                    settingsAA2.IsActive = true;
+                    settingsAA4.IsActive = false;
+                    settingsAA8.IsActive = false;
+                    return;
+                }
+                if (settingsAA4.IsPressed())
+                {
+                    settingsNoAA.IsActive = false;
+                    settingsAA2.IsActive = false;
+                    settingsAA4.IsActive = true;
+                    settingsAA8.IsActive = false;
+                    return;
+                }
+                if (settingsAA8.IsPressed())
+                {
+                    settingsNoAA.IsActive = false;
+                    settingsAA2.IsActive = false;
+                    settingsAA4.IsActive = false;
+                    settingsAA8.IsActive = true;
+                    return;
+                }
+
+
+            }
+            resWidth.Update(gameTime);
+            resHeight.Update(gameTime);
+
+        }
+
+        //Draw settings
+        private void DrawSettings(GameTime gameTime)
+        {
+            if (lastScene == 0)
+                DrawTitleScreen(gameTime);
+            else
+            {
+                DrawPlayingScene(gameTime);
+                DrawPause(gameTime);
+            }
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(settingsWindow, Vector2.Zero, null, Color.White, 0, Vector2.Zero, currentScreenScale, SpriteEffects.None, 0);
+            //resolution settings
+            _spriteBatch.DrawString(smallFont, "Width: ", new Vector2(392*currentScreenScale.X, 325*currentScreenScale.Y), Color.Black, 0f, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
+            resWidth.Draw(_spriteBatch);
+            _spriteBatch.DrawString(smallFont, "Height: ", new Vector2(582*currentScreenScale.X, 325*currentScreenScale.Y), Color.Black, 0f, Vector2.Zero, currentScreenScale, SpriteEffects.None, 1);
+            resHeight.Draw(_spriteBatch);
+            //draw window Options
+            settingsWindowed.DrawButton(_spriteBatch);
+            settingsFullscreen.DrawButton(_spriteBatch);
+            settingsBorderless.DrawButton(_spriteBatch);
+            //draw antialiasing buttons
+            settingsNoAA.DrawButton(_spriteBatch);
+            settingsAA2.DrawButton(_spriteBatch);
+            settingsAA4.DrawButton(_spriteBatch);
+            settingsAA8.DrawButton(_spriteBatch);
+            //draw close and apply buttons
+            settingsCancel.DrawButton(_spriteBatch);
+            settingsApply.DrawButton(_spriteBatch);
+
+            _spriteBatch.End();
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
 
         }
 
