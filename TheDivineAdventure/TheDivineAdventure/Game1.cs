@@ -303,6 +303,7 @@ namespace TheDivineAdventure
                     break;
                 case 5:
                     UpdatePlayingScene(gameTime);
+                    Debug.WriteLine(player.Pos);
                     break;
                 case 6:
                     UpdatePause(gameTime);
@@ -429,7 +430,7 @@ namespace TheDivineAdventure
                 (int)Math.Round(.05f * _graphics.PreferredBackBufferHeight / currentScreenScale.Y));
 
             // Initialize Distance to Boss(kept as a variable in case we have multiple level length)
-            levelLength = 2250;
+            levelLength = 3500;
 
             //set score to 0
             score = 0;

@@ -20,10 +20,15 @@ namespace TheDivineAdventure
         private const int MAGE_HEIGHT = 0;
         private const int CLERIC_HEIGHT = 13;
         private static readonly int[] HEIGHTS = { WARRIOR_HEIGHT, ROGUE_HEIGHT, MAGE_HEIGHT, CLERIC_HEIGHT };
+        private const int WARRIOR_WIDTH = 0;
+        private const int ROGUE_WIDTH = 0;
+        private const int MAGE_WIDTH = 0;
+        private const int CLERIC_WIDTH = 9;
+        private static readonly int[] WIDTHS = { WARRIOR_HEIGHT, ROGUE_HEIGHT, MAGE_HEIGHT, CLERIC_HEIGHT };
 
         // Info
         public string role;
-        private int height;
+        private int height, width;
         public List<Projectile> projList = new List<Projectile>();
 
         // Movement
@@ -46,17 +51,22 @@ namespace TheDivineAdventure
         MouseState prevMouseState;
         MouseState curMouseState;
 
-
+        // KeyboardState
+        KeyboardState prevKeyboardState;
+        KeyboardState curKeyboardState;
 
         //Health and secondary stat
         private float health, secondary, secondaryRegenRate;
         private int healthMax, secondaryMax;
+        private int attCost, spec1Cost, spec2Cost, spec3Cost;
         //swaps stamina for mana when true
+
         private bool isCaster;
+        private bool atBoss;
 
         // Timer
-        private float maxTime; //time between shots
-        private float timer;
+        private float maxAttTime, maxSpec1Time, maxSpec2Time, maxSpec3Time; //time between shots
+        private float attTimer, spec1Timer, spec2Timer, spec3Timer;
 
         /////////////////
         ///CONSTRUCTOR///
@@ -69,6 +79,7 @@ namespace TheDivineAdventure
 
             // Set player position
             height = HEIGHTS[Array.IndexOf(ROLES, role)];
+            width = WIDTHS[Array.IndexOf(ROLES, role)];
             pos = new Vector3(0, height, 0);
             rot = new Vector3(0, 0, 0);
             minHeight = pos.Y;
@@ -76,9 +87,10 @@ namespace TheDivineAdventure
             // Prepare mouse state
             prevMouseState = Mouse.GetState();
 
-            // Timer stats
-            maxTime = 0.5f;
-            timer = 0f;
+            attTimer = 0f;
+            spec1Timer = 0f;
+            spec2Timer = 0f;
+            spec3Timer = 0f;
 
             // Set health and secondary bar
             // (will later be set by character, or perhaps altered by powerups)
@@ -87,6 +99,14 @@ namespace TheDivineAdventure
             secondaryMax = 100;
             secondary = 100;
             secondaryRegenRate = 0.1f;
+            maxAttTime = 0.5f;
+            maxSpec1Time = 0.5f;
+            maxSpec2Time = 0.5f;
+            maxSpec3Time = 0.5f;
+            attCost = 10;
+            spec1Cost = 20;
+            spec2Cost = 30;
+            spec3Cost = 50;
             if(role.Equals("CLERIC") || role.Equals("MAGE"))
                 isCaster = true;
         }
@@ -100,7 +120,7 @@ namespace TheDivineAdventure
         {
             // Regular Gameplay
             Move(gameTime);
-            Shoot(gameTime, cam);
+            Abilities(gameTime, cam);
 
             // Debugging
             //NoClip(gameTime);
@@ -109,22 +129,52 @@ namespace TheDivineAdventure
 
         private void Move(GameTime gameTime)
         {
+            // Move Faster
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+                speed = 2f;
+
+            if (this.pos.Z >= 3505)
+            {
+                atBoss = true;
+            }
+
             // Move forward
-            // FOR NOW the player stops at z = 2200 as the current test stage ends there.
-            if (pos.Z < 2200)
-                pos.Z++;
-            else
-                pos.Z = 2200;
+            // FOR NOW the player stops at z = 2200 as the current test stage ends there.  
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                if (this.pos.Z <= 4700)
+                    this.pos += new Vector3(0, 0, 1) * speed;
+            }
+
+            // Move back
+            if (Keyboard.GetState().IsKeyDown(Keys.Back) || Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                if (this.pos.Z >= 0 && !atBoss)
+                    this.pos -= new Vector3(0, 0, 1) * speed;
+                if (this.pos.Z >= 3505 && atBoss)
+                    this.pos -= new Vector3(0, 0, 1) * speed;
+            }
 
             // Move left
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
-                if (pos.X <= 95)
-                    pos.X++;
+            {
+                if (this.pos.X <= 119 - this.width && !atBoss)
+                    this.pos += new Vector3(1, 0, 0) * speed;
+                if (this.pos.X <= 724 - this.width && atBoss)
+                    this.pos += new Vector3(1, 0, 0) * speed;
+            }
+
 
             // Move right
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
-                if (pos.X >= -95)
-                    pos.X--;
+            {
+                if (this.pos.X >= -119 + this.width && !atBoss)
+                    this.pos -= new Vector3(1, 0, 0) * speed;
+                if (this.pos.X >= -724 + this.width && atBoss)
+                    this.pos -= new Vector3(1, 0, 0) * speed;
+            }
+
+            speed = 1f;
 
             // Initiate jump
             if (!jumping && Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -167,23 +217,145 @@ namespace TheDivineAdventure
             }
         }
 
-        private void Shoot(GameTime gameTime, Camera cam)
+        private void Abilities(GameTime gameTime, Camera cam)
         {
             curMouseState = Mouse.GetState();
+            curKeyboardState = Keyboard.GetState();
 
-            if (timer > 0)
+
+                
+            if (attTimer > 0)
             {
-                timer = timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+                attTimer = attTimer - (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {
-                if (curMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton != ButtonState.Pressed)
+                if (curMouseState.LeftButton == ButtonState.Pressed 
+                    && prevMouseState.LeftButton != ButtonState.Pressed
+                    && secondary >= attCost)
                 {
-                    projList.Add(new Projectile(this, cam.Rot));
-                    timer = maxTime;
+                    switch (this.role)
+                    {
+                        case "WARRIOR":
+                            break;
+                        case "ROGUE":
+                            break;
+                        case "MAGE":
+                            projList.Add(new Projectile(this, cam.Rot));
+                            break;
+                        case "CLERIC":
+                            projList.Add(new Projectile(this, cam.Rot));
+                            break;
+                    }
+
+                    attTimer = maxAttTime;
 
                     //expend resource
-                    secondary -= 10;
+                    secondary -= attCost;
+                }
+            }
+            if (spec1Timer > 0)
+            {
+                spec1Timer = spec1Timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if (curMouseState.RightButton == ButtonState.Pressed 
+                    && prevMouseState.RightButton != ButtonState.Pressed
+                    && secondary >= spec1Cost)
+                {
+                    switch (this.role)
+                    {
+                        case "WARRIOR":
+                            break;
+                        case "ROGUE":
+                            break;
+                        case "MAGE":
+                            projList.Add(new Projectile(this, cam.Rot + new Vector3(0, 0.2f, 0)));
+                            projList.Add(new Projectile(this, cam.Rot + new Vector3(0, 0.1f, 0)));
+                            projList.Add(new Projectile(this, cam.Rot));
+                            projList.Add(new Projectile(this, cam.Rot - new Vector3(0, 0.1f, 0)));
+                            projList.Add(new Projectile(this, cam.Rot - new Vector3(0, 0.2f, 0)));
+                            break;
+                        case "CLERIC":
+                            projList.Add(new Projectile(this, cam.Rot + new Vector3(0, 0.1f, 0)));
+                            projList.Add(new Projectile(this, cam.Rot));
+                            projList.Add(new Projectile(this, cam.Rot - new Vector3(0, 0.1f, 0)));
+                            break;
+                    }
+                    
+                    spec1Timer = maxSpec1Time;
+
+                    //expend resource
+                    secondary -= spec1Cost;
+                }
+            }
+            if (spec2Timer > 0)
+            {
+                spec2Timer = spec2Timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if (curKeyboardState.IsKeyDown(Keys.Q) 
+                    && prevKeyboardState.IsKeyUp(Keys.Q)
+                    && secondary >= spec2Cost
+                    && health != healthMax)
+                {
+                    switch (this.role)
+                    {
+                        case "WARRIOR":
+                            break;
+                        case "ROGUE":
+                            break;
+                        case "MAGE":
+                            if (health + 25 < healthMax)
+                                health += 25;
+                            else
+                                health = healthMax;
+                            break;
+                        case "CLERIC":
+                            if (health + 50 < healthMax)
+                                health += 50;
+                            else
+                                health = healthMax;
+                            break;
+                    }
+
+                    spec2Timer = maxSpec2Time;
+
+                    //expend resource
+                    secondary -= spec2Cost;
+                }
+            }
+            if (spec3Timer > 0)
+            {
+                spec3Timer = spec3Timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if (curKeyboardState.IsKeyDown(Keys.E)
+                    && prevKeyboardState.IsKeyUp(Keys.E)
+                    && secondary >= spec3Cost)
+                {
+                    switch (this.role)
+                    {
+                        case "WARRIOR":
+                            break;
+                        case "ROGUE":
+                            break;
+                        case "MAGE":
+                            if (pos.Z < 4700 - 400)
+                                this.pos.Z += 400;
+                            break;
+                        case "CLERIC":
+                            if (pos.Z < 4700 - 200)
+                                this.pos.Z += 200;
+                            break;
+                    }
+                    spec3Timer = maxSpec3Time;
+
+                    //expend resource
+                    secondary -= spec3Cost;
                 }
             }
 
@@ -197,6 +369,7 @@ namespace TheDivineAdventure
             }
 
             prevMouseState = curMouseState;
+            prevKeyboardState = curKeyboardState;
         }
 
 

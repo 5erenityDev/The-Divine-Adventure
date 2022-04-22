@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_level1fbx.fbx</SourceFile>
-  <SourceTime>2022-04-15T18:07:41.4923017-04:00</SourceTime>
+  <SourceTime>2022-04-21T18:59:46.1107825-04:00</SourceTime>
   <DestFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/MODEL_level1fbx.xnb</DestFile>
-  <DestTime>2022-04-15T18:08:18.8917606-04:00</DestTime>
+  <DestTime>2022-04-21T19:01:06.3865928-04:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
@@ -54,7 +54,7 @@
   </Parameters>
   <Parameters>
     <Key>Scale</Key>
-    <Value>0.01</Value>
+    <Value>1</Value>
   </Parameters>
   <Parameters>
     <Key>SwapWindingOrder</Key>
@@ -62,11 +62,9 @@
   </Parameters>
   <Parameters>
     <Key>TextureFormat</Key>
-    <Value>NoChange</Value>
+    <Value>Compressed</Value>
   </Parameters>
   <Dependencies />
-  <BuildAsset>
-    <string>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/backdrop_0.xnb</string>
-  </BuildAsset>
+  <BuildAsset />
   <BuildOutput />
 </PipelineBuildEvent>
