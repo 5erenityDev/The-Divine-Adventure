@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 
 using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -57,10 +58,11 @@ namespace TheDivineAdventure
         public Rectangle healthBarRec, secondBarRec;
         public bool showCursor;
 
+        //SkyBox
+        public Skybox sky;
 
         // (Distance to end Boss)
         public int levelLength;
-        public float travel;
 
         // Font Color
         public Color textGold;
@@ -102,12 +104,14 @@ namespace TheDivineAdventure
 
             Window.IsBorderless = true;
             IsMouseVisible = false;
+            Window.Title = "The Divine Adventure";
         }
 
         protected override void Initialize()
         {
             base.Initialize();
 
+            Window.Title = " The Divine Adventure";
             //create random object
             rand = new Random();
 
@@ -197,7 +201,7 @@ namespace TheDivineAdventure
                 settingsButton2 = Content.Load<Texture2D>("TEX_Settings_Button2");
             }
 
-            //HUD
+            //GameScene
             if (currentScene == 5)
             {
                 hudL1 = Content.Load<Texture2D>("TEX_HolyHUD_L1");
@@ -206,6 +210,7 @@ namespace TheDivineAdventure
                 healthBar = Content.Load<Texture2D>("TEX_HealthBar");
                 manaBar = Content.Load<Texture2D>("TEX_ManaBar");
                 staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
+                sky = new Skybox("TEX_SkyboxLevel1", Content);
             }
             //pause screen
             if (currentScene == 6)

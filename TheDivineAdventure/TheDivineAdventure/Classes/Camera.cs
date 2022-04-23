@@ -14,7 +14,7 @@ namespace TheDivineAdventure
 
         // Constants
         private const float CAM_HEIGHT = 15f;
-        private const float RENDER_DIST = 2000f;
+        private const float RENDER_DIST = 6000f;
         private const float FOV = 45f;
 
         // Vectors
