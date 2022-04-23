@@ -79,7 +79,7 @@ namespace TheDivineAdventure
                 // Cache mouse location
                 deltaX = curMouseState.X - (gpu.Viewport.Width / 2);
                 deltaY = curMouseState.Y - (gpu.Viewport.Height / 2);
-                
+
                 // Creates rotation
                 mouseRotationBuffer.X -= (rotSpeed / 100) * deltaX * dt;
                 mouseRotationBuffer.Y -= (rotSpeed / 100) * deltaY * dt;
@@ -147,7 +147,7 @@ namespace TheDivineAdventure
 
         public Vector3 LookAt
         {
-            get { return new Vector3(View.M41, View.M42, View.M43); }
+            get { return new Vector3(View.M31, -View.M32, -View.M33) * new Vector3(1000, 1000, 1000); }
         }
 
         public Vector3 Pos

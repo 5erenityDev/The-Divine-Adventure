@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace TheDivineAdventure
 {
@@ -14,8 +15,9 @@ namespace TheDivineAdventure
 
         // Movement
         private Vector3 initPos, pos;
-        private Vector3 dest;
-        private float speed = 10f;
+        private Vector3 dest, vel;
+        private float distance;
+        private float speed;
 
         // Timer
         private float timer;        //how long the projectile stays active
@@ -26,26 +28,32 @@ namespace TheDivineAdventure
         /////////////////
         ///CONSTRUCTOR///
         /////////////////
-        public Projectile(Player entity, Vector3 camRot)
+        public Projectile(Vector3 origin, Vector3 target, float pSpeed)
         {
             // Timer stats
             timer = 1f;
             timeToDestroy = false;
 
-            initPos = entity.Pos;
+            // Set the projectiles initial position
+            initPos = origin;
             pos = initPos;
-            dest = camRot;
-        }
 
-        public Projectile(Enemy entity, Vector3 camRot)
-        {
-            // Timer stats
-            timer = 1f;
-            timeToDestroy = false;
+            // Set the projectiles destintation
+            dest.X = target.X - pos.X;
+            dest.Y = target.Y - pos.Y;
+            dest.Z = target.Z - pos.Z;
 
-            initPos = entity.Pos;
-            pos = initPos;
-            dest = camRot;
+            // Find the distance between them
+            distance = (float)Math.Sqrt(
+                        target.X * target.X
+                        + target.Y * target.Y
+                        + target.Z * target.Z);
+
+            // Determine the velocity on each axis using the distance
+            speed = pSpeed*50;
+            vel.X = (target.X / distance) * speed;
+            vel.Y = (target.Y / distance) * speed;
+            vel.Z = (target.Z / distance) * speed;
         }
 
         ///////////////
@@ -55,10 +63,11 @@ namespace TheDivineAdventure
         {
             if (timer > 0f)
             {
-                pos.X += dest.Y * speed;
-                pos.Y -= dest.X * speed;
-                pos.Z += speed;
-                timer = timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+                float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                pos.X += vel.X * dt;
+                pos.Y += vel.Y * dt;
+                pos.Z += vel.Z * dt;
+                timer = timer - dt;
             }
             else
             {

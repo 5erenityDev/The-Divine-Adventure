@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -59,9 +60,10 @@ namespace TheDivineAdventure
         private float health, secondary, secondaryRegenRate;
         private int healthMax, secondaryMax;
         private int attCost, spec1Cost, spec2Cost, spec3Cost;
+        private float projSpeed;
         //swaps stamina for mana when true
-
         private bool isCaster;
+
         private bool atBoss;
 
         // Timer
@@ -92,23 +94,78 @@ namespace TheDivineAdventure
             spec2Timer = 0f;
             spec3Timer = 0f;
 
-            // Set health and secondary bar
-            // (will later be set by character, or perhaps altered by powerups)
-            healthMax = 100;
-            health = 100;
-            secondaryMax = 100;
-            secondary = 100;
-            secondaryRegenRate = 0.1f;
-            maxAttTime = 0.5f;
-            maxSpec1Time = 0.5f;
-            maxSpec2Time = 0.5f;
-            maxSpec3Time = 0.5f;
-            attCost = 10;
-            spec1Cost = 20;
-            spec2Cost = 30;
-            spec3Cost = 50;
-            if(role.Equals("CLERIC") || role.Equals("MAGE"))
-                isCaster = true;
+            // Set player stats
+            switch (this.role)
+            {
+                case "WARRIOR":
+                    isCaster = false;
+                    healthMax = 100;
+                    health = 100;
+                    secondaryMax = 100;
+                    secondary = 100;
+                    secondaryRegenRate = 0.1f;
+                    projSpeed = 0f;
+                    maxAttTime = 0.5f;
+                    maxSpec1Time = 0.5f;
+                    maxSpec2Time = 0.5f;
+                    maxSpec3Time = 0.5f;
+                    attCost = 10;
+                    spec1Cost = 20;
+                    spec2Cost = 30;
+                    spec3Cost = 50;
+                    break;
+                case "ROGUE":
+                    isCaster = false;
+                    healthMax = 100;
+                    health = 100;
+                    secondaryMax = 100;
+                    secondary = 100;
+                    secondaryRegenRate = 0.1f;
+                    projSpeed = 0f;
+                    maxAttTime = 0.5f;
+                    maxSpec1Time = 0.5f;
+                    maxSpec2Time = 0.5f;
+                    maxSpec3Time = 0.5f;
+                    attCost = 10;
+                    spec1Cost = 20;
+                    spec2Cost = 30;
+                    spec3Cost = 50;
+                    break;
+                case "MAGE":
+                    isCaster = true;
+                    healthMax = 100;
+                    health = 100;
+                    secondaryMax = 100;
+                    secondary = 100;
+                    secondaryRegenRate = 0.1f;
+                    projSpeed = 10f;
+                    maxAttTime = 0.5f;
+                    maxSpec1Time = 0.5f;
+                    maxSpec2Time = 0.5f;
+                    maxSpec3Time = 0.5f;
+                    attCost = 10;
+                    spec1Cost = 20;
+                    spec2Cost = 30;
+                    spec3Cost = 50;
+                    break;
+                case "CLERIC":
+                    isCaster = true;
+                    healthMax = 100;
+                    health = 100;
+                    secondaryMax = 100;
+                    secondary = 100;
+                    secondaryRegenRate = 0.1f;
+                    projSpeed = 10f;
+                    maxAttTime = 0.5f;
+                    maxSpec1Time = 0.5f;
+                    maxSpec2Time = 0.5f;
+                    maxSpec3Time = 0.5f;
+                    attCost = 10;
+                    spec1Cost = 20;
+                    spec2Cost = 30;
+                    spec3Cost = 50;
+                    break;
+            }
         }
 
 
@@ -223,14 +280,14 @@ namespace TheDivineAdventure
             curKeyboardState = Keyboard.GetState();
 
 
-                
+
             if (attTimer > 0)
             {
                 attTimer = attTimer - (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {
-                if (curMouseState.LeftButton == ButtonState.Pressed 
+                if (curMouseState.LeftButton == ButtonState.Pressed
                     && prevMouseState.LeftButton != ButtonState.Pressed
                     && secondary >= attCost)
                 {
@@ -241,13 +298,12 @@ namespace TheDivineAdventure
                         case "ROGUE":
                             break;
                         case "MAGE":
-                            projList.Add(new Projectile(this, cam.Rot));
+                            AttackPattern.singleProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                         case "CLERIC":
-                            projList.Add(new Projectile(this, cam.Rot));
+                            AttackPattern.singleProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                     }
-
                     attTimer = maxAttTime;
 
                     //expend resource
@@ -260,7 +316,7 @@ namespace TheDivineAdventure
             }
             else
             {
-                if (curMouseState.RightButton == ButtonState.Pressed 
+                if (curMouseState.RightButton == ButtonState.Pressed
                     && prevMouseState.RightButton != ButtonState.Pressed
                     && secondary >= spec1Cost)
                 {
@@ -271,19 +327,13 @@ namespace TheDivineAdventure
                         case "ROGUE":
                             break;
                         case "MAGE":
-                            projList.Add(new Projectile(this, cam.Rot + new Vector3(0, 0.2f, 0)));
-                            projList.Add(new Projectile(this, cam.Rot + new Vector3(0, 0.1f, 0)));
-                            projList.Add(new Projectile(this, cam.Rot));
-                            projList.Add(new Projectile(this, cam.Rot - new Vector3(0, 0.1f, 0)));
-                            projList.Add(new Projectile(this, cam.Rot - new Vector3(0, 0.2f, 0)));
+                            AttackPattern.quinProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                         case "CLERIC":
-                            projList.Add(new Projectile(this, cam.Rot + new Vector3(0, 0.1f, 0)));
-                            projList.Add(new Projectile(this, cam.Rot));
-                            projList.Add(new Projectile(this, cam.Rot - new Vector3(0, 0.1f, 0)));
+                            AttackPattern.tripleProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                     }
-                    
+
                     spec1Timer = maxSpec1Time;
 
                     //expend resource
@@ -296,7 +346,7 @@ namespace TheDivineAdventure
             }
             else
             {
-                if (curKeyboardState.IsKeyDown(Keys.Q) 
+                if (curKeyboardState.IsKeyDown(Keys.Q)
                     && prevKeyboardState.IsKeyUp(Keys.Q)
                     && secondary >= spec2Cost
                     && health != healthMax)
