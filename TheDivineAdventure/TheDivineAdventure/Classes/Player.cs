@@ -35,13 +35,13 @@ namespace TheDivineAdventure
         // Movement
         private Vector3 pos;
         private Vector3 rot;
-        private float speed = 1f;
+        private float speed, initSpeed;
 
 
         // Jumping
         private bool jumping = false;
         private bool falling = false;
-        private float jumpSpeed = 1f;
+        private float jumpSpeed;
         private float maxHeight = 40f;
         private float minHeight;
 
@@ -99,10 +99,13 @@ namespace TheDivineAdventure
             {
                 case "WARRIOR":
                     isCaster = false;
-                    healthMax = 100;
-                    health = 100;
+                    initSpeed = 5f;
+                    speed = initSpeed;
+                    jumpSpeed = 15f;
+                    healthMax = 300;
+                    health = healthMax;
                     secondaryMax = 100;
-                    secondary = 100;
+                    secondary = secondaryMax;
                     secondaryRegenRate = 0.1f;
                     projSpeed = 0f;
                     maxAttTime = 0.5f;
@@ -116,10 +119,13 @@ namespace TheDivineAdventure
                     break;
                 case "ROGUE":
                     isCaster = false;
+                    initSpeed = 20f;
+                    speed = initSpeed;
+                    jumpSpeed = 15f;
                     healthMax = 100;
-                    health = 100;
-                    secondaryMax = 100;
-                    secondary = 100;
+                    health = healthMax;
+                    secondaryMax = 300;
+                    secondary = secondaryMax;
                     secondaryRegenRate = 0.1f;
                     projSpeed = 0f;
                     maxAttTime = 0.5f;
@@ -133,12 +139,15 @@ namespace TheDivineAdventure
                     break;
                 case "MAGE":
                     isCaster = true;
+                    initSpeed = 10f;
+                    speed = initSpeed;
+                    jumpSpeed = 15f;
                     healthMax = 100;
-                    health = 100;
-                    secondaryMax = 100;
-                    secondary = 100;
+                    health = healthMax;
+                    secondaryMax = 300;
+                    secondary = secondaryMax;
                     secondaryRegenRate = 0.1f;
-                    projSpeed = 10f;
+                    projSpeed = 5f;
                     maxAttTime = 0.5f;
                     maxSpec1Time = 0.5f;
                     maxSpec2Time = 0.5f;
@@ -150,12 +159,15 @@ namespace TheDivineAdventure
                     break;
                 case "CLERIC":
                     isCaster = true;
-                    healthMax = 100;
-                    health = 100;
+                    initSpeed = 15f;
+                    speed = initSpeed;
+                    jumpSpeed = 15f;
+                    healthMax = 300;
+                    health = healthMax;
                     secondaryMax = 100;
-                    secondary = 100;
+                    secondary = secondaryMax;
                     secondaryRegenRate = 0.1f;
-                    projSpeed = 10f;
+                    projSpeed = 15f;
                     maxAttTime = 0.5f;
                     maxSpec1Time = 0.5f;
                     maxSpec2Time = 0.5f;
@@ -166,6 +178,10 @@ namespace TheDivineAdventure
                     spec3Cost = 50;
                     break;
             }
+
+            //accommodate for changes caused by deltaTime
+            speed *= 5f;
+            jumpSpeed *= 5f;
         }
 
 
@@ -175,20 +191,22 @@ namespace TheDivineAdventure
         ///////////////
         public void Update(GameTime gameTime, Camera cam)
         {
+            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             // Regular Gameplay
-            Move(gameTime);
-            Abilities(gameTime, cam);
+            Move(dt);
+            Abilities(dt, cam);
 
             // Debugging
-            //NoClip(gameTime);
+            //NoClip(dt);
             //SwitchRole();
+            DebugStats();
         }
 
-        private void Move(GameTime gameTime)
+        private void Move(float dt)
         {
             // Move Faster
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-                speed = 2f;
+                speed *= 2f;
 
             if (this.pos.Z >= 3505)
             {
@@ -200,25 +218,25 @@ namespace TheDivineAdventure
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 if (this.pos.Z <= 4700)
-                    this.pos += new Vector3(0, 0, 1) * speed;
+                    this.pos += new Vector3(0, 0, 1) * speed * dt;
             }
 
             // Move back
             if (Keyboard.GetState().IsKeyDown(Keys.Back) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 if (this.pos.Z >= 0 && !atBoss)
-                    this.pos -= new Vector3(0, 0, 1) * speed;
+                    this.pos -= new Vector3(0, 0, 1) * speed * dt;
                 if (this.pos.Z >= 3505 && atBoss)
-                    this.pos -= new Vector3(0, 0, 1) * speed;
+                    this.pos -= new Vector3(0, 0, 1) * speed * dt;
             }
 
             // Move left
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 if (this.pos.X <= 119 - this.width && !atBoss)
-                    this.pos += new Vector3(1, 0, 0) * speed;
+                    this.pos += new Vector3(1, 0, 0) * speed * dt;
                 if (this.pos.X <= 724 - this.width && atBoss)
-                    this.pos += new Vector3(1, 0, 0) * speed;
+                    this.pos += new Vector3(1, 0, 0) * speed * dt;
             }
 
 
@@ -226,12 +244,12 @@ namespace TheDivineAdventure
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 if (this.pos.X >= -119 + this.width && !atBoss)
-                    this.pos -= new Vector3(1, 0, 0) * speed;
+                    this.pos -= new Vector3(1, 0, 0) * speed * dt;
                 if (this.pos.X >= -724 + this.width && atBoss)
-                    this.pos -= new Vector3(1, 0, 0) * speed;
+                    this.pos -= new Vector3(1, 0, 0) * speed * dt;
             }
 
-            speed = 1f;
+            speed = initSpeed * 5f;
 
             // Initiate jump
             if (!jumping && Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -241,7 +259,7 @@ namespace TheDivineAdventure
 
             // Calculate jump
             if (jumping)
-                Jump(gameTime);
+                Jump(dt);
 
             //regen Stamina
             if (secondary <= secondaryMax)
@@ -250,12 +268,12 @@ namespace TheDivineAdventure
             }
         }
 
-        private void Jump(GameTime gameTime)
+        private void Jump(float dt)
         {
             // Determine if player is still going up, if so, increase jump height
             if (Pos.Y <= maxHeight && !falling)
             {
-                pos.Y += jumpSpeed;
+                pos.Y += jumpSpeed * dt;
             }
             // Determine if player is now going down
             else if (Pos.Y > maxHeight && !falling)
@@ -264,7 +282,7 @@ namespace TheDivineAdventure
             }
             // Decrease jump height
             else if (falling && pos.Y > minHeight)
-                pos.Y -= jumpSpeed;
+                pos.Y -= jumpSpeed * dt;
             // Once on the ground, stop jumping
             else if (pos.Y <= minHeight)
             {
@@ -274,16 +292,14 @@ namespace TheDivineAdventure
             }
         }
 
-        private void Abilities(GameTime gameTime, Camera cam)
+        private void Abilities(float dt, Camera cam)
         {
             curMouseState = Mouse.GetState();
             curKeyboardState = Keyboard.GetState();
 
-
-
             if (attTimer > 0)
             {
-                attTimer = attTimer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+                attTimer = attTimer - dt;
             }
             else
             {
@@ -312,7 +328,7 @@ namespace TheDivineAdventure
             }
             if (spec1Timer > 0)
             {
-                spec1Timer = spec1Timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+                spec1Timer = spec1Timer - dt;
             }
             else
             {
@@ -342,7 +358,7 @@ namespace TheDivineAdventure
             }
             if (spec2Timer > 0)
             {
-                spec2Timer = spec2Timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+                spec2Timer = spec2Timer - dt;
             }
             else
             {
@@ -379,7 +395,7 @@ namespace TheDivineAdventure
             }
             if (spec3Timer > 0)
             {
-                spec3Timer = spec3Timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+                spec3Timer = spec3Timer - dt;
             }
             else
             {
@@ -427,42 +443,35 @@ namespace TheDivineAdventure
         /////////////////////////
         ///DEBUGGING FUNCTIONS///
         /////////////////////////
-        private void NoClip(GameTime gameTime)
+        private void NoClip(float dt)
         {
             // Move Faster
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-                speed = 3f;
+                speed *= 3;
 
             //Move left, right, forward, and back
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
-                this.pos += new Vector3(1, 0, 0) * speed;
+                this.pos += new Vector3(1, 0, 0) * speed * dt;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
-                this.pos -= new Vector3(1, 0, 0) * speed;
+                this.pos -= new Vector3(1, 0, 0) * speed * dt;
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
-                this.pos += new Vector3(0, 0, 1) * speed;
+                this.pos += new Vector3(0, 0, 1) * speed * dt;
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
-                this.pos -= new Vector3(0, 0, 1) * speed;
+                this.pos -= new Vector3(0, 0, 1) * speed * dt;
 
             // Rotate player left and right
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
-                this.rot += new Vector3(0, 1, 0) * speed;
+                this.rot += new Vector3(0, 1, 0) * speed * dt;
             if (Keyboard.GetState().IsKeyDown(Keys.E))
-                this.rot -= new Vector3(0, 1, 0) * speed;
+                this.rot -= new Vector3(0, 1, 0) * speed * dt;
 
             // Float Up and Down
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                this.pos += new Vector3(0, 1, 0) * speed;
+                this.pos += new Vector3(0, 1, 0) * speed * dt;
             if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
-                this.pos -= new Vector3(0, 1, 0) * speed;
+                this.pos -= new Vector3(0, 1, 0) * speed * dt;
 
-            // Test the damage mechanic
-            if (Keyboard.GetState().IsKeyDown(Keys.U))
-                health -= 3;
-            // test the secondary resource mechanic
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
-                secondary -= 3;
-
-            speed = 1f;
+            speed = initSpeed * 5f;
         }
 
         //update health and stamina bar
@@ -522,7 +531,15 @@ namespace TheDivineAdventure
             }
         }
 
-
+        private void DebugStats()
+        {
+            // Test the damage mechanic
+            if (Keyboard.GetState().IsKeyDown(Keys.U))
+                health -= 3;
+            // test the secondary resource mechanic
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+                secondary -= 3;
+        }
 
         ////////////////////
         ///GETTER/SETTERS///

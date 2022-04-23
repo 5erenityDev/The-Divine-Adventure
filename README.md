@@ -1,17 +1,17 @@
 # The-Divine-Adventure
-##Final Group Project for CSC 316.
+## Final Group Project for CSC 316.
 
 The Divine Adventure is a shoot ’em up adventure through the underworld where
 the player selects one of four adventurers to fight demons. They are guided along this
 journey by a divine being who is enlisting their help to bring an end to the seven deadly
 sins.
 
-##TO DO LIST:
+## TO DO LIST:
 	KEY:
 	- = In Progress
 	✓ = Done
 	X = Not Started
-###PRIMARY GOALS: NEED TO BE DONE
+### PRIMARY GOALS: NEED TO BE DONE
 - Shoot 'em up style gameplay
 	- Basic Player Input and Movement ✓
 	- Camera Movement ✓
@@ -34,7 +34,7 @@ sins.
 - Pause Menu ✓
 - Player HUD ✓
 
-###SECONDARY GOALS: WOULD LIKE TO BE DONE
+### SECONDARY GOALS: WOULD LIKE TO BE DONE
 - Character Selection -
 - Multiple Levels X
 - Character Abilities -
@@ -45,9 +45,10 @@ sins.
 	- Controls Option: Re-Mappable Controls X
 	- Display Option: Option to change from 0x, 2x, 4x, and 8x multi-sampling antialiasing. ✓
 	- Display Option: Option to enable or disable V-Sync. X
-- Advanced Player Movement -
+- Advanced Player Movement ✓
+- Advanced Camera Controls -
 
-###TERTIARY GOALS: WILL MOST LIKELY NOT GET DONE BUT WOULD MAKE FOR NICE BONUS FEATURES
+### TERTIARY GOALS: WILL MOST LIKELY NOT GET DONE BUT WOULD MAKE FOR NICE BONUS FEATURES
 - Difficulty Settings X
 - Save Files X
 - Character Customization X
