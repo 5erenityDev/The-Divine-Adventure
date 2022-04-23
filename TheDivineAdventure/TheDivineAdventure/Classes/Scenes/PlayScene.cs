@@ -96,13 +96,13 @@ namespace TheDivineAdventure
             camera.Update(gameTime, player);
             enemy.Update(gameTime);
 
-            foreach (Projectile p in player.projList)
+            foreach (Attack p in player.projList)
             {
                 p.Update(gameTime);
             }
 
 
-            foreach (Projectile p in enemy.projList)
+            foreach (Attack p in enemy.projList)
             {
                 p.Update(gameTime);
             }
@@ -195,19 +195,34 @@ namespace TheDivineAdventure
             }
 
             // Render player bullets
-            foreach (Projectile p in player.projList)
+            foreach (Attack p in player.projList)
             {
                 worldProj = Matrix.CreateScale(1f) *
                         Matrix.CreateTranslation(p.Pos);
-                parent.playerProjModel.Draw(worldProj, camera.View, camera.Proj);
+                if (p.IsMelee)
+                {
+                    parent.playerMelModel.Draw(worldProj, camera.View, camera.Proj);
+                }
+                else
+                {
+                    parent.playerProjModel.Draw(worldProj, camera.View, camera.Proj);
+                }
+                
             }
 
             // Render enemy bullets
-            foreach (Projectile p in enemy.projList)
+            foreach (Attack p in enemy.projList)
             {
                 worldProj = Matrix.CreateScale(1f) *
                     Matrix.CreateTranslation(p.Pos);
-                parent.enemyProjModel.Draw(worldProj, camera.View, camera.Proj);
+                if (p.IsMelee)
+                {
+                    parent.enemyMelModel.Draw(worldProj, camera.View, camera.Proj);
+                }
+                else
+                {
+                    parent.enemyProjModel.Draw(worldProj, camera.View, camera.Proj);
+                }
             }
 
             // ** Render HUD **

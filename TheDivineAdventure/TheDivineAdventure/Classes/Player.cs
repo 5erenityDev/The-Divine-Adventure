@@ -30,7 +30,7 @@ namespace TheDivineAdventure
         // Info
         public string role;
         private int height, width;
-        public List<Projectile> projList = new List<Projectile>();
+        public List<Attack> projList = new List<Attack>();
 
         // Movement
         private Vector3 pos;
@@ -198,7 +198,7 @@ namespace TheDivineAdventure
 
             // Debugging
             //NoClip(dt);
-            //SwitchRole();
+            SwitchRole();
             DebugStats();
         }
 
@@ -307,16 +307,12 @@ namespace TheDivineAdventure
                     && prevMouseState.LeftButton != ButtonState.Pressed
                     && secondary >= attCost)
                 {
-                    switch (this.role)
+                    switch (this.isCaster)
                     {
-                        case "WARRIOR":
+                        case false:
+                            AttackPattern.singleMel(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
-                        case "ROGUE":
-                            break;
-                        case "MAGE":
-                            AttackPattern.singleProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
-                            break;
-                        case "CLERIC":
+                        case true:
                             AttackPattern.singleProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                     }
@@ -425,7 +421,7 @@ namespace TheDivineAdventure
                 }
             }
 
-            foreach (Projectile p in projList)
+            foreach (Attack p in projList)
             {
                 if (p.TimeToDestroy)
                 {
@@ -507,24 +503,96 @@ namespace TheDivineAdventure
         {
             if (Keyboard.GetState().IsKeyDown(Keys.D1))
             {
+                isCaster = false;
+                initSpeed = 5f;
+                speed = initSpeed;
+                jumpSpeed = 15f;
+                healthMax = 300;
+                health = healthMax;
+                secondaryMax = 100;
+                secondary = secondaryMax;
+                secondaryRegenRate = 0.1f;
+                projSpeed = 0f;
+                maxAttTime = 0.5f;
+                maxSpec1Time = 0.5f;
+                maxSpec2Time = 0.5f;
+                maxSpec3Time = 0.5f;
+                attCost = 10;
+                spec1Cost = 20;
+                spec2Cost = 30;
+                spec3Cost = 50;
                 role = ROLES[0];
                 height = HEIGHTS[0];
                 minHeight = height;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D2))
             {
+                isCaster = false;
+                initSpeed = 20f;
+                speed = initSpeed;
+                jumpSpeed = 15f;
+                healthMax = 100;
+                health = healthMax;
+                secondaryMax = 300;
+                secondary = secondaryMax;
+                secondaryRegenRate = 0.1f;
+                projSpeed = 0f;
+                maxAttTime = 0.5f;
+                maxSpec1Time = 0.5f;
+                maxSpec2Time = 0.5f;
+                maxSpec3Time = 0.5f;
+                attCost = 10;
+                spec1Cost = 20;
+                spec2Cost = 30;
+                spec3Cost = 50;
                 role = ROLES[1];
                 height = HEIGHTS[1];
                 minHeight = height;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D3))
             {
+                isCaster = true;
+                initSpeed = 10f;
+                speed = initSpeed;
+                jumpSpeed = 15f;
+                healthMax = 100;
+                health = healthMax;
+                secondaryMax = 300;
+                secondary = secondaryMax;
+                secondaryRegenRate = 0.1f;
+                projSpeed = 5f;
+                maxAttTime = 0.5f;
+                maxSpec1Time = 0.5f;
+                maxSpec2Time = 0.5f;
+                maxSpec3Time = 0.5f;
+                attCost = 10;
+                spec1Cost = 20;
+                spec2Cost = 30;
+                spec3Cost = 50;
                 role = ROLES[2];
                 height = HEIGHTS[2];
                 minHeight = height;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D4))
             {
+                isCaster = true;
+                initSpeed = 15f;
+                speed = initSpeed;
+                jumpSpeed = 15f;
+                healthMax = 300;
+                health = healthMax;
+                secondaryMax = 100;
+                secondary = secondaryMax;
+                secondaryRegenRate = 0.1f;
+                projSpeed = 15f;
+                maxAttTime = 0.5f;
+                maxSpec1Time = 0.5f;
+                maxSpec2Time = 0.5f;
+                maxSpec3Time = 0.5f;
+                attCost = 10;
+                spec1Cost = 20;
+                spec2Cost = 30;
+                spec3Cost = 50;
                 role = ROLES[3];
                 height = HEIGHTS[3];
                 minHeight = height;

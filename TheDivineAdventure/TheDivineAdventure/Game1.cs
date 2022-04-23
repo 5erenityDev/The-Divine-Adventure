@@ -75,6 +75,7 @@ namespace TheDivineAdventure
         public Model demonModel;
         public Model level1Model;
         public Model playerProjModel, enemyProjModel;
+        public Model playerMelModel, enemyMelModel;
         /*
         //28 Planned Character Models in total
         //8 Planned World Models in total
@@ -235,6 +236,8 @@ namespace TheDivineAdventure
             level1Model = Content.Load<Model>("MODEL_Level1");
             playerProjModel = Content.Load<Model>("MODEL_PlayerProjectile");
             enemyProjModel = Content.Load<Model>("MODEL_EnemyProjectile");
+            playerMelModel = Content.Load<Model>("MODEL_PlayerMelee");
+            enemyMelModel = Content.Load<Model>("MODEL_EnemyMelee");
 
             /*
             // Heroes
