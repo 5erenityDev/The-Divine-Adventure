@@ -1,0 +1,237 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using System;
+using System.Collections.Generic;
+
+namespace TheDivineAdventure
+{
+    class Enemy
+    {
+        ///////////////
+        ///VARIABLES///
+        ///////////////
+        // Constant / Readonly
+        // Make sure that the role and height have the same index
+        // (EX: DEMON is at index 0 of ROLES, while DEMON_HEIGHT is also at index 0 of HEIGHTS)
+        public static readonly string[] ROLES = { "DEMON", "HELLHOUND", "IMP", 
+                                    "GOBLIN", "OGRE", "GARGOYLE", "SKELETON" };
+        private const int DEMON_HEIGHT = 23;
+        private const int HELLHOUND_HEIGHT = 13;
+        private const int IMP_HEIGHT = 0;
+        private const int GOBLIN_HEIGHT = 0;
+        private const int OGRE_HEIGHT = 23;
+        private const int GARGOYLE_HEIGHT = 13;
+        private const int SKELETON_HEIGHT = 0;
+        private static readonly int[] HEIGHTS = { DEMON_HEIGHT, HELLHOUND_HEIGHT, IMP_HEIGHT,
+                                    GOBLIN_HEIGHT, OGRE_HEIGHT, GARGOYLE_HEIGHT, SKELETON_HEIGHT };
+        
+        // Info
+        public string role;
+        private int height;
+        public List<Attack> projList = new List<Attack>();
+        private double health;
+        private double speedFactor;
+        private Boolean ranged;
+
+        //random spawning
+        Random randX = new Random();
+        Random randZ = new Random();
+
+        // Movement
+        private Vector3 pos;
+        private float rot;
+        private Vector3 enemyDir;
+
+        // Timer
+        private float maxTime; //time between shots
+        private float timer;
+
+
+        // Sound
+        private List<SoundEffect> soundEffects;
+
+
+        /////////////////
+        ///CONSTRUCTOR///
+        /////////////////
+        public Enemy(List<SoundEffect> s, string r)
+        {
+            maxTime = 2.5f;
+            soundEffects = s;
+            role = r;
+            height = HEIGHTS[Array.IndexOf(ROLES, role)];
+            pos = new Vector3(0, height, 100);
+            pos = new Vector3((float)randX.Next(0, 40), 0 - height - 5, (float)randZ.Next(400, 1000));
+
+            //adjust orientation and enemy values for health/speed
+            rot = 180f;
+            switch (role)
+            {
+                case "DEMON":
+                    health = 100;
+                    speedFactor = 1;
+                    ranged = true;
+                    break;
+                case "HELLHOUND":
+                    health = 50;
+                    speedFactor = 2;
+                    ranged = false;
+                    break;
+                case "IMP":
+                    health = 75;
+                    speedFactor = 1.25;
+                    ranged = false;
+                    break;
+                case "GOBLIN":
+                    health = 100;
+                    speedFactor = 1;
+                    ranged = false;
+                    break;
+                case "OGRE":
+                    health = 200;
+                    speedFactor = 0.5;
+                    ranged = false;
+                    break;
+                case "GARGOYLE":
+                    health = 75;
+                    speedFactor = 1.25;
+                    ranged = true;
+                    break;
+                case "SKELETON":
+                    health = 100;
+                    speedFactor = 1;
+                    ranged = true;
+                    break;
+                default:
+                    health = 100;
+                    speedFactor = 1;
+                    ranged = false;
+                    break;
+
+            }
+        }
+
+
+
+        ///////////////
+        ///FUNCTIONS///
+        ///////////////
+        ///
+
+        
+        public void Update(GameTime gameTime, Player player)
+        {
+           
+
+            //handle spawning before moving and shooting
+            //spawns under the level and rises up
+            if (Pos.Y < Height)
+                Pos += new Vector3(0, 2f, 0);
+            if (pos.Y >= height)
+            {
+                facePlayer(player);
+                Move(gameTime, player);
+                Shoot(gameTime);
+            }
+
+
+        }
+
+
+      
+
+        public void facePlayer(Player player)
+        {
+            //change enemies orientation, face to the player
+            rot = (float)(Math.Atan2(player.Pos.X - pos.X, player.Pos.Z - pos.Z));
+            //rot *= -1;
+        }
+
+        private void Move(GameTime gameTime, Player player)
+        {
+            // Move forward
+            // FOR NOW the player stops at z = 2200 as the current test stage ends there.
+            if (Vector3.Distance(player.Pos, pos) > 15 && ranged == false)
+            {
+                pos += Vector3.Transform(
+                        Vector3.Backward,
+                        Matrix.CreateRotationY(rot)) * (float)speedFactor;
+            }
+            else
+            {
+                //ranged enemy needs to keep at a distance if possible!
+                if (Vector3.Distance(player.Pos, pos) > 150)
+                {
+                    pos += Vector3.Transform(
+                        Vector3.Backward,
+                        Matrix.CreateRotationY(rot)) * (float)speedFactor;
+                }
+                else if (Vector3.Distance(player.Pos, pos) < 150)
+                {
+                    //try and backup if possible
+                    //meaning not clipping out of the map (temp values are used for now!)
+                    if (this.pos.X > -100 && this.pos.X < 100 && this.pos.Z > 0 && this.pos.Z < 2000)
+                        pos -= Vector3.Transform(
+                            Vector3.Backward,
+                            Matrix.CreateRotationY(rot)) * (float)speedFactor;
+                }
+            }
+        }
+
+
+        private void Shoot(GameTime gameTime)
+        {
+
+
+            if (timer > 0)
+            {
+                timer = timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+
+                enemyDir = Vector3.Transform(Vector3.Backward,
+                Matrix.CreateRotationY(rot));
+
+                //projectiles.Add(new Projectile(playerPos, playerDir));
+
+                projList.Add(new Attack(this.Pos, enemyDir, 5f));
+                timer = maxTime;
+
+            }
+
+            foreach (Attack p in projList)
+            {
+                if (p.TimeToDestroy)
+                {
+                    projList.Remove(p);
+                    break;
+                }
+            }
+
+
+        }
+
+
+        ////////////////////
+        ///GETTER/SETTERS///
+        ////////////////////
+        public Vector3 Pos
+        {
+            get { return pos; }
+            set { pos = value; }
+        }
+
+        public int Height
+        {
+            get { return height; }
+            set { height = value; }
+        }
+
+        public float Rot
+        {
+            get { return rot; }
+            set { Rot = value; }
+        }
+    }
+}
