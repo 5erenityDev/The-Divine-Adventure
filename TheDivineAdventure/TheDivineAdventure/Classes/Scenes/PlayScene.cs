@@ -94,7 +94,7 @@ namespace TheDivineAdventure
 
             player.Update(gameTime, camera);
             camera.Update(gameTime, player);
-            enemy.Update(gameTime);
+            enemy.Update(gameTime, player);
 
             foreach (Attack p in player.projList)
             {
