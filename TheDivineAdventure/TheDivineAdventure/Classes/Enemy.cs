@@ -170,7 +170,7 @@ namespace TheDivineAdventure
                 {
                     //try and backup if possible
                     //meaning not clipping out of the map (temp values are used for now!)
-                    if (this.pos.X > -100 && this.pos.X < 100 && this.pos.Z > 0 && this.pos.Z < 2000)
+                    if (this.pos.X > -100 && this.pos.X < 100 && this.pos.Z > 0 && this.pos.Z < 3500)
                         pos -= Vector3.Transform(
                             Vector3.Backward,
                             Matrix.CreateRotationY(rot)) * (float)speedFactor;

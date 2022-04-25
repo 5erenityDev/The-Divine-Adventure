@@ -22,11 +22,11 @@ namespace TheDivineAdventure
             //show custom cursor
             parent.showCursor = true;
             //create background demons
-            titleDemons = new AnimatedSprite[rand.Next(40, 180)];
+            titleDemons = new AnimatedSprite[rand.Next(20, 50)];
             for (int i = 0; i < titleDemons.Length; i++)
             {
                 titleDemons[i] = new AnimatedSprite(109, 108, parent.distantDemonSheet, 7);
-                titleDemons[i].Pos = new Vector2((-1 * rand.Next(-1920, 1000)) *parent.currentScreenScale.X, rand.Next(10, 600) *parent.currentScreenScale.Y);
+                titleDemons[i].Pos = new Vector2((-1 * rand.Next(-1920, 1000)) *parent.currentScreenScale.X, rand.Next(600) *parent.currentScreenScale.Y);
                 titleDemons[i].Scale = 1 - (rand.Next(50) / 100f);
                 titleDemons[i].Tint = new Color(Color.White, titleDemons[i].Scale);
                 titleDemons[i].Frame = rand.Next(7);
@@ -121,7 +121,7 @@ namespace TheDivineAdventure
             {
                 if (demon.Pos.X > _graphics.PreferredBackBufferWidth)
                 {
-                    demon.Pos = new Vector2(-1 * rand.Next(1500) *parent.currentScreenScale.X, (50 + rand.Next(500)) *parent.currentScreenScale.Y);
+                    demon.Pos = new Vector2(-1 * rand.Next(1500) *parent.currentScreenScale.X, rand.Next(600) *parent.currentScreenScale.Y);
                     demon.Scale = 1 - (rand.Next(50) / 100f);
                     demon.Tint = new Color(Color.White, demon.Scale);
                 }
@@ -148,22 +148,19 @@ namespace TheDivineAdventure
             {
                 _spriteBatch.Draw(parent.titleLava, Vector2.Zero, null, new Color(Color.White, glowRef), 0, Vector2.Zero,
                    parent.currentScreenScale, SpriteEffects.None, 1);
-                glowRef += 5;
+                glowRef += 1;
             }
             else
             {
                 _spriteBatch.Draw(parent.titleLava, Vector2.Zero, null, new Color(Color.White, glowRef), 0, Vector2.Zero,
                    parent.currentScreenScale, SpriteEffects.None, 1);
-                glowRef -= 5;
+                glowRef -= 1;
             }
 
             if (glowRef >= 255 && glowState!)
                 glowState = false;
             else if (glowRef <= 0)
                 glowState = true;
-
-            if (rand.Next(0, 100) > 90)
-                glowState = !glowState;
 
             _spriteBatch.End();
         }

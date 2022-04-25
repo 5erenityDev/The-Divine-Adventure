@@ -11,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Content\MODEL_level1.fbx" />
+    <None Remove="Content\TEX_SkyboxLevel1_2.dds" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>

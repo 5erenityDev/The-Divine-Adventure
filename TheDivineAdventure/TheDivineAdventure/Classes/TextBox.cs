@@ -76,22 +76,22 @@ namespace TheDivineAdventure
 
             if (isSelected && delay < 1)
             {
-                foreach (Keys k in keyState.GetPressedKeys())
+                foreach (Keys key in keyState.GetPressedKeys())
                 {
-                    if (k == Keys.Back && text.Length != 0)
+                    if (key == Keys.Back && text.Length != 0)
                     {
                         text = text.Substring(0, text.Length - 1);
                         delay = 8;
                     }
-                    else if (Array.Exists(integerKeys, x => x == k) && text.Length < maxLength) {
-                        text += k.ToString().Substring(k.ToString().Length - 1);
+                    else if (Array.Exists(integerKeys, x => x == key) && text.Length < maxLength) {
+                        text += key.ToString().Substring(key.ToString().Length - 1);
                         delay = 8;
-                    }else if (k.ToString().Length == 1 && text.Length < maxLength)
+                    }else if (key.ToString().Length == 1 && text.Length < maxLength)
                     {
                         if (!keyState.CapsLock)
-                            text += k.ToString().ToLower();
+                            text += key.ToString().ToLower();
                         else
-                            text += k.ToString();
+                            text += key.ToString();
                         delay = 8;
                     }
                 }
@@ -118,6 +118,8 @@ namespace TheDivineAdventure
             }
         }
 
+
+        //getter setter methods
         public String Text
         {
             get { return text; }

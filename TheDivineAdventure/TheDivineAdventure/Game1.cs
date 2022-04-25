@@ -43,7 +43,7 @@ namespace TheDivineAdventure
 
         //Menu Navigation
         public static readonly string[] SCENES = { "TITLE_SCREEN", "LEVEL_SELECT", "CHARACTER_SELECT",
-            "SCOREBOARD", "SETTINGS", "PLAYING", "IS_PAUSED", "CREDITS"};
+            "SCOREBOARD", "SETTINGS", "PLAYING", "IS_PAUSED", "CREDITS", "IS_DEAD"};
         public int currentScene, lastScene;
         public MouseState mouseState;
         public KeyboardState lastKeyboard;
@@ -52,7 +52,7 @@ namespace TheDivineAdventure
 
         // 2D Assets
         public SpriteFont BigFont, creditsFont, smallFont;
-        public Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, titleScreenBack, TitleScreenFront,
+        public Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, titleScreenBack, TitleScreenFront, ClericIcon,
             distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01, cursor, titleBox, titleLava,
             pauseMenu, pauseMenuSheet, whiteBox, settingsWindow, settingsButton1, settingsButton2;
         public Rectangle healthBarRec, secondBarRec;
@@ -211,6 +211,7 @@ namespace TheDivineAdventure
                 healthBar = Content.Load<Texture2D>("TEX_HealthBar");
                 manaBar = Content.Load<Texture2D>("TEX_ManaBar");
                 staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
+                ClericIcon = Content.Load<Texture2D>("TEX_Cleric_Icon");
                 sky = new Skybox("TEX_SkyboxLevel1", Content);
             }
             //pause screen

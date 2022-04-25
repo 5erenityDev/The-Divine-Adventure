@@ -36,7 +36,6 @@ namespace TheDivineAdventure
                     part.Effect.Parameters["View"].SetValue(view);
                     part.Effect.Parameters["Projection"].SetValue(projection);
                     part.Effect.Parameters["SkyBoxTexture"].SetValue(boxTex);
-                    part.Effect.Parameters["CameraPosition"].SetValue(camPos);
                 }
 
                 mesh.Draw();

@@ -21,6 +21,7 @@ namespace TheDivineAdventure
         private List<SoundEffect> playerSounds = new List<SoundEffect>();
         private string playerRole;
         private int score;
+        private Texture2D playerIcon;
 
         // Enemy
         private Enemy enemy;
@@ -71,6 +72,23 @@ namespace TheDivineAdventure
 
             //set score to 0
             score = 0;
+
+            //Select Role Icon
+            switch (player.role)
+            {
+                case "WARRIOR":
+                    playerIcon = parent.ClericIcon;
+                    break;
+                case "ROGUE":
+                    playerIcon = parent.ClericIcon;
+                    break;
+                case "MAGE":
+                    playerIcon = parent.ClericIcon;
+                    break;
+                default:
+                    playerIcon = parent.ClericIcon;
+                    break;
+            }
         }
 
         //function to do updates when player is playing in level.
@@ -94,7 +112,8 @@ namespace TheDivineAdventure
 
             player.Update(gameTime, camera);
             camera.Update(gameTime, player);
-            enemy.Update(gameTime, player);
+            if (player.Pos.Z < parent.levelLength)
+                enemy.Update(gameTime, player);
 
             foreach (Attack p in player.projList)
             {
@@ -109,7 +128,7 @@ namespace TheDivineAdventure
 
             //update distance to boss
             if (player.Pos.Z > 0 && player.Pos.Z < parent.levelLength)
-                travel = (player.Pos.Z * _graphics.PreferredBackBufferWidth * 0.276f) / Math.Abs(parent.levelLength);
+                travel = (player.Pos.Z * 434 * parent.currentScreenScale.X) / Math.Abs(parent.levelLength);
 
             //test score
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
@@ -130,7 +149,7 @@ namespace TheDivineAdventure
             base.Draw(gameTime);
 
             //draw Skybox
-            parent.sky.Draw(camera.View, camera.Proj, camera.Pos, gameTime);
+            parent.sky.Draw(camera.View, camera.Proj, player.Pos, gameTime);
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             parent.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
@@ -232,26 +251,32 @@ namespace TheDivineAdventure
             _spriteBatch.Draw(parent.hudL1, Vector2.Zero, null, Color.White, 0, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 0);
             //progessIcon
             _spriteBatch.Draw(parent.progIcon,
-                new Vector2(_graphics.PreferredBackBufferWidth * 0.348f + travel, _graphics.PreferredBackBufferHeight * 0.873f),
+                new Vector2(714*parent.currentScreenScale.X + travel, 958 * parent.currentScreenScale.Y),
                 null, Color.White, 0, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 0);
             //Score
             _spriteBatch.DrawString(parent.BigFont, score.ToString(),
                 new Vector2(_graphics.PreferredBackBufferWidth * 0.498f - (parent.BigFont.MeasureString(score.ToString()) * .5f *parent.currentScreenScale).X, _graphics.PreferredBackBufferHeight * -0.01f),
                 parent.textGold, 0f, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 1);
-            //resource bars
+            //Resource bars
             _spriteBatch.Draw(parent.healthBar,
                 player.resourceBarUpdate(true, parent.healthBarRec,
-                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),parent.currentScreenScale), Color.White);
+                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
+                parent.currentScreenScale), Color.White);
             if (player.IsCaster)
                 _spriteBatch.Draw(parent.manaBar,
                     player.resourceBarUpdate(false, parent.secondBarRec,
-                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),parent.currentScreenScale), Color.White);
+                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
+                    parent.currentScreenScale), Color.White);
             else
                 _spriteBatch.Draw(parent.staminaBar,
                     player.resourceBarUpdate(false, parent.secondBarRec,
-                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),parent.currentScreenScale), Color.White);
+                    new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)
+                    ,parent.currentScreenScale), Color.White);
             //topHUD layer
             _spriteBatch.Draw(parent.hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 1);
+            //draw player Icon
+            _spriteBatch.Draw(playerIcon, new Vector2(49, 19) * parent.currentScreenScale, null,
+                Color.White, 0, Vector2.Zero, 0.071f*parent.currentScreenScale, SpriteEffects.None, 1);
             _spriteBatch.End();
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             parent.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
