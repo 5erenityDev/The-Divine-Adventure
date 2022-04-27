@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 
 using System;
+using System.IO;
 using System.Windows;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -101,21 +102,49 @@ namespace TheDivineAdventure
         {
             base.Initialize();
 
-            //Make the Window title better formatted
-            Window.Title = "The Divine Adventure";
-
             //create random object
             rand = new Random();
 
-            // Set initial screen size
-            // (Determine size of display)
+            //switch commenting to use saved settings
+            //bool useSettings = true;
+            bool useSettings = false;
+            if (GameSettings.HasSettings() && useSettings)
+            {
+                //get settings
+                string[,] settings = GameSettings.ReadSettings();
+
+                //set resolution to preferrence
+                _graphics.PreferredBackBufferWidth = Int32.Parse(settings[0,1]);
+                _graphics.PreferredBackBufferHeight = Int32.Parse(settings[1, 1]);
+
+                //set preferred window mode
+                switch (Int32.Parse(settings[2, 1]))
+                {
+                    case 1:
+                        Window.IsBorderless = true;
+                        _graphics.IsFullScreen = false;
+                        break;
+                    case 2:
+                        Window.IsBorderless = true;
+                        _graphics.IsFullScreen = true;
+                        break;
+                    default:
+                        Window.IsBorderless = false;
+                        _graphics.IsFullScreen = false;
+                        break;
+                }
+
+            }
+            
+            //// Set initial screen size
+            //// (Determine size of display)
             int desktop_width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             int desktop_height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            // (Apply the determined size)
+            //// (Apply the determined size)
             _graphics.PreferredBackBufferWidth = desktop_width;
             _graphics.PreferredBackBufferHeight = desktop_height;
 
-            //enable antialiasing (currently breaks game)
+            ////enable antialiasing (currently breaks game)
             //_graphics.GraphicsProfile = GraphicsProfile.HiDef;
             //_graphics.PreferMultiSampling = true;
             //GraphicsDevice.PresentationParameters.MultiSampleCount = 2;

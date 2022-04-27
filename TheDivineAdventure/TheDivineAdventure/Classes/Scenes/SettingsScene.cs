@@ -18,6 +18,7 @@ namespace TheDivineAdventure
         private Texture2D settingsWindow, settingsButton1, settingsButton2;
         private Button settingsWindowed, settingsBorderless, settingsFullscreen, settingsNoAA, settingsAA2,
             settingsAA4, settingsAA8, settingsCancel, settingsApply;
+        private string[,] settings;
 
         public SettingsScene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 parent, ContentManager cont) : base(sb, graph, parent, cont)
         {
@@ -29,53 +30,84 @@ namespace TheDivineAdventure
         {
             base.Initialize();
             LoadContent();
+            //get saved settings
+            settings = GameSettings.ReadSettings();
+
+            //show cursor
             parent.showCursor = true;
+
             //create resolution buttons
-            resWidth = new TextBox(_graphics.PreferredBackBufferWidth.ToString(), 4,
+            resWidth = new TextBox(settings[0,1], 4,
                 parent.smallFont, new Vector2(492, 325), 30, new Color(Color.Black, 60), parent);
-            resHeight = new TextBox(_graphics.PreferredBackBufferHeight.ToString(), 4,
+            resHeight = new TextBox(settings[1,1], 4,
                 parent.smallFont, new Vector2(682, 325), 30, new Color(Color.Black, 60), parent);
 
             //creat volume sliders
             masterVol = new SliderSelector(new Vector2(1126, 334), new Vector2(300, 9), parent, Content);
-            masterVol.Value = 1f;
+            masterVol.Value = float.Parse(settings[4, 1])/100;
             musicVol = new SliderSelector(new Vector2(1126, 415), new Vector2(300, 9), parent, Content);
-            musicVol.Value = 1f;
+            musicVol.Value = float.Parse(settings[5, 1]) / 100;
             sfxVol = new SliderSelector(new Vector2(1126, 496), new Vector2(300, 9), parent, Content);
-            sfxVol.Value = 1f;
+            sfxVol.Value = float.Parse(settings[6, 1]) / 100;
 
             //create window buttons
             settingsWindowed = new Button(settingsButton1, settingsButton1, "Windowed", parent.smallFont,
                 new Vector2(392, 404), new Vector2(180, 29), parent.currentScreenScale);
-            if (parent.Window.IsBorderless == false && _graphics.IsFullScreen == false)
-                settingsWindowed.IsActive = true;
+
             settingsBorderless = new Button(settingsButton1, settingsButton1, "Borderless",
                 parent.smallFont, new Vector2(392, 455), new Vector2(180, 29), parent.currentScreenScale);
-            if (parent.Window.IsBorderless == true && _graphics.IsFullScreen == false)
-                settingsBorderless.IsActive = true;
+
             settingsFullscreen = new Button(settingsButton1, settingsButton1, "Fullscreen",
                 parent.smallFont, new Vector2(392, 505), new Vector2(180, 29), parent.currentScreenScale);
-            if (_graphics.IsFullScreen == true)
-                settingsFullscreen.IsActive = true;
+            //set window button based on settings
+            switch (Int32.Parse(settings[2, 1]))
+            {
+                case 0:
+                    settingsWindowed.IsActive = true;
+                    break;
+                case 1:
+                    settingsBorderless.IsActive = true;
+                    break;
+                case 2:
+                    settingsFullscreen.IsActive = true;
+                    break;
+                default:
+                    settingsWindowed.IsActive = true;
+                    break;
+            }
 
 
             //create antialiasing buttons
             settingsNoAA = new Button(settingsButton1, settingsButton1, "None",
                 parent.smallFont, new Vector2(392, 585), new Vector2(180, 29), parent.currentScreenScale);
-            if (parent.GraphicsDevice.PresentationParameters.MultiSampleCount == 0)
-                settingsNoAA.IsActive = true;
+
             settingsAA2 = new Button(settingsButton1, settingsButton1, "2x",
                 parent.smallFont, new Vector2(392, 635), new Vector2(180, 29), parent.currentScreenScale);
-            if (parent.GraphicsDevice.PresentationParameters.MultiSampleCount == 2)
-                settingsAA2.IsActive = true;
-            settingsAA4 = new Button(settingsButton1, settingsButton1, "4x", 
+
+            settingsAA4 = new Button(settingsButton1, settingsButton1, "4x",
                 parent.smallFont, new Vector2(392, 685), new Vector2(180, 29), parent.currentScreenScale);
-            if (parent.GraphicsDevice.PresentationParameters.MultiSampleCount == 4)
-                settingsAA4.IsActive = true;
-            settingsAA8 = new Button(settingsButton1, settingsButton1, "8x", 
+
+            settingsAA8 = new Button(settingsButton1, settingsButton1, "8x",
                 parent.smallFont, new Vector2(392, 735), new Vector2(180, 29), parent.currentScreenScale);
-            if (parent.GraphicsDevice.PresentationParameters.MultiSampleCount == 8)
-                settingsAA8.IsActive = true;
+            //set antialiasing button based on settings
+            switch (Int32.Parse(settings[3, 1]))
+            {
+                case 0:
+                    settingsNoAA.IsActive = true;
+                    break;
+                case 1:
+                    settingsAA2.IsActive = true;
+                    break;
+                case 2:
+                    settingsAA4.IsActive = true;
+                    break;
+                case 3:
+                    settingsAA8.IsActive = true;
+                    break;
+                default:
+                    settingsNoAA.IsActive = true;
+                    break;
+            }
 
             //create back and apply buttons
             settingsCancel = new Button(settingsButton2, settingsButton2, "Cancel",
@@ -133,6 +165,7 @@ namespace TheDivineAdventure
                             parent.Window.IsBorderless = false;
                             parent.Window.Position = new Point(parent.Window.Position.X+10, parent.Window.Position.Y+10);
                         }
+                        settings[2, 1] = "0";
                     }//switch to borderless window
                     else if (settingsBorderless.IsActive == true)
                     {
@@ -148,34 +181,54 @@ namespace TheDivineAdventure
                             parent.Window.IsBorderless = true;
                             parent.Window.Position = new Point(0, 0);
                         }
+                        settings[2, 1] = "1";
                     }//switch to fullscreen
                     else if (settingsFullscreen.IsActive == true && !_graphics.IsFullScreen) {
                         parent.Window.IsBorderless = true;
                         _graphics.ToggleFullScreen();
                         _graphics.ApplyChanges();
+
+                        settings[2, 1] = "2";
                     }
 
+                    //set antialiasing preferences
                     if (settingsNoAA.IsActive == true)
                     {
                         _graphics.PreferMultiSampling = false;
                         parent.GraphicsDevice.PresentationParameters.MultiSampleCount = 0;
+
+                        settings[3, 1] = "0";
                     }
                     else if (settingsAA2.IsActive == true)
                     {
                         _graphics.PreferMultiSampling = true;
                         parent.GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
+
+                        settings[3, 1] = "1";
                     }
                     else if (settingsAA4.IsActive == true)
                     {
                         _graphics.PreferMultiSampling = true;
                         parent.GraphicsDevice.PresentationParameters.MultiSampleCount = 4;
+
+                        settings[3, 1] = "2";
                     }
                     else if (settingsAA8.IsActive == true)
                     {
                         _graphics.PreferMultiSampling = true;
                         parent.GraphicsDevice.PresentationParameters.MultiSampleCount = 8;
+
+                        settings[3, 1] = "3";
                     }
                     parent.currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
+
+                    //set volume preferences
+                    settings[4, 1] = (masterVol.Value * 100).ToString();
+                    settings[5, 1] = (musicVol.Value*100).ToString();
+                    settings[6, 1] = (sfxVol.Value * 100).ToString();
+
+                    GameSettings.WriteSettings(settings);
+
                     if (parent.lastScene == 0)
                         parent.titleScene.Initialize();
                     if (parent.lastScene == 6)
