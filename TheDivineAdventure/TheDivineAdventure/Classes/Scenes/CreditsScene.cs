@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
 using System;
@@ -10,8 +11,9 @@ namespace TheDivineAdventure
     {
         public String[] credits;
         public float creditsRuntime;
+        private Texture2D titleBox;
 
-        public CreditsScene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 parent) : base(sb, graph, parent)
+        public CreditsScene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 parent, ContentManager cont) : base(sb, graph, parent, cont)
         {
 
         }
@@ -20,6 +22,7 @@ namespace TheDivineAdventure
         public override void Initialize()
         {
             base.Initialize();
+            LoadContent();
             //hide cursor
             parent.showCursor = false; ;
 
@@ -31,11 +34,18 @@ namespace TheDivineAdventure
                 " ","Thank you for your time! "};
             creditsRuntime = 800;
         }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+            titleBox = Content.Load<Texture2D>("TEX_TitleBox03");
+        }
+
         //update credits scene
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            //return to ttitle screen
+            //return to title screen
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 parent.currentScene = 0;
@@ -50,7 +60,7 @@ namespace TheDivineAdventure
         {
             base.Draw(gameTime);
             _spriteBatch.Begin();
-            _spriteBatch.Draw(parent.titleBox,
+            _spriteBatch.Draw(titleBox,
                 new Vector2((_graphics.PreferredBackBufferWidth / 2) - (390 * parent.currentScreenScale.X), creditsRuntime - (800 * parent.currentScreenScale.Y) + _graphics.PreferredBackBufferHeight),
                 null, Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
             int cIndex = 0;

@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -17,14 +15,16 @@ namespace TheDivineAdventure
 
         // Essential
         protected GraphicsDeviceManager _graphics;
+        protected ContentManager Content;
         protected SpriteBatch _spriteBatch;
         protected Game1 parent;
         protected MouseState mouseState;
         public Random rand;
 
 
-        public Scene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 game)
+        public Scene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 game, ContentManager content)
         {
+            Content = content;
             _graphics = graph;
             _spriteBatch = sb;
             parent = game;
@@ -35,6 +35,12 @@ namespace TheDivineAdventure
         {
             // Set screen scale to determine size of UI
             ReloadContent();
+            LoadContent();
+        }
+
+        public virtual void LoadContent()
+        {
+
         }
 
         public virtual void ReloadContent()

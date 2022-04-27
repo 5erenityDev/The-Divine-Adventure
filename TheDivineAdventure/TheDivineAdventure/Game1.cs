@@ -52,14 +52,9 @@ namespace TheDivineAdventure
 
         // 2D Assets
         public SpriteFont BigFont, creditsFont, smallFont;
-        public Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, titleScreenBack, TitleScreenFront, ClericIcon,
-            distantDemonSheet, titleLightning01, titleLightning02, titleLightning03, emberSheet01, cursor, titleBox, titleLava,
-            pauseMenu, pauseMenuSheet, whiteBox, settingsWindow, settingsButton1, settingsButton2;
+        public Texture2D cursor, whiteBox;
         public Rectangle healthBarRec, secondBarRec;
         public bool showCursor;
-
-        //SkyBox
-        public Skybox sky;
 
         // (Distance to end Boss)
         public int levelLength;
@@ -70,12 +65,6 @@ namespace TheDivineAdventure
         // Songs
         private Song gameTheme;
 
-        // 3D Assets
-        public Model clericModel;
-        public Model demonModel;
-        public Model level1Model;
-        public Model playerProjModel, enemyProjModel;
-        public Model playerMelModel, enemyMelModel;
         /*
         //28 Planned Character Models in total
         //8 Planned World Models in total
@@ -112,7 +101,9 @@ namespace TheDivineAdventure
         {
             base.Initialize();
 
-            Window.Title = " The Divine Adventure";
+            //Make the Window title better formatted
+            Window.Title = "The Divine Adventure";
+
             //create random object
             rand = new Random();
 
@@ -123,10 +114,12 @@ namespace TheDivineAdventure
             // (Apply the determined size)
             _graphics.PreferredBackBufferWidth = desktop_width;
             _graphics.PreferredBackBufferHeight = desktop_height;
+
             //enable antialiasing (currently breaks game)
             //_graphics.GraphicsProfile = GraphicsProfile.HiDef;
             //_graphics.PreferMultiSampling = true;
             //GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
+
             _graphics.ApplyChanges();
 
             //set gamew window
@@ -136,13 +129,13 @@ namespace TheDivineAdventure
             currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
 
             //create Scenes
-            titleScene = new TitleScene(_spriteBatch, _graphics, this);
-            playScene = new PlayScene(_spriteBatch, _graphics, this);
-            creditsScene = new CreditsScene(_spriteBatch, _graphics, this);
-            pauseScene = new PauseScene(_spriteBatch, _graphics, this);
-            settingsScene = new SettingsScene(_spriteBatch, _graphics, this);
+            titleScene = new TitleScene(_spriteBatch, _graphics, this, Content);
+            playScene = new PlayScene(_spriteBatch, _graphics, this, Content);
+            creditsScene = new CreditsScene(_spriteBatch, _graphics, this, Content);
+            pauseScene = new PauseScene(_spriteBatch, _graphics, this, Content);
+            settingsScene = new SettingsScene(_spriteBatch, _graphics, this, Content);
 
-
+            
             //initialize title menu
             titleScene.Initialize();
 
@@ -156,6 +149,8 @@ namespace TheDivineAdventure
             //currentScene = 5;
         }
 
+        //most content loading has been offloaded to neaten things up a bit. I'm keeping some things here that I haven't
+        //moved or are needed in a bunch of locations (e.g.the cursor)
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -172,73 +167,8 @@ namespace TheDivineAdventure
             // Load sounds
 
 
-            // Load 2D textures
-
-            //procedural textures
-            whiteBox = new Texture2D(GraphicsDevice, 1, 1);
-            whiteBox.SetData(new[] { Color.White });
-            //Cursor
+            //Cursor texture
             cursor = Content.Load<Texture2D>("TEX_cursor");
-
-
-            //Title Screen
-            if (currentScene == 0)
-            {
-                titleScreenBack = Content.Load<Texture2D>("TEX_TitleScreen_Back");
-                TitleScreenFront = Content.Load<Texture2D>("TEX_TitleScreen_Front");
-                distantDemonSheet = Content.Load<Texture2D>("TEX_DemonSpriteSheet");
-                titleLightning01 = Content.Load<Texture2D>("TEX_Title_Lightning_01");
-                titleLightning02 = Content.Load<Texture2D>("TEX_Title_Lightning_02");
-                titleLightning03 = Content.Load<Texture2D>("TEX_Title_Lightning_03");
-                emberSheet01 = Content.Load<Texture2D>("TEX_EmberSheet01");
-                titleLava = Content.Load<Texture2D>("TEX_Title_LavaGlow");
-                return;
-            }
-            //Settings
-            if (currentScene == 4)
-            {
-                settingsWindow = Content.Load<Texture2D>("TEX_Settings_Window");
-                settingsButton1 = Content.Load<Texture2D>("TEX_Settings_Button1_Passive");
-                settingsButton2 = Content.Load<Texture2D>("TEX_Settings_Button2");
-            }
-
-            //GameScene
-            if (currentScene == 5)
-            {
-                hudL1 = Content.Load<Texture2D>("TEX_HolyHUD_L1");
-                hudL2 = Content.Load<Texture2D>("TEX_HolyHUD_L2");
-                progIcon = Content.Load<Texture2D>("TEX_ProgressionIcon");
-                healthBar = Content.Load<Texture2D>("TEX_HealthBar");
-                manaBar = Content.Load<Texture2D>("TEX_ManaBar");
-                staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
-                ClericIcon = Content.Load<Texture2D>("TEX_Cleric_Icon");
-                sky = new Skybox("TEX_SkyboxLevel1", Content);
-            }
-            //pause screen
-            if (currentScene == 6)
-            {
-                emberSheet01 = Content.Load<Texture2D>("TEX_EmberSheet01");
-                pauseMenu = Content.Load<Texture2D>("TEX_Pause_Menu");
-                pauseMenuSheet = Content.Load<Texture2D>("TEX_SideMenu_Sheet");
-                return;
-            }
-
-            //Credits Scene
-            if (currentScene == 7)
-            {
-                titleBox = Content.Load<Texture2D>("TEX_TitleBox03");
-            }
-
-
-            // Load 3D models
-
-            clericModel = Content.Load<Model>("MODEL_Cleric");
-            demonModel = Content.Load<Model>("MODEL_Demon");
-            level1Model = Content.Load<Model>("MODEL_Level1");
-            playerProjModel = Content.Load<Model>("MODEL_PlayerProjectile");
-            enemyProjModel = Content.Load<Model>("MODEL_EnemyProjectile");
-            playerMelModel = Content.Load<Model>("MODEL_PlayerMelee");
-            enemyMelModel = Content.Load<Model>("MODEL_EnemyMelee");
 
             /*
             // Heroes
@@ -311,27 +241,7 @@ namespace TheDivineAdventure
                     titleScene.Update(gameTime);
                     break;
             }
-            lastKeyboard = Keyboard.GetState();
 
-            //DEBUG: SCREEN RESOLUTION THINGS
-            if (Keyboard.GetState().IsKeyDown(Keys.PageUp))
-            {
-                _graphics.PreferredBackBufferWidth = 1920;
-                _graphics.PreferredBackBufferHeight = 1080;
-                _graphics.IsFullScreen = false;
-                _graphics.ApplyChanges();
-                settingsScene.Initialize();
-                currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.PageDown))
-            {
-                _graphics.PreferredBackBufferWidth = 960;
-                _graphics.PreferredBackBufferHeight = 540;
-                _graphics.IsFullScreen = false;
-                _graphics.ApplyChanges();
-                settingsScene.Initialize();
-                currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
-            }
             //DEBUG: FPS COUNTER IN DEBUG LOG
             //Debug.WriteLine(1 / gameTime.ElapsedGameTime.TotalSeconds);
 
@@ -345,7 +255,6 @@ namespace TheDivineAdventure
             GraphicsDevice.Clear(new Color(40, 20, 20));
 
             //Update based on current scene
-            //game info was moved to the DrawPlayingScene function below
             switch (currentScene)
             {
                 case 0:

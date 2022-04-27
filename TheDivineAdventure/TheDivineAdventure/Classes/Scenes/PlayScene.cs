@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 
@@ -11,7 +12,18 @@ namespace TheDivineAdventure
 {
     public class PlayScene : Scene
     {
-        //capture travel distance
+        //2d Textures
+        private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, ClericIcon;
+        private Skybox sky;
+
+        // 3D Assets
+        public Model clericModel;
+        public Model demonModel;
+        public Model level1Model;
+        public Model playerProjModel, enemyProjModel;
+        public Model playerMelModel, enemyMelModel;
+
+        //Capture travel distance
         float travel;
         //Camera
         private Camera camera;
@@ -32,7 +44,7 @@ namespace TheDivineAdventure
         // Matrices
         private Matrix worldPlayer, worldEnemy, worldProj, worldLevel;
 
-        public PlayScene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 game) : base(sb, graph, game)
+        public PlayScene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 game, ContentManager cont) : base(sb, graph, game, cont)
         {
 
         }
@@ -41,6 +53,7 @@ namespace TheDivineAdventure
         public override void Initialize()
         {
             base.Initialize();
+            LoadContent();
             //hide cursor
             parent.showCursor = false; ;
 
@@ -77,18 +90,44 @@ namespace TheDivineAdventure
             switch (player.role)
             {
                 case "WARRIOR":
-                    playerIcon = parent.ClericIcon;
+                    playerIcon = ClericIcon;
                     break;
                 case "ROGUE":
-                    playerIcon = parent.ClericIcon;
+                    playerIcon = ClericIcon;
                     break;
                 case "MAGE":
-                    playerIcon = parent.ClericIcon;
+                    playerIcon = ClericIcon;
                     break;
                 default:
-                    playerIcon = parent.ClericIcon;
+                    playerIcon = ClericIcon;
                     break;
             }
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            //load 2d textures
+            hudL1 = Content.Load<Texture2D>("TEX_HolyHUD_L1");
+            hudL2 = Content.Load<Texture2D>("TEX_HolyHUD_L2");
+            progIcon = Content.Load<Texture2D>("TEX_ProgressionIcon");
+            healthBar = Content.Load<Texture2D>("TEX_HealthBar");
+            manaBar = Content.Load<Texture2D>("TEX_ManaBar");
+            staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
+            ClericIcon = Content.Load<Texture2D>("TEX_Cleric_Icon");
+
+            //load skybox
+            sky = new Skybox("TEX_SkyboxLevel1", Content);
+
+            // Load 3D models
+            clericModel = Content.Load<Model>("MODEL_Cleric");
+            demonModel = Content.Load<Model>("MODEL_Demon");
+            level1Model = Content.Load<Model>("MODEL_Level1");
+            playerProjModel = Content.Load<Model>("MODEL_PlayerProjectile");
+            enemyProjModel = Content.Load<Model>("MODEL_EnemyProjectile");
+            playerMelModel = Content.Load<Model>("MODEL_PlayerMelee");
+            enemyMelModel = Content.Load<Model>("MODEL_EnemyMelee");
         }
 
         //function to do updates when player is playing in level.
@@ -149,7 +188,7 @@ namespace TheDivineAdventure
             base.Draw(gameTime);
 
             //draw Skybox
-            parent.sky.Draw(camera.View, camera.Proj, player.Pos, gameTime);
+            sky.Draw(camera.View, camera.Proj, player.Pos, gameTime);
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             parent.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
@@ -158,7 +197,7 @@ namespace TheDivineAdventure
                         Matrix.CreateRotationY(MathHelper.ToRadians(180f)) *
                         Matrix.CreateTranslation(new Vector3(0, 0, -5));
 
-            parent.level1Model.Draw(worldLevel, camera.View, camera.Proj);
+            level1Model.Draw(worldLevel, camera.View, camera.Proj);
 
             // Render single enemy
             // THIS IS TEMPORARY
@@ -168,7 +207,7 @@ namespace TheDivineAdventure
             switch (enemy.role)
             {
                 case "DEMON":
-                    parent.demonModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    demonModel.Draw(worldEnemy, camera.View, camera.Proj);
                     break;
                 case "HELLHOUND":
                     //houndModel.Draw(worldEnemy, camera.View, camera.Proj);
@@ -187,7 +226,7 @@ namespace TheDivineAdventure
                     break;
                 case "SKELETON":
                     //skeleModel.Draw(worldEnemy, camera.View, camera.Proj);
-                    parent.clericModel.Draw(worldEnemy, camera.View, camera.Proj);
+                    clericModel.Draw(worldEnemy, camera.View, camera.Proj);
                     break;
             }
 
@@ -200,7 +239,7 @@ namespace TheDivineAdventure
             {
                 case "WARRIOR":
                     //warriorModel.Draw(worldPlayer, camera.View, camera.Proj);
-                    parent.demonModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    demonModel.Draw(worldPlayer, camera.View, camera.Proj);
                     break;
                 case "ROGUE":
                     //rogueModel.Draw(worldPlayer, camera.View, camera.Proj);
@@ -209,7 +248,7 @@ namespace TheDivineAdventure
                     //mageModel.Draw(worldPlayer, camera.View, camera.Proj);
                     break;
                 case "CLERIC":
-                    parent.clericModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    clericModel.Draw(worldPlayer, camera.View, camera.Proj);
                     break;
             }
 
@@ -220,11 +259,11 @@ namespace TheDivineAdventure
                         Matrix.CreateTranslation(p.Pos);
                 if (p.IsMelee)
                 {
-                    parent.playerMelModel.Draw(worldProj, camera.View, camera.Proj);
+                    playerMelModel.Draw(worldProj, camera.View, camera.Proj);
                 }
                 else
                 {
-                    parent.playerProjModel.Draw(worldProj, camera.View, camera.Proj);
+                    playerProjModel.Draw(worldProj, camera.View, camera.Proj);
                 }
                 
             }
@@ -236,11 +275,11 @@ namespace TheDivineAdventure
                     Matrix.CreateTranslation(p.Pos);
                 if (p.IsMelee)
                 {
-                    parent.enemyMelModel.Draw(worldProj, camera.View, camera.Proj);
+                    enemyMelModel.Draw(worldProj, camera.View, camera.Proj);
                 }
                 else
                 {
-                    parent.enemyProjModel.Draw(worldProj, camera.View, camera.Proj);
+                    enemyProjModel.Draw(worldProj, camera.View, camera.Proj);
                 }
             }
 
@@ -248,9 +287,9 @@ namespace TheDivineAdventure
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             parent.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
             _spriteBatch.Begin();
-            _spriteBatch.Draw(parent.hudL1, Vector2.Zero, null, Color.White, 0, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 0);
+            _spriteBatch.Draw(hudL1, Vector2.Zero, null, Color.White, 0, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 0);
             //progessIcon
-            _spriteBatch.Draw(parent.progIcon,
+            _spriteBatch.Draw(progIcon,
                 new Vector2(714*parent.currentScreenScale.X + travel, 958 * parent.currentScreenScale.Y),
                 null, Color.White, 0, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 0);
             //Score
@@ -258,22 +297,22 @@ namespace TheDivineAdventure
                 new Vector2(_graphics.PreferredBackBufferWidth * 0.498f - (parent.BigFont.MeasureString(score.ToString()) * .5f *parent.currentScreenScale).X, _graphics.PreferredBackBufferHeight * -0.01f),
                 parent.textGold, 0f, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 1);
             //Resource bars
-            _spriteBatch.Draw(parent.healthBar,
+            _spriteBatch.Draw(healthBar,
                 player.resourceBarUpdate(true, parent.healthBarRec,
                 new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
                 parent.currentScreenScale), Color.White);
             if (player.IsCaster)
-                _spriteBatch.Draw(parent.manaBar,
+                _spriteBatch.Draw(manaBar,
                     player.resourceBarUpdate(false, parent.secondBarRec,
                     new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
                     parent.currentScreenScale), Color.White);
             else
-                _spriteBatch.Draw(parent.staminaBar,
+                _spriteBatch.Draw(staminaBar,
                     player.resourceBarUpdate(false, parent.secondBarRec,
                     new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)
                     ,parent.currentScreenScale), Color.White);
             //topHUD layer
-            _spriteBatch.Draw(parent.hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 1);
+            _spriteBatch.Draw(hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero,parent.currentScreenScale, SpriteEffects.None, 1);
             //draw player Icon
             _spriteBatch.Draw(playerIcon, new Vector2(49, 19) * parent.currentScreenScale, null,
                 Color.White, 0, Vector2.Zero, 0.071f*parent.currentScreenScale, SpriteEffects.None, 1);

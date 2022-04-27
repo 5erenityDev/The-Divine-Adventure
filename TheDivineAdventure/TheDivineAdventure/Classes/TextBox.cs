@@ -24,22 +24,24 @@ namespace TheDivineAdventure
         private Keys[] integerKeys;
         private int delay, markDelay,maxLength;
 
-        public TextBox (String? placeholder, int maxLength,SpriteFont font, Vector2 Location, int size, Vector2 scale, Color backdrop, Texture2D backTexture)
+        public TextBox (String? placeholder, int maxLength,SpriteFont font, Vector2 Location, int size, Color backColor, Game1 parent)
         {
+            scale = parent.currentScreenScale;
             text = placeholder;
             if (placeholder == null)
                 text = "";
             pos = Location * scale;
             res.Y = size * scale.Y;
             res.X = (font.MeasureString("1") * (maxLength+1) * scale).X;
-            this.scale = scale;
-            this.backdrop = backdrop;
+            backdrop = backColor;
             center = new Vector2(pos.X + (this.res.X / 2), pos.Y + (this.res.Y / 2));
-            baseTex = backTexture;
             isSelected = false;
             isHi = false;
             this.maxLength = maxLength;
             this.font = font;
+
+            baseTex = new Texture2D(parent.GraphicsDevice, 1, 1);
+            baseTex.SetData(new[] { Color.Black });
 
             integerKeys = new Keys[] { Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0, Keys.NumPad0, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3
             ,Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9};

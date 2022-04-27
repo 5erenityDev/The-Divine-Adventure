@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_SkyboxLevel1.dds</SourceFile>
-  <SourceTime>2022-04-24T22:35:25.1374674-04:00</SourceTime>
+  <SourceTime>2022-04-24T23:22:44.918934-04:00</SourceTime>
   <DestFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/TEX_SkyboxLevel1.xnb</DestFile>
-  <DestTime>2022-04-24T22:35:44.4491898-04:00</DestTime>
+  <DestTime>2022-04-26T21:15:26.2644171-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

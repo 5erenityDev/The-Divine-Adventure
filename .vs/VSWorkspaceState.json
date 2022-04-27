@@ -4,8 +4,8 @@
     "\\TheDivineAdventure",
     "\\TheDivineAdventure\\TheDivineAdventure",
     "\\TheDivineAdventure\\TheDivineAdventure\\Classes",
-    "\\TheDivineAdventure\\TheDivineAdventure\\obj"
+    "\\TheDivineAdventure\\TheDivineAdventure\\Classes\\Scenes"
   ],
-  "SelectedNode": "\\TheDivineAdventure\\TheDivineAdventure.sln",
+  "SelectedNode": "\\TheDivineAdventure\\TheDivineAdventure\\Classes\\Skybox.cs",
   "PreviewInSolutionExplorer": false
 }
