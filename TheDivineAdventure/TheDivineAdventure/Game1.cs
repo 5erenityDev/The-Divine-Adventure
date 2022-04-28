@@ -70,20 +70,6 @@ namespace TheDivineAdventure
         // Songs
         private Song gameTheme;
 
-        /*
-        //28 Planned Character Models in total
-        //8 Planned World Models in total
-        private Model   warriorModel, rogueModel, mageModel;
-        private Model   houndModel, impModel, goblinModel, 
-                        ogreModel, gargoyModel, skeleModel;
-        private Model   baelModel, agaresModel, vassaModel, samiModel,
-                        marbasModel, valeModel, amonModel, barbaModel;
-        private Model   luciModel, leviModel, satanModel, belphModel, 
-                        mammonModel, beelzModel, asmoModel, angelModel;
-        private model   level2Model, level3Model, level4Model,
-                        level5Model, level6Model, level7Model, level8Model;
-        */
-
         //Random class
         public Random rand;
 
@@ -203,50 +189,6 @@ namespace TheDivineAdventure
 
             //Cursor texture
             cursor = Content.Load<Texture2D>("TEX_cursor");
-
-            /*
-            // Heroes
-            warriorModel = Content.Load<Model>("MODEL_Warrior");
-            rogueModel = Content.Load<Model>("MODEL_Rogue");
-            mageModel = Content.Load<Model>("MODEL_Mage");
-
-            // Enemies
-            houndModel = Content.Load<Model>("MODEL_HellHound");
-            impModel  = Content.Load<Model>("MODEL_Imp");
-            goblinModel = Content.Load<Model>("MODEL_Goblin");
-            ogreModel = Content.Load<Model>("MODEL_Ogre");
-            gargoyModel = Content.Load<Model>("MODEL_Gargoyle");
-            skeleModel = Content.Load<Model>("MODEL_Skeleton");
-
-            // Minibosses
-            baelModel = Content.Load<Model>("MODEL_Bael");
-            agaresModel = Content.Load<Model>("MODEL_Agares");
-            vassaModel = Content.Load<Model>("MODEL_Vassago");
-            samiModel = Content.Load<Model>("MODEL_Samigina");
-            marbasModel = Content.Load<Model>("MODEL_Marbas");
-            valeModel = Content.Load<Model>("MODEL_Valefor");
-            amonModel = Content.Load<Model>("MODEL_Amon");
-            barbaModel = Content.Load<Model>("MODEL_Barbatos");
-
-            // Bosses
-            luciModel = Content.Load<Model>("MODEL_Lucifer");
-            leviModel = Content.Load<Model>("MODEL_Leviathan");
-            satanModel = Content.Load<Model>("MODEL_Satan");
-            belphModel = Content.Load<Model>("MODEL_Belphegor");
-            mammonModel = Content.Load<Model>("MODEL_Mammon");
-            beelzModel = Content.Load<Model>("MODEL_Beelzebub");
-            asmoModel = Content.Load<Model>("MODEL_Asmodeus");
-            angelModel = Content.Load<Model>("MODEL_Angel");
-
-            // Levels
-            level2Model = Content.Load<Model>("MODEL_Level2");
-            level3Model = Content.Load<Model>("MODEL_Level3");
-            level4Model = Content.Load<Model>("MODEL_Level4");
-            level5Model = Content.Load<Model>("MODEL_Level5");
-            level6Model = Content.Load<Model>("MODEL_Level6");
-            level7Model = Content.Load<Model>("MODEL_Level7");
-            level8Model = Content.Load<Model>("MODEL_Level8");
-            */
         }
 
         protected override void Update(GameTime gameTime)
