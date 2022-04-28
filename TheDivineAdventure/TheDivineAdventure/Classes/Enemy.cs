@@ -13,9 +13,9 @@ namespace TheDivineAdventure
         // Constant / Readonly
         // Make sure that the role and height have the same index
         // (EX: DEMON is at index 0 of ROLES, while DEMON_HEIGHT is also at index 0 of HEIGHTS)
-        public static readonly string[] ROLES = { "DEMON", "HELLHOUND", "IMP", 
+        public static readonly string[] ROLES = { "DEMON", "HELLHOUND", "IMP",
                                     "GOBLIN", "OGRE", "GARGOYLE", "SKELETON" };
-        private const int DEMON_HEIGHT = 23;
+        private const int DEMON_HEIGHT = 21;
         private const int HELLHOUND_HEIGHT = 13;
         private const int IMP_HEIGHT = 0;
         private const int GOBLIN_HEIGHT = 0;
@@ -24,14 +24,15 @@ namespace TheDivineAdventure
         private const int SKELETON_HEIGHT = 0;
         private static readonly int[] HEIGHTS = { DEMON_HEIGHT, HELLHOUND_HEIGHT, IMP_HEIGHT,
                                     GOBLIN_HEIGHT, OGRE_HEIGHT, GARGOYLE_HEIGHT, SKELETON_HEIGHT };
-        
+
         // Info
-        public string role;
+        private string role;
         private int height;
         public List<Attack> projList = new List<Attack>();
-        private double health;
+        private float health;
         private double speedFactor;
         private Boolean ranged;
+        private bool timeToDestroy;
 
         //random spawning
         Random randX = new Random();
@@ -54,14 +55,13 @@ namespace TheDivineAdventure
         /////////////////
         ///CONSTRUCTOR///
         /////////////////
-        public Enemy(List<SoundEffect> s, string r)
+        public Enemy(List<SoundEffect> s, string r, Vector3 pPos)
         {
             maxTime = 2.5f;
             soundEffects = s;
             role = r;
             height = HEIGHTS[Array.IndexOf(ROLES, role)];
-            pos = new Vector3(0, height, 100);
-            pos = new Vector3((float)randX.Next(0, 40), 0 - height - 5, (float)randZ.Next(400, 1000));
+            pos = new Vector3((float)randX.Next(0, 40), 0 - height, (float)randZ.Next((int)pPos.Z + 200, (int)pPos.Z + 500));
 
             //adjust orientation and enemy values for health/speed
             rot = 180f;
@@ -116,13 +116,10 @@ namespace TheDivineAdventure
         ///////////////
         ///FUNCTIONS///
         ///////////////
-        ///
 
-        
-        public void Update(GameTime gameTime, Player player)
+
+        public void Update(float dt, Player player)
         {
-           
-
             //handle spawning before moving and shooting
             //spawns under the level and rises up
             if (Pos.Y < Height)
@@ -130,15 +127,19 @@ namespace TheDivineAdventure
             if (pos.Y >= height)
             {
                 facePlayer(player);
-                Move(gameTime, player);
-                Shoot(gameTime);
+                Move(dt, player);
+                Shoot(dt);
             }
-
+            if (health <= 0)
+            {
+                PlayScene.score += 100;
+                timeToDestroy = true;
+            }
 
         }
 
 
-      
+
 
         public void facePlayer(Player player)
         {
@@ -147,7 +148,7 @@ namespace TheDivineAdventure
             //rot *= -1;
         }
 
-        private void Move(GameTime gameTime, Player player)
+        private void Move(float dt, Player player)
         {
             // Move forward
             // FOR NOW the player stops at z = 2200 as the current test stage ends there.
@@ -179,13 +180,13 @@ namespace TheDivineAdventure
         }
 
 
-        private void Shoot(GameTime gameTime)
+        private void Shoot(float dt)
         {
 
 
             if (timer > 0)
             {
-                timer = timer - (float)gameTime.ElapsedGameTime.TotalSeconds;
+                timer = timer - dt;
             }
             else
             {
@@ -222,16 +223,34 @@ namespace TheDivineAdventure
             set { pos = value; }
         }
 
+        public float Rot
+        {
+            get { return rot; }
+            set { Rot = value; }
+        }
+
         public int Height
         {
             get { return height; }
             set { height = value; }
         }
 
-        public float Rot
+        public string Role
         {
-            get { return rot; }
-            set { Rot = value; }
+            get { return role; }
+            set { role = value; }
+        }
+
+        public bool TimeToDestroy
+        {
+            get { return timeToDestroy; }
+            set { timeToDestroy = value; }
+        }
+
+        public float Health
+        {
+            get { return health; }
+            set { health = value; }
         }
     }
 }

@@ -140,3 +140,14 @@ D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\T
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_CharacterSelect_FrontPlate.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LArrowButton1.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_RArrowButton1.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_Selection_Stone.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Brimstone.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Brimstone_0.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_CharacterSelect_Backdrop.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_CharacterSelect_FrontPlate.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Cleric_Icon.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LArrowButton1.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_RArrowButton1.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Settings_Button3.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Settings_Window2.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Slide_Selector.xnb

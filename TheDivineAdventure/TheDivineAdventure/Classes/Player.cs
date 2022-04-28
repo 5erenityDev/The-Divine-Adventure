@@ -13,7 +13,7 @@ namespace TheDivineAdventure
         ///VARIABLES///
         ///////////////
         // Constant / Readonly
-        // Make sure that the role and height have the same index
+        // Make sure that the role, height, and width have the same index
         // (EX: WARRIOR is at index 0 of ROLES, while WARRIOR_HEIGHT is also at index 0 of HEIGHTS)
         public static readonly string[] ROLES = { "WARRIOR", "ROGUE", "MAGE", "CLERIC" };
         private const int WARRIOR_HEIGHT = 23;
@@ -189,9 +189,8 @@ namespace TheDivineAdventure
         ///////////////
         ///FUNCTIONS///
         ///////////////
-        public void Update(GameTime gameTime, Camera cam)
+        public void Update(float dt, Camera cam)
         {
-            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             // Regular Gameplay
             Move(dt);
             Abilities(dt, cam);
@@ -214,7 +213,7 @@ namespace TheDivineAdventure
             }
 
             // Move forward
-            // FOR NOW the player stops at z = 2200 as the current test stage ends there.  
+            // FOR NOW the player stops at z = 4700 as the current test stage ends there.  
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 if (this.pos.Z <= 4700)
@@ -621,6 +620,12 @@ namespace TheDivineAdventure
         {
             get { return rot; }
             set { rot = value; }
+        }
+
+        public int Height
+        {
+            get { return height; }
+            set { height = value; }
         }
 
         public bool IsCaster

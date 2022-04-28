@@ -4,52 +4,52 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/BigFont.spritefont</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/CreditsFont.spritefont</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/EFFECT_Skybox.fx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Cleric.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Demon.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_EnemyMelee.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_EnemyProjectile.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_level1.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_PlayerMelee.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_PlayerProjectile.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Selection_Stone.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Skybox.fbx</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/SmallFont.spritefont</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Brimstone.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_CharacterSelect_Backdrop.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_CharacterSelect_FrontPlate.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Cleric.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Cleric_Icon.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_cursor.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_DemonSpriteSheet.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_EmberSheet01.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_HealthBar.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_HolyHUD_L1.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_HolyHUD_L2.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_LArrowButton1.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_ManaBar.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Pause_Menu.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_ProgressionIcon.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_RArrowButton1.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Button1_Passive.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Button2.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Button3.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Window.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Window2.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_SideMenu_Sheet.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_SkyboxLevel1.dds</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_SkyBoxTest.dds</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Slide_Selector.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_StaminaBar.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Title_LavaGlow.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Title_Lightning_01.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Title_Lightning_02.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_Title_Lightning_03.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_TitleBox03.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_TitleScreen_Back.png</File>
-    <File>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_TitleScreen_Front.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/BigFont.spritefont</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/CreditsFont.spritefont</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/EFFECT_Skybox.fx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Cleric.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Demon.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_EnemyMelee.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_EnemyProjectile.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_level1.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_PlayerMelee.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_PlayerProjectile.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Selection_Stone.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Skybox.fbx</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/SmallFont.spritefont</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Brimstone.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_CharacterSelect_Backdrop.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_CharacterSelect_FrontPlate.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Cleric.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Cleric_Icon.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_cursor.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_DemonSpriteSheet.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_EmberSheet01.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_HealthBar.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_HolyHUD_L1.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_HolyHUD_L2.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_LArrowButton1.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_ManaBar.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Pause_Menu.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_ProgressionIcon.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_RArrowButton1.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Button1_Passive.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Button2.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Button3.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Window.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Settings_Window2.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_SideMenu_Sheet.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_SkyboxLevel1.dds</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_SkyBoxTest.dds</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Slide_Selector.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_StaminaBar.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Title_LavaGlow.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Title_Lightning_01.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Title_Lightning_02.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Title_Lightning_03.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_TitleBox03.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_TitleScreen_Back.png</File>
+    <File>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_TitleScreen_Front.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

@@ -63,10 +63,9 @@ namespace TheDivineAdventure
         ///////////////
         ///FUNCTIONS///
         ///////////////
-        public void Update(GameTime gameTime, Player player)
+        public void Update(float dt, Player player)
         {
             // Variables
-            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             curMouseState = Mouse.GetState();
 
             //Move camera with player
