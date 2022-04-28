@@ -15,10 +15,11 @@ namespace TheDivineAdventure
     {
         private TextBox resWidth, resHeight;
         private SliderSelector masterVol,musicVol,sfxVol;
-        private Texture2D settingsWindow, settingsButton1, settingsButton2;
+        private Texture2D settingsWindow1, settingsWindow2, settingsButton1, settingsButton2, settingsButton3;
         private Button settingsWindowed, settingsBorderless, settingsFullscreen, settingsNoAA, settingsAA2,
-            settingsAA4, settingsAA8, settingsCancel, settingsApply;
+            settingsAA4, settingsAA8, settingsCancel, settingsApply, settingsPage1, settingsPage2;
         private string[,] settings;
+        private int page;
 
         public SettingsScene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 parent, ContentManager cont) : base(sb, graph, parent, cont)
         {
@@ -33,8 +34,18 @@ namespace TheDivineAdventure
             //get saved settings
             settings = GameSettings.ReadSettings();
 
+            //set page to audio video first
+            page = 0;
+
             //show cursor
             parent.showCursor = true;
+
+            //Create Settings Page Button
+            settingsPage1 = new Button(settingsButton3, settingsButton3, "Audio/Video", parent.smallFont,
+                new Vector2(1580, 183), new Vector2(242, 110), parent.currentScreenScale);
+            settingsPage1.IsActive = true;
+            settingsPage2 = new Button(settingsButton3, settingsButton3, "Controls", parent.smallFont,
+                new Vector2(1580, 293), new Vector2(242, 110), parent.currentScreenScale);
 
             //create resolution buttons
             resWidth = new TextBox(settings[0,1], 4,
@@ -114,15 +125,19 @@ namespace TheDivineAdventure
                 parent.smallFont, new Vector2(70, 972), new Vector2(210, 76), parent.currentScreenScale);
             settingsApply = new Button(settingsButton2, settingsButton2, "Apply",
                 parent.smallFont, new Vector2(375, 972), new Vector2(210, 76), parent.currentScreenScale);
+            
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-            settingsWindow = Content.Load<Texture2D>("TEX_Settings_Window");
+            settingsWindow1 = Content.Load<Texture2D>("TEX_Settings_Window");
+            settingsWindow2 = Content.Load<Texture2D>("TEX_Settings_Window2");
             settingsButton1 = Content.Load<Texture2D>("TEX_Settings_Button1_Passive");
             settingsButton2 = Content.Load<Texture2D>("TEX_Settings_Button2");
+            settingsButton3 = Content.Load<Texture2D>("TEX_Settings_Button3");
         }
+
         //update settings
         public override void Update(GameTime gameTime)
         {
@@ -136,21 +151,62 @@ namespace TheDivineAdventure
             if (!musicVol.IsActive && !masterVol.IsActive)
                 sfxVol.IsPressed();
 
-
-            //check what mouse is clicking
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            //escape to exit settings without
+            if ((Keyboard.GetState().IsKeyDown(Keys.Escape) && parent.lastKeyboard.IsKeyUp(Keys.Escape)))
             {
-                //apply settings or cancel
+                settingsCancel.IsActive = true;
+                parent.currentScene = parent.lastScene;
+                return;
+            }
+
+            //check what mouse is clicking for page selector
+            if (parent.mouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (settingsPage1.IsPressed())
+                {
+                    settingsPage1.IsActive = true;
+                    settingsPage2.IsActive = false;
+                    page = 0;
+                    return;
+                }
+                if (settingsPage2.IsPressed())
+                {
+                    settingsPage1.IsActive = false;
+                    settingsPage2.IsActive = true;
+                    page = 1;
+                    return;
+                }
+                //exit settings without saving
                 if (settingsCancel.IsPressed())
                 {
                     settingsCancel.IsActive = true;
                     parent.currentScene = parent.lastScene;
                     return;
                 }
+
+            }
+
+            //check what mouse is clicking on page 1
+            if (parent.mouseState.LeftButton == ButtonState.Pressed && page == 0)
+            {
+                //apply settings
                 if (settingsApply.IsPressed())
                 {
-                    _graphics.PreferredBackBufferWidth = Int32.Parse(resWidth.Text);
-                    _graphics.PreferredBackBufferHeight = Int32.Parse(resHeight.Text);
+                    bool resChanged = false;
+                    if (_graphics.PreferredBackBufferWidth != Int32.Parse(resWidth.Text))
+                    {
+                        _graphics.PreferredBackBufferWidth = Int32.Parse(resWidth.Text);
+                        resChanged = true;
+                    }
+                    if (_graphics.PreferredBackBufferHeight != Int32.Parse(resHeight.Text))
+                    {
+                        _graphics.PreferredBackBufferHeight = Int32.Parse(resHeight.Text);
+                        resChanged = true;
+                    }
+                    if (resChanged)
+                    {
+                        _graphics.ApplyChanges();
+                    }
                     //switch to windowed
                     if (settingsWindowed.IsActive == true  && parent.Window.IsBorderless)
                     {
@@ -169,8 +225,6 @@ namespace TheDivineAdventure
                     }//switch to borderless window
                     else if (settingsBorderless.IsActive == true)
                     {
-                        _graphics.PreferredBackBufferWidth = Int32.Parse(resWidth.Text);
-                        _graphics.PreferredBackBufferHeight = Int32.Parse(resHeight.Text);
                         if (_graphics.IsFullScreen)
                         {
                             _graphics.ToggleFullScreen();
@@ -228,10 +282,9 @@ namespace TheDivineAdventure
                     settings[6, 1] = (sfxVol.Value * 100).ToString();
 
                     GameSettings.WriteSettings(settings);
-
-                    if (parent.lastScene == 0)
+                    if (parent.lastScene == "TITLE")
                         parent.titleScene.Initialize();
-                    if (parent.lastScene == 6)
+                    if (parent.lastScene == "PAUSE")
                         parent.pauseScene.Initialize();
                     this.Initialize();
 
@@ -270,6 +323,7 @@ namespace TheDivineAdventure
                     settingsWindowed.IsActive = false;
                     return;
                 }
+
                 //update antialiasing buttons
                 if (settingsNoAA.IsPressed())
                 {
@@ -303,7 +357,11 @@ namespace TheDivineAdventure
                     settingsAA8.IsActive = true;
                     return;
                 }
+            }
 
+            //check what mouse is clicking on page 2
+            if (parent.mouseState.LeftButton == ButtonState.Pressed && page == 1)
+            {
 
             }
             resWidth.Update(gameTime);
@@ -315,7 +373,7 @@ namespace TheDivineAdventure
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            if (parent.lastScene == 0)
+            if (parent.lastScene == "TITLE")
                 parent.titleScene.Draw(gameTime);
             else
             {
@@ -325,44 +383,63 @@ namespace TheDivineAdventure
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             parent.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
             _spriteBatch.Begin();
-            _spriteBatch.Draw(settingsWindow, Vector2.Zero, null,
-                Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
-            //resolution settings
-            _spriteBatch.DrawString(parent.smallFont, "Width: ",
-                new Vector2(392 * parent.currentScreenScale.X, 325 * parent.currentScreenScale.Y),
-                Color.Black, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
-            resWidth.Draw(_spriteBatch);
-            _spriteBatch.DrawString(parent.smallFont, "Height: ", new Vector2(582 * parent.currentScreenScale.X, 325 * parent.currentScreenScale.Y),
-                Color.Black, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
-            resHeight.Draw(_spriteBatch);
-            //draw window Options
-            settingsWindowed.DrawButton(_spriteBatch);
-            settingsFullscreen.DrawButton(_spriteBatch);
-            settingsBorderless.DrawButton(_spriteBatch);
-            //draw antialiasing buttons
-            settingsNoAA.DrawButton(_spriteBatch);
-            settingsAA2.DrawButton(_spriteBatch);
-            settingsAA4.DrawButton(_spriteBatch);
-            settingsAA8.DrawButton(_spriteBatch);
+
+            //draw page buttons
+            settingsPage1.DrawButton(_spriteBatch);
+            settingsPage2.DrawButton(_spriteBatch);
+
+            if (page == 0)
+            {
+                //draw window
+                _spriteBatch.Draw(settingsWindow1, Vector2.Zero, null,
+                    Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
+
+                //resolution settings
+                _spriteBatch.DrawString(parent.smallFont, "Width: ",
+                    new Vector2(392 * parent.currentScreenScale.X, 325 * parent.currentScreenScale.Y),
+                    Color.Black, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
+                resWidth.Draw(_spriteBatch);
+                _spriteBatch.DrawString(parent.smallFont, "Height: ", new Vector2(582 * parent.currentScreenScale.X, 325 * parent.currentScreenScale.Y),
+                    Color.Black, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
+                resHeight.Draw(_spriteBatch);
+
+                //draw window Options
+                settingsWindowed.DrawButton(_spriteBatch);
+                settingsFullscreen.DrawButton(_spriteBatch);
+                settingsBorderless.DrawButton(_spriteBatch);
+
+                //draw antialiasing buttons
+                settingsNoAA.DrawButton(_spriteBatch);
+                settingsAA2.DrawButton(_spriteBatch);
+                settingsAA4.DrawButton(_spriteBatch);
+                settingsAA8.DrawButton(_spriteBatch);
+
+                //draw volume options
+                masterVol.Draw(_spriteBatch, gameTime);
+                _spriteBatch.DrawString(parent.smallFont, Math.Round(masterVol.Value * 100, 0).ToString() + "%",
+                    new Vector2(1440 * parent.currentScreenScale.X, 322 * parent.currentScreenScale.Y),
+                    parent.textGold, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
+
+                musicVol.Draw(_spriteBatch, gameTime);
+                _spriteBatch.DrawString(parent.smallFont, Math.Round(musicVol.Value * 100, 0).ToString() + "%",
+                    new Vector2(1440 * parent.currentScreenScale.X, 403 * parent.currentScreenScale.Y),
+                    parent.textGold, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
+
+                sfxVol.Draw(_spriteBatch, gameTime);
+                _spriteBatch.DrawString(parent.smallFont, Math.Round(sfxVol.Value * 100, 0).ToString() + "%",
+                    new Vector2(1440 * parent.currentScreenScale.X, 484 * parent.currentScreenScale.Y),
+                    parent.textGold, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
+            }else if (page == 1)
+            {
+                //draw window
+                _spriteBatch.Draw(settingsWindow2, Vector2.Zero, null,
+                    Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
+
+            }
+
             //draw close and apply buttons
             settingsCancel.DrawButton(_spriteBatch);
             settingsApply.DrawButton(_spriteBatch);
-            //draw volume options
-            masterVol.Draw(_spriteBatch, gameTime);
-            _spriteBatch.DrawString(parent.smallFont, "%"+Math.Round(masterVol.Value*100,0).ToString(),
-                new Vector2(1440 * parent.currentScreenScale.X, 322 * parent.currentScreenScale.Y),
-                parent.textGold, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
-
-            musicVol.Draw(_spriteBatch, gameTime);
-            _spriteBatch.DrawString(parent.smallFont, "%" + Math.Round(musicVol.Value * 100, 0).ToString(),
-                new Vector2(1440 * parent.currentScreenScale.X, 403 * parent.currentScreenScale.Y),
-                parent.textGold, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
-
-            sfxVol.Draw(_spriteBatch, gameTime);
-            _spriteBatch.DrawString(parent.smallFont, "%" + Math.Round(sfxVol.Value * 100, 0).ToString(),
-                new Vector2(1440 * parent.currentScreenScale.X, 484 * parent.currentScreenScale.Y),
-                parent.textGold, 0f, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
-
             _spriteBatch.End();
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             parent.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;

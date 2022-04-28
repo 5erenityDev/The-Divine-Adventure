@@ -137,14 +137,14 @@ namespace TheDivineAdventure
             //pause game if window is tabbed out of
             if (!parent.IsActive)
             {
-                parent.currentScene = 6;
+                parent.currentScene = "PAUSE";
                 parent.pauseScene.Initialize();
                 return;
             }
             //pause game on pressing esc
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) && parent.lastKeyboard.IsKeyUp(Keys.Escape))
             {
-                parent.currentScene = 6;
+                parent.currentScene = "PAUSE";
                 parent.pauseScene.Initialize();
                 return;
             }
@@ -316,6 +316,7 @@ namespace TheDivineAdventure
             //draw player Icon
             _spriteBatch.Draw(playerIcon, new Vector2(49, 19) * parent.currentScreenScale, null,
                 Color.White, 0, Vector2.Zero, 0.071f*parent.currentScreenScale, SpriteEffects.None, 1);
+            FadeIn(0.01f);
             _spriteBatch.End();
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             parent.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;

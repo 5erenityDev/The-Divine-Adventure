@@ -29,13 +29,14 @@ namespace TheDivineAdventure
 
         // Essential
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        public SpriteBatch _spriteBatch;
 
         // Render Settings
         public Vector2 currentScreenScale;
 
         //Scenes
         public TitleScene titleScene;
+        public CharacterSelectScene characterSelectScene;
         public PlayScene playScene;
         public CreditsScene creditsScene;
         public PauseScene pauseScene;
@@ -45,10 +46,13 @@ namespace TheDivineAdventure
         //Menu Navigation
         public static readonly string[] SCENES = { "TITLE_SCREEN", "LEVEL_SELECT", "CHARACTER_SELECT",
             "SCOREBOARD", "SETTINGS", "PLAYING", "IS_PAUSED", "CREDITS", "IS_DEAD"};
-        public int currentScene, lastScene;
-        public MouseState mouseState;
-        public KeyboardState lastKeyboard;
+        public string currentScene, lastScene;
+        public MouseState mouseState,lastMouseState;
+        public KeyboardState keyboardState, lastKeyboard;
         public GameWindow _gameWindow;
+
+        //player information to traverse scenes
+        public string playerRole;
 
 
         // 2D Assets
@@ -159,6 +163,7 @@ namespace TheDivineAdventure
 
             //create Scenes
             titleScene = new TitleScene(_spriteBatch, _graphics, this, Content);
+            characterSelectScene = new CharacterSelectScene(_spriteBatch, _graphics, this, Content);
             playScene = new PlayScene(_spriteBatch, _graphics, this, Content);
             creditsScene = new CreditsScene(_spriteBatch, _graphics, this, Content);
             pauseScene = new PauseScene(_spriteBatch, _graphics, this, Content);
@@ -171,7 +176,7 @@ namespace TheDivineAdventure
 
             //Start at either the title screen or in gameplay
             //Regular gameplay (e.g. start at title screen)
-            currentScene = 0;
+            currentScene = "TITLE";
 
             //DEBUG: uncomment to start in gameplay
             //InitializeLevel();
@@ -247,23 +252,27 @@ namespace TheDivineAdventure
         protected override void Update(GameTime gameTime)
         {
             mouseState = Mouse.GetState();
+            keyboardState = Keyboard.GetState();
             //Update based on current scene
             //game info was moved to the PlayingScene function below
             switch (currentScene)
             {
-                case 0:
+                case "TITLE":
                     titleScene.Update(gameTime);
                     break;
-                case 4:
+                case "CHARACTER_SELECT":
+                    characterSelectScene.Update(gameTime);
+                    break;
+                case "SETTINGS":
                     settingsScene.Update(gameTime);
                     break;
-                case 5:
+                case "PLAY":
                     playScene.Update(gameTime);
                     break;
-                case 6:
+                case "PAUSE":
                     pauseScene.Update(gameTime);
                     break;
-                case 7:
+                case "CREDITS":
                     creditsScene.Update(gameTime);
                     break;
                 default:
@@ -274,7 +283,8 @@ namespace TheDivineAdventure
             //DEBUG: FPS COUNTER IN DEBUG LOG
             //Debug.WriteLine(1 / gameTime.ElapsedGameTime.TotalSeconds);
 
-            lastKeyboard = Keyboard.GetState();
+            lastKeyboard = keyboardState;
+            lastMouseState = mouseState;
             base.Update(gameTime);
         }
 
@@ -286,16 +296,19 @@ namespace TheDivineAdventure
             //Update based on current scene
             switch (currentScene)
             {
-                case 0:
+                case "TITLE":
                     titleScene.Draw(gameTime);
                     break;
-                case 4:
+                case "CHARACTER_SELECT":
+                    characterSelectScene.Draw(gameTime);
+                    break;
+                case "SETTINGS":
                     settingsScene.Draw(gameTime);
                     break;
-                case 5:
+                case "PLAY":
                     playScene.Draw(gameTime);
                     break;
-                case 6:
+                case "PAUSE":
                     playScene.Draw(gameTime);
                     GraphicsDevice.DepthStencilState = DepthStencilState.Default;
                     GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
@@ -303,7 +316,7 @@ namespace TheDivineAdventure
                     GraphicsDevice.DepthStencilState = DepthStencilState.Default;
                     GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
                     break;
-                case 7:
+                case "CREDITS":
                     creditsScene.Draw(gameTime);
                     break;
                 default:

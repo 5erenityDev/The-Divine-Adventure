@@ -53,6 +53,9 @@ namespace TheDivineAdventure
 
             // Set mouseState
             prevMouseState = Mouse.GetState();
+
+            // Set mouse position to the center of the screen
+            Mouse.SetPosition(gpu.Viewport.Width / 2, gpu.Viewport.Height / 2);
         }
 
 

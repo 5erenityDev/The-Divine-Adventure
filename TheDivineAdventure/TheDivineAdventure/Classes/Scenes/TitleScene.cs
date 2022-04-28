@@ -71,13 +71,13 @@ namespace TheDivineAdventure
             base.Update(gameTime);
 
             //get mouse clocks and check buttons
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            if (parent.mouseState.LeftButton == ButtonState.Pressed && parent.lastMouseState.LeftButton != ButtonState.Pressed)
             {
                 if (titleStartGame.IsPressed())
                 {
-                    parent.currentScene = 5;
+                    parent.currentScene = "CHARACTER_SELECT";
                     parent.ReloadContent();
-                    parent.playScene.Initialize();
+                    parent.characterSelectScene.Initialize();
                     return;
                 }
                 if (titleScoreboard.IsPressed())
@@ -87,14 +87,14 @@ namespace TheDivineAdventure
                 }
                 if (titleSettings.IsPressed())
                 {
-                    parent.lastScene = 0;
-                    parent.currentScene = 4;
+                    parent.lastScene = "TITLE";
+                    parent.currentScene = "SETTINGS";
                     parent.settingsScene.Initialize();
                     return;
                 }
                 if (titleCredits.IsPressed())
                 {
-                    parent.currentScene = 7;
+                    parent.currentScene = "CREDITS";
                     parent.creditsScene.Initialize();
                     return;
                 }
@@ -179,6 +179,7 @@ namespace TheDivineAdventure
             else if (glowRef <= 0)
                 glowState = true;
 
+            FadeIn(0.05f);
             _spriteBatch.End();
         }
     }

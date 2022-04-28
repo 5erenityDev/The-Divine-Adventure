@@ -64,7 +64,8 @@ namespace TheDivineAdventure
                 sb.Draw(textureMain, pos, new Rectangle(0, 0, (int)size.X, (int)size.Y), Color.White, 0, Vector2.Zero,
                     1, SpriteEffects.None, 0);
             }
-            sb.DrawString(font, buttonText, new Vector2(center.X - font.MeasureString(buttonText).X*.5f*scale.X, center.Y - font.MeasureString(buttonText).Y * .5f*scale.Y), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 1);
+            if(buttonText != null)
+                sb.DrawString(font, buttonText, new Vector2(center.X - font.MeasureString(buttonText).X*.5f*scale.X, center.Y - font.MeasureString(buttonText).Y * .5f*scale.Y), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 1);
         }
 
         public bool IsActive

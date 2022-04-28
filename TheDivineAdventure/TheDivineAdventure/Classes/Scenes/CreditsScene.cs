@@ -48,7 +48,7 @@ namespace TheDivineAdventure
             //return to title screen
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                parent.currentScene = 0;
+                parent.currentScene = "TITLE";
                 parent.titleScene.Initialize();
             }
 
@@ -79,11 +79,12 @@ namespace TheDivineAdventure
             if (creditsRuntime + (120f * credits.Length - 1) + _graphics.PreferredBackBufferHeight < -120f)
             {
                 _spriteBatch.End();
-                parent.currentScene = 0;
+                parent.currentScene = "TITLE";
                 parent.titleScene.Initialize();
                 return;
             }
             creditsRuntime -= 5f * parent.currentScreenScale.Y;
+            FadeIn(0.05f);
             _spriteBatch.End();
         }
     }

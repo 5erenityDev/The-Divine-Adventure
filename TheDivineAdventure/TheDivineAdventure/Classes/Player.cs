@@ -35,13 +35,13 @@ namespace TheDivineAdventure
         // Movement
         private Vector3 pos;
         private Vector3 rot;
-        private float speed, initSpeed;
+        public float speed, initSpeed;
 
 
         // Jumping
         private bool jumping = false;
         private bool falling = false;
-        private float jumpSpeed;
+        public float jumpSpeed;
         private float maxHeight = 40f;
         private float minHeight;
 
@@ -57,9 +57,9 @@ namespace TheDivineAdventure
         KeyboardState curKeyboardState;
 
         //Health and secondary stat
-        private float health, secondary, secondaryRegenRate;
-        private int healthMax, secondaryMax;
-        private int attCost, spec1Cost, spec2Cost, spec3Cost;
+        public float health, secondary, secondaryRegenRate;
+        public int healthMax, secondaryMax;
+        public int attCost, spec1Cost, spec2Cost, spec3Cost;
         private float projSpeed;
         //swaps stamina for mana when true
         private bool isCaster;

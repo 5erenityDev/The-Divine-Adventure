@@ -64,7 +64,7 @@ namespace TheDivineAdventure
             {
                 parent.showCursor = false;
                 Mouse.SetPosition(parent.GraphicsDevice.Viewport.Width / 2, parent.GraphicsDevice.Viewport.Height / 2);
-                parent.currentScene = 5;
+                parent.currentScene = "PLAY";
                 return;
             }
 
@@ -75,7 +75,7 @@ namespace TheDivineAdventure
                 {
                     parent.showCursor = false;
                     Mouse.SetPosition(parent.GraphicsDevice.Viewport.Width / 2, parent.GraphicsDevice.Viewport.Height / 2);
-                    parent.currentScene = 5;
+                    parent.currentScene = "PLAY";
                     return;
                 }
                 if (pauseRestart.IsPressed())
@@ -89,8 +89,8 @@ namespace TheDivineAdventure
                 }
                 if (pauseSettings.IsPressed())
                 {
-                    parent.lastScene = 6;
-                    parent.currentScene = 4;
+                    parent.lastScene = "PAUSE";
+                    parent.currentScene = "SETTINGS";
                     parent.settingsScene.Initialize();
                     return;
 
@@ -117,11 +117,11 @@ namespace TheDivineAdventure
                         switch (pauseIsConfirming)
                         {
                             case 1:
-                                parent.currentScene = 5;
+                                parent.currentScene = "PLAY";
                                 parent.playScene.Initialize();
                                 return;
                             case 2:
-                                parent.currentScene = 0;
+                                parent.currentScene = "TITLE";
                                 parent.titleScene.Initialize();
                                 break;
                             case 3:
