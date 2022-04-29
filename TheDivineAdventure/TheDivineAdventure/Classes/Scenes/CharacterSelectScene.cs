@@ -23,7 +23,6 @@ namespace TheDivineAdventure
         private List<SoundEffect> playerSounds = new List<SoundEffect>();
         private string currentChar;
         private Matrix worldStone, worldPlayer, proj;
-        private Vector3 lookAt;
 
         public CharacterSelectScene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 game, ContentManager cont) : base(sb, graph, game, cont)
         {
@@ -153,9 +152,9 @@ namespace TheDivineAdventure
                 }
                 if (back.IsPressed())
                 {
-                    parent.currentScene = "TITLE";
+                    parent.currentScene = "LEVEL_SELECT";
                     parent.ReloadContent();
-                    parent.titleScene.Initialize();
+                    parent.levelSelectScene.Initialize();
                     return;
                 }
             }
@@ -204,7 +203,6 @@ namespace TheDivineAdventure
                     break;
             }
 
-            //Fade Screen in
             _spriteBatch.Begin();
 
             //draw embers
@@ -256,7 +254,7 @@ namespace TheDivineAdventure
             back.DrawButton(_spriteBatch);
 
             //draw fade in
-            FadeIn(0.04f);
+            FadeIn();
             _spriteBatch.End();
 
         }

@@ -21,7 +21,7 @@ namespace TheDivineAdventure
         private float speed;
 
         // Timer
-        private float timer;        //how long the projectile stays active
+        public float timer;        //how long the projectile stays active
 
 
         // Sound

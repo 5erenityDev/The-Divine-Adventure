@@ -56,13 +56,13 @@ namespace TheDivineAdventure
         {
             if (IsActive)
             {
-                sb.Draw(texturePushed, pos, new Rectangle(0, 0, (int)size.X, (int)size.Y), Color.Gold, 0, Vector2.Zero,
-                    1, SpriteEffects.None, 0);
+                sb.Draw(texturePushed, pos, null, Color.Gold, 0, Vector2.Zero,
+                    scale, SpriteEffects.None, 0);
             }
             else
             {
-                sb.Draw(textureMain, pos, new Rectangle(0, 0, (int)size.X, (int)size.Y), Color.White, 0, Vector2.Zero,
-                    1, SpriteEffects.None, 0);
+                sb.Draw(textureMain, pos, null, Color.White, 0, Vector2.Zero,
+                    scale, SpriteEffects.None, 0);
             }
             if(buttonText != null)
                 sb.DrawString(font, buttonText, new Vector2(center.X - font.MeasureString(buttonText).X*.5f*scale.X, center.Y - font.MeasureString(buttonText).Y * .5f*scale.Y), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 1);

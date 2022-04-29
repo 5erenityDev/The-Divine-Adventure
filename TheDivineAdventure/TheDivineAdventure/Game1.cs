@@ -29,7 +29,7 @@ namespace TheDivineAdventure
 
         // Essential
         private GraphicsDeviceManager _graphics;
-        public SpriteBatch _spriteBatch;
+        private SpriteBatch _spriteBatch;
 
         // Render Settings
         public Vector2 currentScreenScale;
@@ -41,6 +41,7 @@ namespace TheDivineAdventure
         public CreditsScene creditsScene;
         public PauseScene pauseScene;
         public SettingsScene settingsScene;
+        public LevelSelectScene levelSelectScene;
 
 
         //Menu Navigation
@@ -50,6 +51,7 @@ namespace TheDivineAdventure
         public MouseState mouseState,lastMouseState;
         public KeyboardState keyboardState, lastKeyboard;
         public GameWindow _gameWindow;
+        public int level;
 
         //player information to traverse scenes
         public string playerRole;
@@ -154,8 +156,9 @@ namespace TheDivineAdventure
             creditsScene = new CreditsScene(_spriteBatch, _graphics, this, Content);
             pauseScene = new PauseScene(_spriteBatch, _graphics, this, Content);
             settingsScene = new SettingsScene(_spriteBatch, _graphics, this, Content);
+            levelSelectScene = new LevelSelectScene(_spriteBatch, _graphics, this, Content);
 
-            
+
             //initialize title menu
             titleScene.Initialize();
 
@@ -193,6 +196,12 @@ namespace TheDivineAdventure
 
         protected override void Update(GameTime gameTime)
         {
+            //DEBUG
+            //get screen position for helping place 2d assets
+            //Debug.WriteLine("X: " + mouseState.X);
+            //Debug.WriteLine("Y: " + mouseState.Y);
+            //Debug.WriteLine("----------");
+
             mouseState = Mouse.GetState();
             keyboardState = Keyboard.GetState();
             //Update based on current scene
@@ -201,6 +210,9 @@ namespace TheDivineAdventure
             {
                 case "TITLE":
                     titleScene.Update(gameTime);
+                    break;
+                case "LEVEL_SELECT":
+                    levelSelectScene.Update(gameTime);
                     break;
                 case "CHARACTER_SELECT":
                     characterSelectScene.Update(gameTime);
@@ -240,6 +252,9 @@ namespace TheDivineAdventure
             {
                 case "TITLE":
                     titleScene.Draw(gameTime);
+                    break;
+                case "LEVEL_SELECT":
+                    levelSelectScene.Draw(gameTime);
                     break;
                 case "CHARACTER_SELECT":
                     characterSelectScene.Draw(gameTime);

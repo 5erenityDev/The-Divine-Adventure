@@ -13,8 +13,11 @@ namespace TheDivineAdventure
     public class PlayScene : Scene
     {
         //2d Textures
-        private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, ClericIcon;
+        private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, clericIcon, clericProjectileTex;
         private Skybox sky;
+
+        //Projectile Sprites
+        private WorldSprite clericProjectile;
 
         // 3D Assets
         public Model clericModel;
@@ -103,16 +106,16 @@ namespace TheDivineAdventure
             switch (player.role)
             {
                 case "WARRIOR":
-                    playerIcon = ClericIcon;
+                    playerIcon = clericIcon;
                     break;
                 case "ROGUE":
-                    playerIcon = ClericIcon;
+                    playerIcon = clericIcon;
                     break;
                 case "MAGE":
-                    playerIcon = ClericIcon;
+                    playerIcon = clericIcon;
                     break;
                 default:
-                    playerIcon = ClericIcon;
+                    playerIcon = clericIcon;
                     break;
             }
         }
@@ -128,7 +131,10 @@ namespace TheDivineAdventure
             healthBar = Content.Load<Texture2D>("TEX_HealthBar");
             manaBar = Content.Load<Texture2D>("TEX_ManaBar");
             staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
-            ClericIcon = Content.Load<Texture2D>("TEX_Cleric_Icon");
+            clericIcon = Content.Load<Texture2D>("TEX_Cleric_Icon");
+            clericProjectileTex = Content.Load<Texture2D>("TEX_DivineProjectile01_Base");
+            clericProjectile = new WorldSprite(clericProjectileTex, parent, Content);
+
 
             //load skybox
             sky = new Skybox("TEX_SkyboxLevel1", Content);
@@ -234,10 +240,6 @@ namespace TheDivineAdventure
             if (player.Pos.Z > 0 && player.Pos.Z < parent.levelLength)
                 travel = (player.Pos.Z * 434 * parent.currentScreenScale.X) / Math.Abs(parent.levelLength);
 
-            //DEBUG: test score
-            //if (Keyboard.GetState().IsKeyDown(Keys.RightShift))
-            //    score += 3;
-
             // Basic kill player for (will improve once some UI is built up)
             if (player.Health <= 0)
             {
@@ -288,18 +290,29 @@ namespace TheDivineAdventure
                     break;
             }
 
+
             // Render player bullets
             foreach (Attack p in player.projList)
             {
                 worldProj = Matrix.CreateScale(1f) *
                         Matrix.CreateTranslation(p.Pos);
+
+                //Set 2D sprite world matrix
+                Matrix secondaryProj = Matrix.CreateScale(0.029f) * Matrix.CreateRotationY(MathHelper.ToRadians(90)) *
+                    Matrix.CreateRotationZ(MathHelper.ToRadians(1)) * Matrix.CreateTranslation(p.Pos);
+
                 if (p.IsMelee)
                 {
                     playerMelModel.Draw(worldProj, camera.View, camera.Proj);
                 }
                 else
                 {
-                    playerProjModel.Draw(worldProj, camera.View, camera.Proj);
+                    //draw a 2d sprite for the projectile
+                    clericProjectile.Draw(secondaryProj, camera.View, camera.Proj);
+
+                    //draw 3d model for projectile
+                    //playerProjModel.Draw(worldProj, camera.View, camera.Proj);
+
                 }
 
             }
@@ -359,9 +372,12 @@ namespace TheDivineAdventure
             _spriteBatch.Begin();
             _spriteBatch.Draw(hudL1, Vector2.Zero, null, Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
             //progessIcon
-            _spriteBatch.Draw(progIcon,
-                new Vector2(714 * parent.currentScreenScale.X + travel, 958 * parent.currentScreenScale.Y),
-                null, Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
+            if (player.Pos.Z < parent.levelLength)
+            {
+                _spriteBatch.Draw(progIcon,
+                    new Vector2(714 * parent.currentScreenScale.X + travel, 958 * parent.currentScreenScale.Y),
+                    null, Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
+            }
             //Score
             _spriteBatch.DrawString(parent.BigFont, score.ToString(),
                 new Vector2(_graphics.PreferredBackBufferWidth * 0.498f - (parent.BigFont.MeasureString(score.ToString()) * .5f * parent.currentScreenScale).X, _graphics.PreferredBackBufferHeight * -0.01f),

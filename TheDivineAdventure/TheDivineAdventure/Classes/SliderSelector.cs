@@ -83,7 +83,7 @@ namespace TheDivineAdventure
                     1, SpriteEffects.None, 0);
             //draw icon
             sb.Draw(slider, new Vector2((pos.X+(value*res.X)-(10*scale.X)),pos.Y - (5 * scale.X)), null,
-                Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
 
         //getter setter methods

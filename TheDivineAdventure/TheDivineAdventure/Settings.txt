@@ -2,6 +2,6 @@ Screen Width: - 1920
 Screen Height: - 1080
 Window Mode: - 1
 Antialiasing: - 0
-Master Volume: - 100
-Music Volume: - 100
+Master Volume: - 89.33333
+Music Volume: - 61
 SFX Volume: - 71.33333

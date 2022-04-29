@@ -151,7 +151,7 @@ namespace TheDivineAdventure
             if (!musicVol.IsActive && !masterVol.IsActive)
                 sfxVol.IsPressed();
 
-            //escape to exit settings without
+            //escape to exit settings without saving
             if ((Keyboard.GetState().IsKeyDown(Keys.Escape) && parent.lastKeyboard.IsKeyUp(Keys.Escape)))
             {
                 settingsCancel.IsActive = true;

@@ -74,5 +74,15 @@ namespace TheDivineAdventure
                 startFade -= progress;
             }
         }
+        public virtual void FadeIn()
+        {
+            float  progress = 0.05f;
+            if (startFade >= 0)
+            {
+                _spriteBatch.Draw(fade, Vector2.Zero, new Rectangle(0, 0, (int)parent.currentScreenScale.X * 1920, (int)parent.currentScreenScale.Y * 1080),
+                    new Color(Color.Black, startFade), 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                startFade -= progress;
+            }
+        }
     }
 }

@@ -75,9 +75,9 @@ namespace TheDivineAdventure
             {
                 if (titleStartGame.IsPressed())
                 {
-                    parent.currentScene = "CHARACTER_SELECT";
+                    parent.currentScene = "LEVEL_SELECT";
                     parent.ReloadContent();
-                    parent.characterSelectScene.Initialize();
+                    parent.levelSelectScene.Initialize();
                     return;
                 }
                 if (titleScoreboard.IsPressed())
@@ -179,7 +179,7 @@ namespace TheDivineAdventure
             else if (glowRef <= 0)
                 glowState = true;
 
-            FadeIn(0.05f);
+            FadeIn();
             _spriteBatch.End();
         }
     }
