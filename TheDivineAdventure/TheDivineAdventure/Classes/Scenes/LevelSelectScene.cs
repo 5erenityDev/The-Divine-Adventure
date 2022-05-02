@@ -44,11 +44,11 @@ namespace TheDivineAdventure
             activeLevel = 0;
 
             //load buttons
-            backButton = new Button(actionButton, actionButton,"Back", parent.smallFont, new Vector2(226, 151),
+            backButton = new Button(actionButton, actionButton,"Back", parent.smallFont, new Vector2(226, 148),
                 new Vector2(210, 76), parent.currentScreenScale);
             selectButton = new Button(actionButton, actionButton, "Continue", parent.smallFont, new Vector2(1383, 762),
                 new Vector2(210, 76), parent.currentScreenScale);
-            level1Button = new Button(level1ButtonTex, level1ButtonTex, " ", parent.smallFont, new Vector2(228, 228),
+            level1Button = new Button(level1ButtonTex, level1ButtonTex, " ", parent.smallFont, new Vector2(226, 228),
                 new Vector2(545, 78), parent.currentScreenScale);
 
 

@@ -87,7 +87,6 @@ namespace TheDivineAdventure
 
             Window.IsBorderless = true;
             IsMouseVisible = false;
-            Window.Title = "The Divine Adventure";
         }
 
         protected override void Initialize()
@@ -96,6 +95,9 @@ namespace TheDivineAdventure
 
             //create random object
             rand = new Random();
+
+            //Rename window
+            Window.Title = "The Divine Adventure";
 
             //switch commenting to use saved settings
             //bool useSettings = true;

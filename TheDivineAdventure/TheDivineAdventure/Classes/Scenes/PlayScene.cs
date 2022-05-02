@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Collections.Generic;
 
@@ -13,11 +14,13 @@ namespace TheDivineAdventure
     public class PlayScene : Scene
     {
         //2d Textures
-        private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, clericIcon, clericProjectileTex;
+        private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, clericIcon, clericProjectileTex, clericProjImpact;
+        private Texture2D[] clericImpactAnim;
         private Skybox sky;
 
         //Projectile Sprites
         private WorldSprite clericProjectile;
+        private List<WorldSprite> projectileImpacts;
 
         // 3D Assets
         public Model clericModel;
@@ -82,6 +85,7 @@ namespace TheDivineAdventure
             player = new Player(playerSounds, playerRole);
             camera = new Camera(parent.GraphicsDevice, Vector3.Up, player);
             enemyList = new List<Enemy>();
+            projectileImpacts = new List<WorldSprite>();
 
             // Generate resource Bars rectangles
             parent.healthBarRec = new Rectangle(
@@ -134,6 +138,8 @@ namespace TheDivineAdventure
             clericIcon = Content.Load<Texture2D>("TEX_Cleric_Icon");
             clericProjectileTex = Content.Load<Texture2D>("TEX_DivineProjectile01_Base");
             clericProjectile = new WorldSprite(clericProjectileTex, parent, Content);
+            clericProjImpact = Content.Load<Texture2D>("TEX_ClericProjectileImpact_Sheet");
+            clericImpactAnim = WorldSprite.GenerateAnim(clericProjImpact, 512, parent);
 
 
             //load skybox
@@ -231,9 +237,28 @@ namespace TheDivineAdventure
                 }
             }
 
+            //update projectile impacts
+            foreach (WorldSprite imp in projectileImpacts)
+            {
+                if (imp.finished)
+                {
+                    projectileImpacts.Remove(imp);
+                    break;
+                }
+            }
+
             foreach (Attack p in player.projList)
             {
                 p.Update(deltaTime, enemyList);
+                //initialize projectile impacts
+                if (p.TimeToDestroy==true)
+                {
+                    projectileImpacts.Add(new WorldSprite(clericImpactAnim, false, 0.2f, parent, Content));
+                    //Set 2D sprite world matrix
+                    Matrix secondaryProj = Matrix.CreateScale(0.2f) * Matrix.CreateRotationY(MathHelper.ToRadians(90)) *
+                        Matrix.CreateRotationZ(MathHelper.ToRadians(rand.Next(1,180))) * Matrix.CreateTranslation(p.Pos);
+                    projectileImpacts[projectileImpacts.Count - 1].SetPos(secondaryProj);
+                }
             }
 
             //update distance to boss
@@ -312,10 +337,14 @@ namespace TheDivineAdventure
 
                     //draw 3d model for projectile
                     //playerProjModel.Draw(worldProj, camera.View, camera.Proj);
-
                 }
-
             }
+            //render projectile impacts
+            foreach (WorldSprite imp in projectileImpacts)
+            {
+                imp.Draw(camera.View, camera.Proj);
+            }
+
 
             // Render enemies
             foreach (Enemy e in enemyList)
