@@ -194,14 +194,21 @@ namespace TheDivineAdventure
             camera.Update(deltaTime, player);
 
             // Spawn enemies
+            // Stops spawning enemies when player is about to reach the boss
             enemyTimer -= deltaTime;
-            if (enemyTimer < 0f && enemyList.Count < 20)
+            if (enemyTimer < 0f && enemyList.Count < 20 && player.Pos.Z < 3000)
             {
                 enemyTimer = enemyTimerMax;
                 enemyRole = Enemy.ROLES[0];
                 enemyList.Add(new Enemy(enemySounds, enemyRole, player.Pos));
                 if (enemyTimerMax > 2f)
                     enemyTimerMax -= 0.05f;
+            }
+
+            // If the player is at the boss, despawn the remaining enemies
+            if(player.Pos.Z > 3500 && enemyList.Count >0)
+            {
+                enemyList.Clear();
             }
 
             foreach (Enemy e in enemyList)

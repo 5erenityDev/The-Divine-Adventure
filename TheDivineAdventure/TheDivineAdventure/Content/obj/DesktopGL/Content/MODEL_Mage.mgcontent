@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Mage.fbx</SourceFile>
-  <SourceTime>2022-05-04T00:55:36.8668986-04:00</SourceTime>
-  <DestFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/MODEL_Mage.xnb</DestFile>
-  <DestTime>2022-05-04T00:56:50.6118649-04:00</DestTime>
+  <SourceFile>C:/Users/Hayden/Documents/CSC 316/GithubClassProject/DivineAdventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Mage.fbx</SourceFile>
+  <SourceTime>2022-05-04T16:44:39.3216352-04:00</SourceTime>
+  <DestFile>C:/Users/Hayden/Documents/CSC 316/GithubClassProject/DivineAdventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/MODEL_Mage.xnb</DestFile>
+  <DestTime>2022-05-04T16:49:16.4233996-04:00</DestTime>
   <Importer>FbxImporter</Importer>
-  <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
+  <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
-  <ProcessorTime>2020-08-10T16:17:54-04:00</ProcessorTime>
+  <ProcessorTime>2020-08-10T12:17:54-04:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>0,0,0,0</Value>
@@ -66,7 +66,7 @@
   </Parameters>
   <Dependencies />
   <BuildAsset>
-    <string>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/TEX_Mage_0.xnb</string>
+    <string>C:/Users/Hayden/Documents/CSC 316/GithubClassProject/DivineAdventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/TEX_Mage_0.xnb</string>
   </BuildAsset>
   <BuildOutput />
 </PipelineBuildEvent>
