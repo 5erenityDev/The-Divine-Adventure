@@ -16,9 +16,9 @@ namespace TheDivineAdventure
         // Make sure that the role, height, and width have the same index
         // (EX: WARRIOR is at index 0 of ROLES, while WARRIOR_HEIGHT is also at index 0 of HEIGHTS)
         public static readonly string[] ROLES = { "WARRIOR", "ROGUE", "MAGE", "CLERIC" };
-        private const int WARRIOR_HEIGHT = 23;
-        private const int ROGUE_HEIGHT = 0;
-        private const int MAGE_HEIGHT = 0;
+        private const int WARRIOR_HEIGHT = 13;
+        private const int ROGUE_HEIGHT = 13;
+        private const int MAGE_HEIGHT = 13;
         private const int CLERIC_HEIGHT = 13;
         private static readonly int[] HEIGHTS = { WARRIOR_HEIGHT, ROGUE_HEIGHT, MAGE_HEIGHT, CLERIC_HEIGHT };
         private const int WARRIOR_WIDTH = 0;

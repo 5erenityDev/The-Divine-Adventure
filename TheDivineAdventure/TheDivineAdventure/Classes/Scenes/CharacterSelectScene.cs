@@ -84,7 +84,10 @@ namespace TheDivineAdventure
             actionButton = Content.Load<Texture2D>("TEX_Settings_Button2");
 
             // Load 3D models
+            warriorModel = Content.Load<Model>("MODEL_Warrior");
+            rogueModel = Content.Load<Model>("MODEL_Rogue");
             clericModel = Content.Load<Model>("MODEL_Cleric");
+            mageModel = Content.Load<Model>("MODEL_Mage");
             stone = Content.Load<Model>("MODEL_Selection_Stone");
         }
 
@@ -190,13 +193,13 @@ namespace TheDivineAdventure
             switch (currentChar)
             {
                 case "WARRIOR":
-                    //warriorModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    warriorModel.Draw(worldPlayer, Matrix.CreateLookAt(new Vector3(8, 15, 40), characters.Pos + new Vector3(15, 0, 0), Vector3.Up), proj);
                     break;
                 case "ROGUE":
-                    //rogueModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    rogueModel.Draw(worldPlayer, Matrix.CreateLookAt(new Vector3(8, 15, 40), characters.Pos + new Vector3(15, 0, 0), Vector3.Up), proj);
                     break;
                 case "MAGE":
-                    //mageModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    mageModel.Draw(worldPlayer, Matrix.CreateLookAt(new Vector3(8, 15, 40), characters.Pos + new Vector3(15, 0, 0), Vector3.Up), proj);
                     break;
                 case "CLERIC":
                     clericModel.Draw(worldPlayer, Matrix.CreateLookAt(new Vector3(8,15,40), characters.Pos+new Vector3(15,0,0), Vector3.Up), proj);

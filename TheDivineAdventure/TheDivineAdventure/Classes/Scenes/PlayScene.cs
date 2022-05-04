@@ -23,21 +23,17 @@ namespace TheDivineAdventure
         private List<WorldSprite> projectileImpacts;
 
         // 3D Assets
-        public Model clericModel;
+        public Model warriorModel, rogueModel, mageModel, clericModel;
         public Model demonModel;
         public Model level1Model;
         public Model playerProjModel, enemyProjModel;
         public Model playerMelModel, enemyMelModel;
         /*
-        //20 Planned Character Models in total
-        //8 Planned World Models in total
-        private Model   warriorModel, rogueModel, mageModel;
-        private Model   houndModel, impModel, goblinModel, 
-                        ogreModel, gargoyModel, skeleModel;
-        private Model   luciModel, leviModel, satanModel, belphModel, 
-                        mammonModel, beelzModel, asmoModel, angelModel;
-        private model   level2Model, level3Model, level4Model,
-                        level5Model, level6Model, level7Model, level8Model;
+        //8 Character Models in total
+        //2 World Models in total
+        private Model   houndModel, goblinModel, skeleModel;
+        private Model   luciModel, leviModel;
+        private model   level2Model;
         */
 
         //Capture travel distance
@@ -48,7 +44,6 @@ namespace TheDivineAdventure
         // Player
         private Player player;
         private List<SoundEffect> playerSounds = new List<SoundEffect>();
-        private string playerRole;
         public static int score;
         private Texture2D playerIcon;
 
@@ -72,17 +67,14 @@ namespace TheDivineAdventure
             base.Initialize();
             LoadContent();
             //hide cursor
-            parent.showCursor = false; ;
-
-            // Role Info
-            playerRole = Player.ROLES[3];
+            parent.showCursor = false;
 
             // Timer Info
             enemyTimerMax = 3f;
             enemyTimer = enemyTimerMax;
 
             // Initialize game objects
-            player = new Player(playerSounds, playerRole);
+            player = new Player(playerSounds, parent.playerRole);
             camera = new Camera(parent.GraphicsDevice, Vector3.Up, player);
             enemyList = new List<Enemy>();
             projectileImpacts = new List<WorldSprite>();
@@ -146,45 +138,35 @@ namespace TheDivineAdventure
             sky = new Skybox("TEX_SkyboxLevel1", Content);
 
             // Load 3D models
+            // Heroes
+            warriorModel = Content.Load<Model>("MODEL_Warrior");
+            rogueModel = Content.Load<Model>("MODEL_Rogue");
+            mageModel = Content.Load<Model>("MODEL_Mage");
             clericModel = Content.Load<Model>("MODEL_Cleric");
+
+            // Enemies
             demonModel = Content.Load<Model>("MODEL_Demon");
+
+            // Levels
             level1Model = Content.Load<Model>("MODEL_Level1");
+
+            // Attacks
             playerProjModel = Content.Load<Model>("MODEL_PlayerProjectile");
             enemyProjModel = Content.Load<Model>("MODEL_EnemyProjectile");
             playerMelModel = Content.Load<Model>("MODEL_PlayerMelee");
             enemyMelModel = Content.Load<Model>("MODEL_EnemyMelee");
             /*
-            // Heroes
-            warriorModel = Content.Load<Model>("MODEL_Warrior");
-            rogueModel = Content.Load<Model>("MODEL_Rogue");
-            mageModel = Content.Load<Model>("MODEL_Mage");
-
             // Enemies
             houndModel = Content.Load<Model>("MODEL_HellHound");
-            impModel  = Content.Load<Model>("MODEL_Imp");
             goblinModel = Content.Load<Model>("MODEL_Goblin");
-            ogreModel = Content.Load<Model>("MODEL_Ogre");
-            gargoyModel = Content.Load<Model>("MODEL_Gargoyle");
             skeleModel = Content.Load<Model>("MODEL_Skeleton");
 
             // Bosses
             luciModel = Content.Load<Model>("MODEL_Lucifer");
             leviModel = Content.Load<Model>("MODEL_Leviathan");
-            satanModel = Content.Load<Model>("MODEL_Satan");
-            belphModel = Content.Load<Model>("MODEL_Belphegor");
-            mammonModel = Content.Load<Model>("MODEL_Mammon");
-            beelzModel = Content.Load<Model>("MODEL_Beelzebub");
-            asmoModel = Content.Load<Model>("MODEL_Asmodeus");
-            angelModel = Content.Load<Model>("MODEL_Angel");
 
             // Levels
             level2Model = Content.Load<Model>("MODEL_Level2");
-            level3Model = Content.Load<Model>("MODEL_Level3");
-            level4Model = Content.Load<Model>("MODEL_Level4");
-            level5Model = Content.Load<Model>("MODEL_Level5");
-            level6Model = Content.Load<Model>("MODEL_Level6");
-            level7Model = Content.Load<Model>("MODEL_Level7");
-            level8Model = Content.Load<Model>("MODEL_Level8");
             */
         }
 
@@ -268,7 +250,7 @@ namespace TheDivineAdventure
             // Basic kill player for (will improve once some UI is built up)
             if (player.Health <= 0)
             {
-                player = new Player(playerSounds, playerRole);
+                player = new Player(playerSounds, parent.playerRole);
                 score = 0;
                 travel = 0;
                 enemyList.Clear();
@@ -301,14 +283,13 @@ namespace TheDivineAdventure
             switch (player.role)
             {
                 case "WARRIOR":
-                    //warriorModel.Draw(worldPlayer, camera.View, camera.Proj);
-                    demonModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    warriorModel.Draw(worldPlayer, camera.View, camera.Proj);
                     break;
                 case "ROGUE":
-                    //rogueModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    rogueModel.Draw(worldPlayer, camera.View, camera.Proj);
                     break;
                 case "MAGE":
-                    //mageModel.Draw(worldPlayer, camera.View, camera.Proj);
+                    mageModel.Draw(worldPlayer, camera.View, camera.Proj);
                     break;
                 case "CLERIC":
                     clericModel.Draw(worldPlayer, camera.View, camera.Proj);
@@ -361,17 +342,8 @@ namespace TheDivineAdventure
                     case "HELLHOUND":
                         //houndModel.Draw(worldEnemy, camera.View, camera.Proj);
                         break;
-                    case "IMP":
-                        //impModel.Draw(worldEnemy, camera.View, camera.Proj);
-                        break;
                     case "GOBLIN":
                         //goblinModel.Draw(worldEnemy, camera.View, camera.Proj);
-                        break;
-                    case "OGRE":
-                        //ogreModel.Draw(worldEnemy, camera.View, camera.Proj);
-                        break;
-                    case "GARGOYLE":
-                        //gargoyModel.Draw(worldEnemy, camera.View, camera.Proj);
                         break;
                     case "SKELETON":
                         //skeleModel.Draw(worldEnemy, camera.View, camera.Proj);

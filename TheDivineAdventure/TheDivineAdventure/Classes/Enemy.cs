@@ -13,17 +13,12 @@ namespace TheDivineAdventure
         // Constant / Readonly
         // Make sure that the role and height have the same index
         // (EX: DEMON is at index 0 of ROLES, while DEMON_HEIGHT is also at index 0 of HEIGHTS)
-        public static readonly string[] ROLES = { "DEMON", "HELLHOUND", "IMP",
-                                    "GOBLIN", "OGRE", "GARGOYLE", "SKELETON" };
+        public static readonly string[] ROLES = { "DEMON", "HELLHOUND", "GOBLIN", "SKELETON" };
         private const int DEMON_HEIGHT = 21;
         private const int HELLHOUND_HEIGHT = 13;
-        private const int IMP_HEIGHT = 0;
         private const int GOBLIN_HEIGHT = 0;
-        private const int OGRE_HEIGHT = 23;
-        private const int GARGOYLE_HEIGHT = 13;
         private const int SKELETON_HEIGHT = 0;
-        private static readonly int[] HEIGHTS = { DEMON_HEIGHT, HELLHOUND_HEIGHT, IMP_HEIGHT,
-                                    GOBLIN_HEIGHT, OGRE_HEIGHT, GARGOYLE_HEIGHT, SKELETON_HEIGHT };
+        private static readonly int[] HEIGHTS = { DEMON_HEIGHT, HELLHOUND_HEIGHT, GOBLIN_HEIGHT, SKELETON_HEIGHT };
 
         // Info
         private string role;
@@ -77,25 +72,10 @@ namespace TheDivineAdventure
                     speedFactor = 2;
                     ranged = false;
                     break;
-                case "IMP":
-                    health = 75;
-                    speedFactor = 1.25;
-                    ranged = false;
-                    break;
                 case "GOBLIN":
                     health = 100;
                     speedFactor = 1;
                     ranged = false;
-                    break;
-                case "OGRE":
-                    health = 200;
-                    speedFactor = 0.5;
-                    ranged = false;
-                    break;
-                case "GARGOYLE":
-                    health = 75;
-                    speedFactor = 1.25;
-                    ranged = true;
                     break;
                 case "SKELETON":
                     health = 100;
@@ -151,7 +131,6 @@ namespace TheDivineAdventure
         private void Move(float dt, Player player)
         {
             // Move forward
-            // FOR NOW the player stops at z = 2200 as the current test stage ends there.
             if (Vector3.Distance(player.Pos, pos) > 15 && ranged == false)
             {
                 pos += Vector3.Transform(
@@ -182,8 +161,6 @@ namespace TheDivineAdventure
 
         private void Shoot(float dt)
         {
-
-
             if (timer > 0)
             {
                 timer = timer - dt;
@@ -194,8 +171,6 @@ namespace TheDivineAdventure
                 enemyDir = Vector3.Transform(Vector3.Backward,
                 Matrix.CreateRotationY(rot));
 
-                //projectiles.Add(new Projectile(playerPos, playerDir));
-                //projList.Add(new Attack(this.Pos, enemyDir, 5f));
                 AttackPattern.singleProj(this.Pos, enemyDir, 5f, projList);
                 timer = maxTime;
 
