@@ -99,7 +99,7 @@ namespace TheDivineAdventure
             {
                 case "WARRIOR":
                     isCaster = false;
-                    initSpeed = 5f;
+                    initSpeed = 8f;
                     speed = initSpeed;
                     jumpSpeed = 15f;
                     healthMax = 300;
@@ -128,11 +128,11 @@ namespace TheDivineAdventure
                     secondary = secondaryMax;
                     secondaryRegenRate = 0.1f;
                     projSpeed = 0f;
-                    maxAttTime = 0.5f;
+                    maxAttTime = 0.1f;
                     maxSpec1Time = 0.5f;
                     maxSpec2Time = 0.5f;
                     maxSpec3Time = 0.5f;
-                    attCost = 10;
+                    attCost = 1;
                     spec1Cost = 20;
                     spec2Cost = 30;
                     spec3Cost = 50;

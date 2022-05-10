@@ -38,6 +38,7 @@ namespace TheDivineAdventure
         public TitleScene titleScene;
         public CharacterSelectScene characterSelectScene;
         public PlayScene playScene;
+        public LevelEndScene levelEnd1;
         public CreditsScene creditsScene;
         public PauseScene pauseScene;
         public SettingsScene settingsScene;
@@ -46,7 +47,7 @@ namespace TheDivineAdventure
 
         //Menu Navigation
         public static readonly string[] SCENES = { "TITLE_SCREEN", "LEVEL_SELECT", "CHARACTER_SELECT",
-            "SCOREBOARD", "SETTINGS", "PLAYING", "IS_PAUSED", "CREDITS", "IS_DEAD"};
+            "SCOREBOARD", "SETTINGS", "PLAYING", "IS_PAUSED", "CREDITS", "IS_DEAD", "LEVEL_END"};
         public string currentScene, lastScene;
         public MouseState mouseState,lastMouseState;
         public KeyboardState keyboardState, lastKeyboard;
@@ -159,6 +160,7 @@ namespace TheDivineAdventure
             pauseScene = new PauseScene(_spriteBatch, _graphics, this, Content);
             settingsScene = new SettingsScene(_spriteBatch, _graphics, this, Content);
             levelSelectScene = new LevelSelectScene(_spriteBatch, _graphics, this, Content);
+            levelEnd1 = new LevelEndScene (_spriteBatch, _graphics, this, Content);
 
 
             //initialize title menu
@@ -231,6 +233,9 @@ namespace TheDivineAdventure
                 case "CREDITS":
                     creditsScene.Update(gameTime);
                     break;
+                case "LEVEL_END":
+                    levelEnd1.Update(gameTime);
+                    break;
                 default:
                     titleScene.Update(gameTime);
                     break;
@@ -266,6 +271,9 @@ namespace TheDivineAdventure
                     break;
                 case "PLAY":
                     playScene.Draw(gameTime);
+                    break;
+                case "LEVEL_END":
+                    levelEnd1.Draw(gameTime);
                     break;
                 case "PAUSE":
                     playScene.Draw(gameTime);

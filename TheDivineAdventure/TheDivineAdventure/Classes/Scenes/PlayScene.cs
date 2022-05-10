@@ -242,11 +242,21 @@ namespace TheDivineAdventure
                 //initialize projectile impacts
                 if (p.TimeToDestroy==true)
                 {
-                    projectileImpacts.Add(new WorldSprite(clericImpactAnim, false, 0.2f, parent, Content));
-                    //Set 2D sprite world matrix
-                    Matrix secondaryProj = Matrix.CreateScale(0.2f) * Matrix.CreateRotationY(MathHelper.ToRadians(90)) *
-                        Matrix.CreateRotationZ(MathHelper.ToRadians(rand.Next(1,180))) * Matrix.CreateTranslation(p.Pos);
-                    projectileImpacts[projectileImpacts.Count - 1].SetPos(secondaryProj);
+                    switch (player.role)
+                    {
+                        case "WARRIOR":
+                        case "ROGUE":
+                            break;
+                        case "MAGE":
+                            break;
+                        case "CLERIC":
+                            projectileImpacts.Add(new WorldSprite(clericImpactAnim, false, 0.2f, parent, Content));
+                            //Set 2D sprite world matrix
+                            Matrix secondaryProj = Matrix.CreateScale(0.2f) * Matrix.CreateRotationY(MathHelper.ToRadians(90)) *
+                                Matrix.CreateRotationZ(MathHelper.ToRadians(rand.Next(1, 180))) * Matrix.CreateTranslation(p.Pos);
+                            projectileImpacts[projectileImpacts.Count - 1].SetPos(secondaryProj);
+                            break;
+                    }
                 }
             }
 
@@ -263,6 +273,15 @@ namespace TheDivineAdventure
                 enemyList.Clear();
                 enemyTimerMax = 3f;
                 enemyTimer = enemyTimerMax;
+            }
+
+            //Finish Level
+            if(player.Pos.Z >= parent.levelLength)
+            {
+                parent.currentScene = "LEVEL_END";
+                parent.levelEnd1.currentScore = score.ToString();
+                parent.levelEnd1.Initialize();
+                return;
             }
         }
 
@@ -320,17 +339,39 @@ namespace TheDivineAdventure
                 }
                 else
                 {
-                    //draw a 2d sprite for the projectile
-                    clericProjectile.Draw(secondaryProj, camera.View, camera.Proj);
 
-                    //draw 3d model for projectile
-                    //playerProjModel.Draw(worldProj, camera.View, camera.Proj);
+                    switch (player.role)
+                    {
+                        case "MAGE":
+                            //draw 3d model for projectile
+                            playerProjModel.Draw(worldProj, camera.View, camera.Proj);
+                            break;
+                        case "CLERIC":
+                            //draw a 2d sprite for the projectile
+                            clericProjectile.Draw(secondaryProj, camera.View, camera.Proj);
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
             }
             //render projectile impacts
             foreach (WorldSprite imp in projectileImpacts)
             {
-                imp.Draw(camera.View, camera.Proj);
+
+                switch (player.role)
+                {
+                    case "WARRIOR":
+                        break;
+                    case "ROGUE":
+                        break;
+                    case "MAGE":
+                        break;
+                    case "CLERIC":
+                        imp.Draw(camera.View, camera.Proj);
+                        break;
+                }
             }
 
 

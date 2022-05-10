@@ -270,3 +270,14 @@ C:\Users\Hayden\Documents\CSC 316\GithubClassProject\DivineAdventure\TheDivineAd
 C:\Users\Hayden\Documents\CSC 316\GithubClassProject\DivineAdventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.dll
 C:\Users\Hayden\Documents\CSC 316\GithubClassProject\DivineAdventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.pdb
 C:\Users\Hayden\Documents\CSC 316\GithubClassProject\DivineAdventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.genruntimeconfig.cache
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_Mage.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_Rogue.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_Warrior.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Mage.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Mage_0.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Rogue.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Rogue_0.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Warrior.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Warrior_0.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LevelEndScreen_Back.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LevelEndScreen_Front.xnb

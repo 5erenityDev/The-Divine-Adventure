@@ -32,7 +32,6 @@ namespace TheDivineAdventure
             {
                 output[i, 0] = line.Substring(0, line.LastIndexOf(':'));
                 output[i, 1] = line.Substring(line.LastIndexOf('-')+2);
-                Debug.WriteLine(i+"-"+output[i, 0]+"-"+ output[i, 1]);
                 i++;
             }
 
