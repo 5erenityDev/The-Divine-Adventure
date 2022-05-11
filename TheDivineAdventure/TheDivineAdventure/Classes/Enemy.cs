@@ -64,7 +64,7 @@ namespace TheDivineAdventure
             {
                 case "DEMON":
                     health = 100;
-                    speedFactor = 1;
+                    speedFactor = 2;
                     ranged = true;
                     break;
                 case "HELLHOUND":
@@ -171,7 +171,7 @@ namespace TheDivineAdventure
                 enemyDir = Vector3.Transform(Vector3.Backward,
                 Matrix.CreateRotationY(rot));
 
-                AttackPattern.singleProj(this.Pos, enemyDir, 5f, projList);
+                AttackPattern.singleProj(this.Pos, enemyDir, 15f, projList);
                 timer = maxTime;
 
             }

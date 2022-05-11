@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Selection_Stone.fbx</SourceFile>
-  <SourceTime>2022-04-28T00:28:20.2079114-04:00</SourceTime>
-  <DestFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/MODEL_Selection_Stone.xnb</DestFile>
-  <DestTime>2022-05-11T13:46:36.3562434-04:00</DestTime>
+  <SourceFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/MODEL_Portal.fbx</SourceFile>
+  <SourceTime>2022-04-01T00:55:14.4573793-04:00</SourceTime>
+  <DestFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/MODEL_Portal.xnb</DestFile>
+  <DestTime>2022-05-11T13:46:34.5435839-04:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
@@ -65,8 +65,6 @@
     <Value>Compressed</Value>
   </Parameters>
   <Dependencies />
-  <BuildAsset>
-    <string>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/TEX_Brimstone_0.xnb</string>
-  </BuildAsset>
+  <BuildAsset />
   <BuildOutput />
 </PipelineBuildEvent>

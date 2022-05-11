@@ -28,13 +28,7 @@ namespace TheDivineAdventure
         public Model level1Model;
         public Model playerProjModel, enemyProjModel;
         public Model playerMelModel, enemyMelModel;
-        /*
-        //8 Character Models in total
-        //2 World Models in total
-        private Model   houndModel, goblinModel, skeleModel;
-        private Model   luciModel, leviModel;
-        private model   level2Model;
-        */
+        public Model portalModel;
 
         //Capture travel distance
         float travel;
@@ -70,7 +64,7 @@ namespace TheDivineAdventure
             parent.showCursor = false;
 
             // Timer Info
-            enemyTimerMax = 3f;
+            enemyTimerMax = 5f;
             enemyTimer = enemyTimerMax;
 
             // Initialize game objects
@@ -155,19 +149,7 @@ namespace TheDivineAdventure
             enemyProjModel = Content.Load<Model>("MODEL_EnemyProjectile");
             playerMelModel = Content.Load<Model>("MODEL_PlayerMelee");
             enemyMelModel = Content.Load<Model>("MODEL_EnemyMelee");
-            /*
-            // Enemies
-            houndModel = Content.Load<Model>("MODEL_HellHound");
-            goblinModel = Content.Load<Model>("MODEL_Goblin");
-            skeleModel = Content.Load<Model>("MODEL_Skeleton");
-
-            // Bosses
-            luciModel = Content.Load<Model>("MODEL_Lucifer");
-            leviModel = Content.Load<Model>("MODEL_Leviathan");
-
-            // Levels
-            level2Model = Content.Load<Model>("MODEL_Level2");
-            */
+            portalModel = Content.Load<Model>("MODEL_Portal");
         }
 
         //function to do updates when player is playing in level.
@@ -194,18 +176,18 @@ namespace TheDivineAdventure
             camera.Update(deltaTime, player);
 
             // Spawn enemies
-            // Stops spawning enemies when player is about to reach the boss
+            // Stops spawning enemies when player is about to reach the end
             enemyTimer -= deltaTime;
-            if (enemyTimer < 0f && enemyList.Count < 20 && player.Pos.Z < 3000)
+            if (enemyTimer < 0f && enemyList.Count < 5 && player.Pos.Z < 3000)
             {
                 enemyTimer = enemyTimerMax;
                 enemyRole = Enemy.ROLES[0];
                 enemyList.Add(new Enemy(enemySounds, enemyRole, player.Pos));
-                if (enemyTimerMax > 2f)
+                if (enemyTimerMax > 3f)
                     enemyTimerMax -= 0.05f;
             }
 
-            // If the player is at the boss, despawn the remaining enemies
+            // If the player is at the end, despawn the remaining enemies
             if(player.Pos.Z > 3500 && enemyList.Count >0)
             {
                 enemyList.Clear();
@@ -213,6 +195,15 @@ namespace TheDivineAdventure
 
             foreach (Enemy e in enemyList)
             {
+                // If the player runs past an enemy, despawn it and spawn another in its place.
+                if (player.Pos.Z > e.Pos.Z + 80)
+                {
+                    enemyList.Remove(e);
+                    enemyList.Add(new Enemy(enemySounds, enemyRole, player.Pos));
+                    break;
+                }
+                    
+                // Only update enemies before player reaches the end
                 if (player.Pos.Z < parent.levelLength)
                     e.Update(deltaTime, player);
                 foreach (Attack p in e.projList)
@@ -327,7 +318,8 @@ namespace TheDivineAdventure
             foreach (Attack p in player.projList)
             {
                 worldProj = Matrix.CreateScale(1f) *
-                        Matrix.CreateTranslation(p.Pos);
+                        Matrix.CreateRotationZ(MathHelper.ToRadians(90)) *
+                        Matrix.CreateTranslation(p.Pos + new Vector3(0, 5, 0));
 
                 //Set 2D sprite world matrix
                 Matrix secondaryProj = Matrix.CreateScale(0.029f) * Matrix.CreateRotationY(MathHelper.ToRadians(90)) *
@@ -374,11 +366,9 @@ namespace TheDivineAdventure
                 }
             }
 
-
             // Render enemies
             foreach (Enemy e in enemyList)
             {
-                // THIS IS TEMPORARY
                 worldEnemy = Matrix.CreateScale(1f) *
                         Matrix.CreateRotationY(MathHelper.ToRadians(180f)) *
                         Matrix.CreateTranslation(e.Pos);

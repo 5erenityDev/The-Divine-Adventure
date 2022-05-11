@@ -281,3 +281,6 @@ D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\T
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Warrior_0.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LevelEndScreen_Back.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LevelEndScreen_Front.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LevelEndScreen_Back.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LevelEndScreen_Front.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_Portal.xnb

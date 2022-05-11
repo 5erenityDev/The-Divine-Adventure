@@ -1,11 +1,16 @@
+Cleric: - 1900
 Cleric: - 1700
 Cleric: - 1500
 Rogue: - 700
 Cleric: - 600
+Cleric: - 500
 Cleric: - 400
 Cleric: - 400
+Cleric: - 200
 Cleric: - 100
+Rogue: - 100
 Mage: - 12
 Warrior: - 5
 Rogue: - 4
 Cleric: - 1
+Cleric: - 0
