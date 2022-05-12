@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/CreditsFont.spritefont</SourceFile>
+  <SourceFile>d:/holder/school/csc316/assignments/divineadventure/project/thedivineadventure/TheDivineAdventure/Content/CreditsFont.spritefont</SourceFile>
   <SourceTime>2022-04-19T19:08:31.7610351-04:00</SourceTime>
-  <DestFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/CreditsFont.xnb</DestFile>
-  <DestTime>2022-05-05T03:11:33.9892993-04:00</DestTime>
+  <DestFile>d:/holder/school/csc316/assignments/divineadventure/project/thedivineadventure/TheDivineAdventure/Content/bin/DesktopGL/Content/CreditsFont.xnb</DestFile>
+  <DestTime>2022-05-12T00:08:45.1733625-04:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

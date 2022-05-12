@@ -14,7 +14,7 @@ namespace TheDivineAdventure
     public class PlayScene : Scene
     {
         //2d Textures
-        private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, clericIcon, clericProjectileTex, clericProjImpact;
+        private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, clericIcon, clericProjectileTex, clericProjImpact, rogueIcon;
         private Texture2D[] clericImpactAnim;
         private Skybox sky;
 
@@ -45,7 +45,6 @@ namespace TheDivineAdventure
         private Player player;
         private List<SoundEffect> playerSounds = new List<SoundEffect>();
         public static int score;
-        private Texture2D playerIcon;
 
         // Enemy
         private List<Enemy> enemyList;
@@ -98,22 +97,6 @@ namespace TheDivineAdventure
             //set score to 0
             score = 0;
 
-            //Select Role Icon
-            switch (player.role)
-            {
-                case "WARRIOR":
-                    playerIcon = clericIcon;
-                    break;
-                case "ROGUE":
-                    playerIcon = clericIcon;
-                    break;
-                case "MAGE":
-                    playerIcon = clericIcon;
-                    break;
-                default:
-                    playerIcon = clericIcon;
-                    break;
-            }
         }
 
         public override void LoadContent()
@@ -127,11 +110,14 @@ namespace TheDivineAdventure
             healthBar = Content.Load<Texture2D>("TEX_HealthBar");
             manaBar = Content.Load<Texture2D>("TEX_ManaBar");
             staminaBar = Content.Load<Texture2D>("TEX_StaminaBar");
+            //cleric items
             clericIcon = Content.Load<Texture2D>("TEX_Cleric_Icon");
             clericProjectileTex = Content.Load<Texture2D>("TEX_DivineProjectile01_Base");
             clericProjectile = new WorldSprite(clericProjectileTex, parent, Content);
             clericProjImpact = Content.Load<Texture2D>("TEX_ClericProjectileImpact_Sheet");
             clericImpactAnim = WorldSprite.GenerateAnim(clericProjImpact, 512, parent);
+            //rogueItems
+            rogueIcon = Content.Load<Texture2D>("TEX_Rogue_Icon");
 
 
             //load skybox
@@ -449,8 +435,23 @@ namespace TheDivineAdventure
             //topHUD layer
             _spriteBatch.Draw(hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
             //draw player Icon
-            _spriteBatch.Draw(playerIcon, new Vector2(49, 19) * parent.currentScreenScale, null,
-                Color.White, 0, Vector2.Zero, 0.071f * parent.currentScreenScale, SpriteEffects.None, 1);
+            switch (player.role)
+            {
+                case "WARRIOR":
+
+                    break;
+                case "ROGUE":
+                    _spriteBatch.Draw(rogueIcon, new Vector2(50, 19) * parent.currentScreenScale, null,
+                        Color.White, 0, Vector2.Zero, 0.108f * parent.currentScreenScale, SpriteEffects.None, 1);
+                    break;
+                case "MAGE":
+
+                    break;
+                default:
+                    _spriteBatch.Draw(clericIcon, new Vector2(49, 19) * parent.currentScreenScale, null,
+                        Color.White, 0, Vector2.Zero, 0.071f * parent.currentScreenScale, SpriteEffects.None, 1);
+                    break;
+            }
             FadeIn(0.01f);
             _spriteBatch.End();
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;

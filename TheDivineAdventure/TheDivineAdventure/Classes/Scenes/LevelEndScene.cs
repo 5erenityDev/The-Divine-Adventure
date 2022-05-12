@@ -184,6 +184,9 @@ namespace TheDivineAdventure
             levelSelect.DrawButton(_spriteBatch);
             mainMenu.DrawButton(_spriteBatch);
 
+            //fade in
+            FadeIn();
+
             _spriteBatch.End();
         }
 
