@@ -55,11 +55,11 @@ namespace TheDivineAdventure
 
             //creat volume sliders
             masterVol = new SliderSelector(new Vector2(1126, 334), new Vector2(300, 9), parent, Content);
-            masterVol.Value = float.Parse(settings[4, 1])/100;
+            masterVol.Value = float.Parse(settings[4, 1]);
             musicVol = new SliderSelector(new Vector2(1126, 415), new Vector2(300, 9), parent, Content);
-            musicVol.Value = float.Parse(settings[5, 1]) / 100;
+            musicVol.Value = float.Parse(settings[5, 1]);
             sfxVol = new SliderSelector(new Vector2(1126, 496), new Vector2(300, 9), parent, Content);
-            sfxVol.Value = float.Parse(settings[6, 1]) / 100;
+            sfxVol.Value = float.Parse(settings[6, 1]);
 
             //create window buttons
             settingsWindowed = new Button(settingsButton1, settingsButton1, "Windowed", parent.smallFont,
@@ -276,9 +276,13 @@ namespace TheDivineAdventure
                     parent.currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
 
                     //set volume preferences
-                    settings[4, 1] = (masterVol.Value * 100).ToString();
-                    settings[5, 1] = (musicVol.Value*100).ToString();
-                    settings[6, 1] = (sfxVol.Value * 100).ToString();
+                    settings[4, 1] = (masterVol.Value).ToString();
+                    settings[5, 1] = (musicVol.Value).ToString();
+                    settings[6, 1] = (sfxVol.Value).ToString();
+
+                    MediaPlayer.Volume = float.Parse(settings[4, 1]) * float.Parse(settings[5, 1]);
+                    Player.volume = float.Parse(settings[4, 1]) * float.Parse(settings[6, 1]);
+                    Enemy.volume = float.Parse(settings[4, 1]) * float.Parse(settings[6, 1]);
 
                     GameSettings.WriteSettings(settings);
                     if (parent.lastScene == "TITLE")

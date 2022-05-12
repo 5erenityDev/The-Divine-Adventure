@@ -44,5 +44,11 @@ namespace TheDivineAdventure
         {
             projList.Add(new Attack(origin + new Vector3(0, 0, 10), target, speed));
         }
+        public static void tripleMel(Vector3 origin, Vector3 target, float speed, List<Attack> projList)
+        {
+            projList.Add(new Attack(origin + new Vector3(0, 0, 10), target, speed));
+            projList.Add(new Attack(origin + new Vector3(20, 0, 10), target, speed));
+            projList.Add(new Attack(origin + new Vector3(-20, 0, 10), target, speed));
+        }
     }
 }

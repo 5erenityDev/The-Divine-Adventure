@@ -6,8 +6,11 @@ Rogue: - 1500
 Cleric: - 1200
 Cleric: - 1000
 Rogue: - 700
+Rogue: - 700
+Rogue: - 700
 Cleric: - 600
 Warrior: - 500
+Rogue: - 500
 Cleric: - 400
 Cleric: - 400
 Cleric: - 100

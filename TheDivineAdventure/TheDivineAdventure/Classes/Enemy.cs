@@ -45,7 +45,7 @@ namespace TheDivineAdventure
 
         // Sound
         private List<SoundEffect> soundEffects;
-
+        public static float volume;
 
         /////////////////
         ///CONSTRUCTOR///
@@ -62,22 +62,22 @@ namespace TheDivineAdventure
             rot = 180f;
             switch (role)
             {
-                case "DEMON":
+                case "RED_DEMON":
                     health = 100;
                     speedFactor = 2;
                     ranged = true;
                     break;
-                case "HELLHOUND":
+                case "BLUE_DEMON":
                     health = 50;
                     speedFactor = 2;
                     ranged = false;
                     break;
-                case "GOBLIN":
+                case "GREEN_DEMON":
                     health = 100;
                     speedFactor = 1;
                     ranged = false;
                     break;
-                case "SKELETON":
+                case "YELLOW_DEMON":
                     health = 100;
                     speedFactor = 1;
                     ranged = true;
@@ -167,7 +167,7 @@ namespace TheDivineAdventure
             }
             else
             {
-
+                soundEffects[0].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                 enemyDir = Vector3.Transform(Vector3.Backward,
                 Matrix.CreateRotationY(rot));
 

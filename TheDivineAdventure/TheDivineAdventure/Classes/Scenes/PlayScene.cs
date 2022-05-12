@@ -68,8 +68,8 @@ namespace TheDivineAdventure
             hudFade = Color.White;
 
             // Timer Info
-            enemyTimerMax = 5f;
-            enemyTimer = enemyTimerMax;
+            enemyTimerMax = 3f;
+            enemyTimer = 1f;
 
             // Initialize game objects
             player = new Player(playerSounds, parent.playerRole);
@@ -144,6 +144,19 @@ namespace TheDivineAdventure
             playerMelModel = Content.Load<Model>("MODEL_PlayerMelee");
             enemyMelModel = Content.Load<Model>("MODEL_EnemyMelee");
             portalModel = Content.Load<Model>("MODEL_Portal");
+
+            // Load sounds
+            playerSounds.Add(Content.Load<SoundEffect>("SOUND_swordSlash"));
+            playerSounds.Add(Content.Load<SoundEffect>("SOUND_DivineSpell"));
+            playerSounds.Add(Content.Load<SoundEffect>("SOUND_SwordSpecial"));
+            playerSounds.Add(Content.Load<SoundEffect>("SOUND_Heal"));
+            playerSounds.Add(Content.Load<SoundEffect>("SOUND_Teleport"));
+            playerSounds.Add(Content.Load<SoundEffect>("SOUND_TradeOff"));
+            playerSounds.Add(Content.Load<SoundEffect>("SOUND_HealingPotion"));
+
+
+            enemySounds.Add(Content.Load<SoundEffect>("SOUND_FireSpell"));
+
         }
 
         //function to do updates when player is playing in level.
@@ -180,7 +193,7 @@ namespace TheDivineAdventure
                 enemyTimer = enemyTimerMax;
                 enemyRole = Enemy.ROLES[0];
                 enemyList.Add(new Enemy(enemySounds, enemyRole, player.Pos));
-                if (enemyTimerMax > 3f)
+                if (enemyTimerMax > 2f)
                     enemyTimerMax -= 0.05f;
             }
 

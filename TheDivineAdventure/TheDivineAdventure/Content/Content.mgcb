@@ -325,6 +325,60 @@
 /processorParam:TextureFormat=Compressed
 /build:SmallFont.spritefont
 
+#begin SONG_LevelTheme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:SONG_LevelTheme.mp3
+
+#begin SOUND_DivineSpell.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SOUND_DivineSpell.wav
+
+#begin SOUND_FireSpell.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SOUND_FireSpell.wav
+
+#begin SOUND_Heal.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SOUND_Heal.wav
+
+#begin SOUND_HealingPotion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SOUND_HealingPotion.wav
+
+#begin SOUND_swordSlash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SOUND_swordSlash.wav
+
+#begin SOUND_SwordSpecial.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SOUND_SwordSpecial.wav
+
+#begin SOUND_Teleport.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SOUND_Teleport.wav
+
+#begin SOUND_TradeOff.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SOUND_TradeOff.wav
+
 #begin TEX_Brimstone.png
 /importer:TextureImporter
 /processor:TextureProcessor

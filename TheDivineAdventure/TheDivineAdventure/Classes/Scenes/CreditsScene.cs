@@ -28,7 +28,7 @@ namespace TheDivineAdventure
 
             credits = new string[]  {"Game Programmers", "       Christopher Adkins", "       Sean Blankenship", "       Hayden Michael", "       Lucas Reed",
                 " ","Game Artists", "       2D Assets: Christopher Adkins", "       3D Assets: Sean Blankenship",
-                " ","Sound Engineers", "       Lucas Reed",
+                " ","Music Used", "       Janus Turning", "              by Shane Ivers",
                 " ","Game Testers", "       Christopher Adkins", "       Sean Blankenship", "       Hayden Michael", "       Lucas Reed",
                 " ","Created using MonoGame ",
                 " ","Thank you for your time! "};

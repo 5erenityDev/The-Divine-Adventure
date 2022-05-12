@@ -65,13 +65,13 @@ namespace TheDivineAdventure
         public Rectangle healthBarRec, secondBarRec;
         public bool showCursor;
 
-        // (Distance to end Boss)
+        // Distance to end
         public int levelLength;
 
         // Font Color
         public Color textGold;
 
-        // Songs
+        // Sound
         private Song gameTheme;
 
         //Random class
@@ -102,8 +102,7 @@ namespace TheDivineAdventure
             Window.Title = "The Divine Adventure";
 
             //switch commenting to use saved settings
-            //bool useSettings = true;
-            bool useSettings = false;
+            bool useSettings = true;
             if (GameSettings.HasSettings() && useSettings)
             {
                 //get settings
@@ -130,6 +129,9 @@ namespace TheDivineAdventure
                         break;
                 }
 
+                MediaPlayer.Volume = float.Parse(settings[4, 1]) * float.Parse(settings[5, 1]);
+                Player.volume = float.Parse(settings[4, 1]) * float.Parse(settings[6, 1]);
+                Enemy.volume = float.Parse(settings[4, 1]) * float.Parse(settings[6, 1]);
             }
             
             //// Set initial screen size
@@ -147,7 +149,7 @@ namespace TheDivineAdventure
 
             _graphics.ApplyChanges();
 
-            //set gamew window
+            //set game window
             _gameWindow = Window;
 
             // Set screen scale to determine size of UI
@@ -168,14 +170,9 @@ namespace TheDivineAdventure
             //initialize title menu
             titleScene.Initialize();
 
-
-            //Start at either the title screen or in gameplay
-            //Regular gameplay (e.g. start at title screen)
             currentScene = "TITLE";
 
-            //DEBUG: uncomment to start in gameplay
-            //InitializeLevel();
-            //currentScene = 5;
+            MediaPlayer.Play(gameTheme);
         }
 
         //most content loading has been offloaded to neaten things up a bit. I'm keeping some things here that I haven't
@@ -194,7 +191,7 @@ namespace TheDivineAdventure
 
 
             // Load sounds
-
+            gameTheme = Content.Load<Song>("levelTheme");
 
             //Cursor texture
             cursor = Content.Load<Texture2D>("TEX_cursor");

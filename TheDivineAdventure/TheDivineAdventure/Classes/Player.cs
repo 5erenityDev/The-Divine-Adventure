@@ -37,7 +37,7 @@ namespace TheDivineAdventure
         private Vector3 rot;
         public float speed, initSpeed, runSpeed;
 
-
+        
         // Jumping
         private bool jumping = false;
         private bool falling = false;
@@ -47,6 +47,7 @@ namespace TheDivineAdventure
 
         // Sound
         private List<SoundEffect> soundEffects;
+        public static float volume;
 
         // MouseState
         MouseState prevMouseState;
@@ -119,7 +120,7 @@ namespace TheDivineAdventure
                     attCost = 10;
                     spec1Cost = 20;
                     spec2Cost = 30;
-                    spec3Cost = 50;
+                    spec3Cost = secondaryMax;
                     runCost = 0.2f;
                     break;
                 case "ROGUE":
@@ -141,7 +142,7 @@ namespace TheDivineAdventure
                     attCost = 1;
                     spec1Cost = 20;
                     spec2Cost = 30;
-                    spec3Cost = 50;
+                    spec3Cost = secondaryMax;
                     runCost = 2f;
                     break;
                 case "MAGE":
@@ -337,9 +338,11 @@ namespace TheDivineAdventure
                     switch (this.isCaster)
                     {
                         case false:
+                            soundEffects[0].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                             AttackPattern.singleMel(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                         case true:
+                            soundEffects[1].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                             AttackPattern.singleProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                     }
@@ -357,18 +360,27 @@ namespace TheDivineAdventure
             {
                 if (curMouseState.RightButton == ButtonState.Pressed
                     && prevMouseState.RightButton != ButtonState.Pressed
-                    && secondary >= spec1Cost)
+                    && secondary >= spec1Cost
+                    && !isExhausted)
                 {
                     switch (this.role)
                     {
                         case "WARRIOR":
+                            soundEffects[2].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                            AttackPattern.tripleMel(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList); ;
                             break;
                         case "ROGUE":
+                            soundEffects[2].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                            AttackPattern.tripleMel(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                         case "MAGE":
+                            soundEffects[1].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                            soundEffects[1].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                             AttackPattern.quinProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                         case "CLERIC":
+                            soundEffects[1].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                            soundEffects[1].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                             AttackPattern.tripleProj(this.Pos, cam.LookAt + this.Pos, this.projSpeed, this.projList);
                             break;
                     }
@@ -388,32 +400,61 @@ namespace TheDivineAdventure
                 if (curKeyboardState.IsKeyDown(Keys.Q)
                     && prevKeyboardState.IsKeyUp(Keys.Q)
                     && secondary >= spec2Cost
-                    && health != healthMax)
+                    && !isExhausted)
                 {
                     switch (this.role)
                     {
                         case "WARRIOR":
+                            if (health - 25 > 0 && secondary + 50 < secondaryMax)
+                            {
+                                soundEffects[5].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                health -= 25;
+                                secondary += 50;
+                            }
+                            else if (health - 25 > 0)
+                            {
+                                soundEffects[5].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                health -= 25;
+                                secondary = secondaryMax;
+                            }
                             break;
                         case "ROGUE":
+                            if (health - 50 > 0 && secondary + 50 < secondaryMax)
+                            {
+                                soundEffects[5].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                health -= 50;
+                                secondary += 100;
+                            }
+                            else if (health - 50 > 0)
+                            {
+                                soundEffects[5].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                health -= 50;
+                                secondary = secondaryMax;
+                            }
                             break;
                         case "MAGE":
-                            if (health + 25 < healthMax)
-                                health += 25;
-                            else
-                                health = healthMax;
+                            if (pos.Z < 4700 - 400)
+                            {
+                                soundEffects[4].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                spec3Timer = maxSpec3Time;
+                                this.pos.Z += 400;
+                                secondary -= spec3Cost;
+                            }
                             break;
                         case "CLERIC":
-                            if (health + 50 < healthMax)
-                                health += 50;
-                            else
-                                health = healthMax;
+                            if (pos.Z < 4700 - 200)
+                            {
+                                soundEffects[4].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                spec3Timer = maxSpec3Time;
+                                this.pos.Z += 200;
+                                secondary -= spec3Cost;
+                            }
                             break;
                     }
 
                     spec2Timer = maxSpec2Time;
 
-                    //expend resource
-                    secondary -= spec2Cost;
+
                 }
             }
             if (spec3Timer > 0)
@@ -424,27 +465,46 @@ namespace TheDivineAdventure
             {
                 if (curKeyboardState.IsKeyDown(Keys.E)
                     && prevKeyboardState.IsKeyUp(Keys.E)
-                    && secondary >= spec3Cost)
+                    && secondary >= spec3Cost
+                    && !isExhausted)
                 {
                     switch (this.role)
                     {
                         case "WARRIOR":
-                            break;
                         case "ROGUE":
+                            if (health != healthMax)
+                            {
+                                soundEffects[6].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                health = healthMax;
+                                secondary = 0;
+                                isExhausted = true;
+                            }
+                            spec3Timer = maxSpec3Time;
                             break;
                         case "MAGE":
-                            if (pos.Z < 4700 - 400)
-                                this.pos.Z += 400;
+                            if (health + 25 < healthMax)
+                            {
+                                soundEffects[3].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                health += 25;
+                                secondary -= spec2Cost;
+                            }
+                            else
+                            {
+                                soundEffects[3].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                                health = healthMax;
+                                secondary -= spec2Cost;
+                            }
+
                             break;
                         case "CLERIC":
-                            if (pos.Z < 4700 - 200)
-                                this.pos.Z += 200;
+                            soundEffects[3].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
+                            if (health + 50 < healthMax)
+                                health += 50;
+                            else
+                                health = healthMax;
                             break;
                     }
-                    spec3Timer = maxSpec3Time;
-
-                    //expend resource
-                    secondary -= spec3Cost;
+                   
                 }
             }
 
