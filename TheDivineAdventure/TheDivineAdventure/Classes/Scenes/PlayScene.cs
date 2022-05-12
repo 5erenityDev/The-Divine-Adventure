@@ -370,7 +370,7 @@ namespace TheDivineAdventure
             foreach (Enemy e in enemyList)
             {
                 worldEnemy = Matrix.CreateScale(1f) *
-                        Matrix.CreateRotationY(MathHelper.ToRadians(180f)) *
+                        Matrix.CreateRotationY(e.Rot) *
                         Matrix.CreateTranslation(e.Pos);
                 switch (e.Role)
                 {

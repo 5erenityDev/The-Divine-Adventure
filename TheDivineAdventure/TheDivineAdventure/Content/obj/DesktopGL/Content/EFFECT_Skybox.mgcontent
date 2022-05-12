@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/EFFECT_Skybox.fx</SourceFile>
-  <SourceTime>2022-04-22T11:54:38.8921278-04:00</SourceTime>
-  <DestFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/EFFECT_Skybox.xnb</DestFile>
-  <DestTime>2022-05-12T00:09:59.4130968-04:00</DestTime>
+  <SourceFile>C:/Users/Hayden/Documents/CSC 316/GithubClassProject/DivineAdventure2/TheDivineAdventure/TheDivineAdventure/Content/EFFECT_Skybox.fx</SourceFile>
+  <SourceTime>2022-05-12T10:53:09.5032464-04:00</SourceTime>
+  <DestFile>C:/Users/Hayden/Documents/CSC 316/GithubClassProject/DivineAdventure2/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/EFFECT_Skybox.xnb</DestFile>
+  <DestTime>2022-05-12T10:53:17.3061293-04:00</DestTime>
   <Importer>EffectImporter</Importer>
   <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
   <Processor>EffectProcessor</Processor>

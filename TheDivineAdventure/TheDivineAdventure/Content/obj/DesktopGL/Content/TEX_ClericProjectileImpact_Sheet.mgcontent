@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/TEX_ClericProjectileImpact_Sheet.png</SourceFile>
-  <SourceTime>2022-04-29T13:29:50.3045141-04:00</SourceTime>
-  <DestFile>D:/Holder/School/CSC316/Assignments/DivineAdventure/Project/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/TEX_ClericProjectileImpact_Sheet.xnb</DestFile>
-  <DestTime>2022-05-12T00:10:04.1396636-04:00</DestTime>
+  <SourceFile>C:/Users/Hayden/Documents/CSC 316/GithubClassProject/DivineAdventure2/TheDivineAdventure/TheDivineAdventure/Content/TEX_ClericProjectileImpact_Sheet.png</SourceFile>
+  <SourceTime>2022-05-12T10:53:09.5373607-04:00</SourceTime>
+  <DestFile>C:/Users/Hayden/Documents/CSC 316/GithubClassProject/DivineAdventure2/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/TEX_ClericProjectileImpact_Sheet.xnb</DestFile>
+  <DestTime>2022-05-12T10:53:22.5737147-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

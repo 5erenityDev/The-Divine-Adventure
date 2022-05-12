@@ -18,3 +18,4 @@ Cleric: - 1
 Rogue: - 0
 Cleric: - 0
 Rogue: - 0
+Warrior: - 0
