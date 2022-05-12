@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -31,10 +32,6 @@ namespace TheDivineAdventure
         /////////////////
         public Attack(Vector3 origin, Vector3 target, float pSpeed)
         {
-            // Timer stats
-            timer = 1f;
-            timeToDestroy = false;
-
             // Set the projectiles initial position
             initPos = origin;
             pos = initPos;
@@ -64,6 +61,12 @@ namespace TheDivineAdventure
                 vel.Z = (target.Z / distance) * speed;
             }
 
+            // Timer stats
+            if (isMelee)
+                timer = 0.1f;
+            else
+                timer = 1f;
+            timeToDestroy = false;
         }
 
         ///////////////
@@ -101,7 +104,10 @@ namespace TheDivineAdventure
                 {
                     if (CheckCollision(e))
                     {
-                        e.Health -= 50;
+                        if(isMelee)
+                            e.Health -= 500;
+                        else
+                            e.Health -= 50;
                         timeToDestroy = true;
                     }
                 }
@@ -139,6 +145,12 @@ namespace TheDivineAdventure
         {
             if (isMelee)
             {
+                if (this.boundingBox.Intersects(new BoundingBox(
+                    new Vector3(enemy.Pos.X - 5, enemy.Pos.Y - enemy.Height, enemy.Pos.Z - 5),
+                    new Vector3(enemy.Pos.X + 5, enemy.Pos.Y + enemy.Height, enemy.Pos.Z + 5))))
+                {
+                    return true;
+                }
                 return false;
             }
             else
@@ -176,6 +188,11 @@ namespace TheDivineAdventure
         private BoundingSphere boundingSphere
         {
             get { return new BoundingSphere(pos, 0.010000003f); }
+        }
+
+        private BoundingBox boundingBox
+        {
+            get { return new BoundingBox(pos - new Vector3(30, 500, 5), pos + new Vector3(30, 500, 10)); }
         }
     }
 }

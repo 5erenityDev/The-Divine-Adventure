@@ -21,9 +21,9 @@ namespace TheDivineAdventure
         private const int MAGE_HEIGHT = 13;
         private const int CLERIC_HEIGHT = 13;
         private static readonly int[] HEIGHTS = { WARRIOR_HEIGHT, ROGUE_HEIGHT, MAGE_HEIGHT, CLERIC_HEIGHT };
-        private const int WARRIOR_WIDTH = 0;
-        private const int ROGUE_WIDTH = 0;
-        private const int MAGE_WIDTH = 0;
+        private const int WARRIOR_WIDTH = 9;
+        private const int ROGUE_WIDTH = 9;
+        private const int MAGE_WIDTH = 9;
         private const int CLERIC_WIDTH = 9;
         private static readonly int[] WIDTHS = { WARRIOR_HEIGHT, ROGUE_HEIGHT, MAGE_HEIGHT, CLERIC_HEIGHT };
 
@@ -35,7 +35,7 @@ namespace TheDivineAdventure
         // Movement
         private Vector3 pos;
         private Vector3 rot;
-        public float speed, initSpeed;
+        public float speed, initSpeed, runSpeed;
 
 
         // Jumping
@@ -57,14 +57,15 @@ namespace TheDivineAdventure
         KeyboardState curKeyboardState;
 
         //Health and secondary stat
-        public float health, secondary, secondaryRegenRate;
+        public float health, secondary, secondaryRegenRate, runCost;
         public int healthMax, secondaryMax;
         public int attCost, spec1Cost, spec2Cost, spec3Cost;
         private float projSpeed;
+        private bool isExhausted;
         //swaps stamina for mana when true
         private bool isCaster;
 
-        private bool atBoss;
+        private bool atEnd;
 
         // Timer
         private float maxAttTime, maxSpec1Time, maxSpec2Time, maxSpec3Time; //time between shots
@@ -94,13 +95,16 @@ namespace TheDivineAdventure
             spec2Timer = 0f;
             spec3Timer = 0f;
 
+            isExhausted = false;
+
             // Set player stats
             switch (this.role)
             {
                 case "WARRIOR":
                     isCaster = false;
-                    initSpeed = 8f;
+                    initSpeed = 10f;
                     speed = initSpeed;
+                    runSpeed = 2f;
                     jumpSpeed = 15f;
                     healthMax = 300;
                     health = healthMax;
@@ -116,17 +120,19 @@ namespace TheDivineAdventure
                     spec1Cost = 20;
                     spec2Cost = 30;
                     spec3Cost = 50;
+                    runCost = 0.2f;
                     break;
                 case "ROGUE":
                     isCaster = false;
-                    initSpeed = 20f;
+                    initSpeed = 10f;
                     speed = initSpeed;
+                    runSpeed = 4f;
                     jumpSpeed = 15f;
                     healthMax = 100;
                     health = healthMax;
                     secondaryMax = 300;
                     secondary = secondaryMax;
-                    secondaryRegenRate = 0.1f;
+                    secondaryRegenRate = 1f;
                     projSpeed = 0f;
                     maxAttTime = 0.1f;
                     maxSpec1Time = 0.5f;
@@ -136,17 +142,19 @@ namespace TheDivineAdventure
                     spec1Cost = 20;
                     spec2Cost = 30;
                     spec3Cost = 50;
+                    runCost = 2f;
                     break;
                 case "MAGE":
                     isCaster = true;
                     initSpeed = 10f;
                     speed = initSpeed;
+                    runSpeed = 1f;
                     jumpSpeed = 15f;
                     healthMax = 100;
                     health = healthMax;
                     secondaryMax = 300;
                     secondary = secondaryMax;
-                    secondaryRegenRate = 0.1f;
+                    secondaryRegenRate = 0.15f;
                     projSpeed = 5f;
                     maxAttTime = 0.5f;
                     maxSpec1Time = 0.5f;
@@ -156,17 +164,19 @@ namespace TheDivineAdventure
                     spec1Cost = 20;
                     spec2Cost = 30;
                     spec3Cost = 50;
+                    runCost = 0f;
                     break;
                 case "CLERIC":
                     isCaster = true;
-                    initSpeed = 15f;
+                    initSpeed = 10f;
                     speed = initSpeed;
+                    runSpeed = 1f;
                     jumpSpeed = 15f;
                     healthMax = 300;
                     health = healthMax;
                     secondaryMax = 100;
                     secondary = secondaryMax;
-                    secondaryRegenRate = 0.1f;
+                    secondaryRegenRate = 0.15f;
                     projSpeed = 15f;
                     maxAttTime = 0.5f;
                     maxSpec1Time = 0.5f;
@@ -176,6 +186,7 @@ namespace TheDivineAdventure
                     spec1Cost = 20;
                     spec2Cost = 30;
                     spec3Cost = 50;
+                    runCost = 0f;
                     break;
             }
 
@@ -196,20 +207,27 @@ namespace TheDivineAdventure
             Abilities(dt, cam);
 
             // Debugging
-            //NoClip(dt);
-            SwitchRole();
-            DebugStats();
+            //DebugMode();
         }
 
         private void Move(float dt)
         {
             // Move Faster
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-                speed *= 2f;
+            {
+                if (!isExhausted)
+                {
+                    speed *= runSpeed;
+
+                    //expend resource
+                    secondary -= runCost;
+                }
+            }
+                
 
             if (this.pos.Z >= 3505)
             {
-                atBoss = true;
+                atEnd = true;
             }
 
             // Move forward
@@ -223,18 +241,18 @@ namespace TheDivineAdventure
             // Move back
             if (Keyboard.GetState().IsKeyDown(Keys.Back) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                if (this.pos.Z >= 0 && !atBoss)
+                if (this.pos.Z >= 0 && !atEnd)
                     this.pos -= new Vector3(0, 0, 1) * speed * dt;
-                if (this.pos.Z >= 3505 && atBoss)
+                if (this.pos.Z >= 3505 && atEnd)
                     this.pos -= new Vector3(0, 0, 1) * speed * dt;
             }
 
             // Move left
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                if (this.pos.X <= 119 - this.width && !atBoss)
+                if (this.pos.X <= 119 - this.width && !atEnd)
                     this.pos += new Vector3(1, 0, 0) * speed * dt;
-                if (this.pos.X <= 724 - this.width && atBoss)
+                if (this.pos.X <= 724 - this.width && atEnd)
                     this.pos += new Vector3(1, 0, 0) * speed * dt;
             }
 
@@ -242,9 +260,9 @@ namespace TheDivineAdventure
             // Move right
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                if (this.pos.X >= -119 + this.width && !atBoss)
+                if (this.pos.X >= -119 + this.width && !atEnd)
                     this.pos -= new Vector3(1, 0, 0) * speed * dt;
-                if (this.pos.X >= -724 + this.width && atBoss)
+                if (this.pos.X >= -724 + this.width && atEnd)
                     this.pos -= new Vector3(1, 0, 0) * speed * dt;
             }
 
@@ -261,10 +279,20 @@ namespace TheDivineAdventure
                 Jump(dt);
 
             //regen Stamina
-            if (secondary <= secondaryMax)
+            if (secondary < secondaryMax)
             {
                 secondary += secondaryRegenRate;
             }
+            else if (secondary >= secondaryMax)
+            {
+                isExhausted = false;
+            }
+
+            if (secondary <= 0)
+            {
+                isExhausted = true;
+            }
+
         }
 
         private void Jump(float dt)
@@ -438,7 +466,7 @@ namespace TheDivineAdventure
         /////////////////////////
         ///DEBUGGING FUNCTIONS///
         /////////////////////////
-        private void NoClip(float dt)
+        private void DebugMode(float dt)
         {
             // Move Faster
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
@@ -465,6 +493,13 @@ namespace TheDivineAdventure
                 this.pos += new Vector3(0, 1, 0) * speed * dt;
             if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
                 this.pos -= new Vector3(0, 1, 0) * speed * dt;
+
+            // Test the damage mechanic
+            if (Keyboard.GetState().IsKeyDown(Keys.U))
+                health -= 3;
+            // test the secondary resource mechanic
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+                secondary -= 3;
 
             speed = initSpeed * 5f;
         }
@@ -496,116 +531,6 @@ namespace TheDivineAdventure
             }
 
             return newRect;
-        }
-
-        private void SwitchRole()
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.D1))
-            {
-                isCaster = false;
-                initSpeed = 5f;
-                speed = initSpeed;
-                jumpSpeed = 15f;
-                healthMax = 300;
-                health = healthMax;
-                secondaryMax = 100;
-                secondary = secondaryMax;
-                secondaryRegenRate = 0.1f;
-                projSpeed = 0f;
-                maxAttTime = 0.5f;
-                maxSpec1Time = 0.5f;
-                maxSpec2Time = 0.5f;
-                maxSpec3Time = 0.5f;
-                attCost = 10;
-                spec1Cost = 20;
-                spec2Cost = 30;
-                spec3Cost = 50;
-                role = ROLES[0];
-                height = HEIGHTS[0];
-                minHeight = height;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D2))
-            {
-                isCaster = false;
-                initSpeed = 20f;
-                speed = initSpeed;
-                jumpSpeed = 15f;
-                healthMax = 100;
-                health = healthMax;
-                secondaryMax = 300;
-                secondary = secondaryMax;
-                secondaryRegenRate = 0.1f;
-                projSpeed = 0f;
-                maxAttTime = 0.5f;
-                maxSpec1Time = 0.5f;
-                maxSpec2Time = 0.5f;
-                maxSpec3Time = 0.5f;
-                attCost = 10;
-                spec1Cost = 20;
-                spec2Cost = 30;
-                spec3Cost = 50;
-                role = ROLES[1];
-                height = HEIGHTS[1];
-                minHeight = height;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D3))
-            {
-                isCaster = true;
-                initSpeed = 10f;
-                speed = initSpeed;
-                jumpSpeed = 15f;
-                healthMax = 100;
-                health = healthMax;
-                secondaryMax = 300;
-                secondary = secondaryMax;
-                secondaryRegenRate = 0.1f;
-                projSpeed = 5f;
-                maxAttTime = 0.5f;
-                maxSpec1Time = 0.5f;
-                maxSpec2Time = 0.5f;
-                maxSpec3Time = 0.5f;
-                attCost = 10;
-                spec1Cost = 20;
-                spec2Cost = 30;
-                spec3Cost = 50;
-                role = ROLES[2];
-                height = HEIGHTS[2];
-                minHeight = height;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D4))
-            {
-                isCaster = true;
-                initSpeed = 15f;
-                speed = initSpeed;
-                jumpSpeed = 15f;
-                healthMax = 300;
-                health = healthMax;
-                secondaryMax = 100;
-                secondary = secondaryMax;
-                secondaryRegenRate = 0.1f;
-                projSpeed = 15f;
-                maxAttTime = 0.5f;
-                maxSpec1Time = 0.5f;
-                maxSpec2Time = 0.5f;
-                maxSpec3Time = 0.5f;
-                attCost = 10;
-                spec1Cost = 20;
-                spec2Cost = 30;
-                spec3Cost = 50;
-                role = ROLES[3];
-                height = HEIGHTS[3];
-                minHeight = height;
-            }
-        }
-
-        private void DebugStats()
-        {
-            // Test the damage mechanic
-            if (Keyboard.GetState().IsKeyDown(Keys.U))
-                health -= 3;
-            // test the secondary resource mechanic
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
-                secondary -= 3;
         }
 
         ////////////////////
