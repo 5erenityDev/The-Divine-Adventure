@@ -19,20 +19,19 @@ sins.
 	- Player / Enemy / and Projectile Collission ✓
 	- Player / Enemy Health ✓
 	- Character Selection ✓
-	- Character Abilities -
+	- Character Abilities ✓
 - Scoring System ✓
 - Save Features (Settings + top scores) ✓
 - Main Menu -
 	- Start Game ✓
 	- Scoreboard X
-	- Basic Game Settings -
-		- How To Play: A simple visual tutorial on how to play the game (pretty much just a picture with instructions) X
+	- Basic Game Settings ✓
+		- How To Play: A simple visual tutorial on how to play the game (pretty much just a picture with instructions) ✓
 		- Display Option: Option to change from windowed, borderless Windowed, and fullscreen ✓
 		- Display Option: A setting to change the resolution of the game's window ✓
-		- Display Option: Option to change from 0x, 2x, 4x, and 8x multi-sampling antialiasing. -
-		- Sound Option: A setting to change the volume of the entire program -
-		- Sound Option: A setting to change the volume of just the music -
-		- Sound Option: A setting to change the volume of just the sound effects -
+		- Sound Option: A setting to change the volume of the entire program ✓
+		- Sound Option: A setting to change the volume of just the music ✓
+		- Sound Option: A setting to change the volume of just the sound effects ✓
 	- Credits ✓
 	- Quit Game ✓
 - Pause Menu ✓
@@ -48,6 +47,7 @@ sins.
 - Advanced Settings X
 	- Controls Option: Full Controller Support X
 	- Controls Option: Re-Mappable Controls X
+	- Display Option: Option to change from 0x, 2x, 4x, and 8x multi-sampling antialiasing. -
 	- Display Option: Option to enable or disable V-Sync. X
 - Difficulty Settings X
 - Character Customization X
