@@ -43,6 +43,7 @@ namespace TheDivineAdventure
         public PauseScene pauseScene;
         public SettingsScene settingsScene;
         public LevelSelectScene levelSelectScene;
+        public DeathScene lostScene;
 
 
         //Menu Navigation
@@ -161,6 +162,7 @@ namespace TheDivineAdventure
             settingsScene = new SettingsScene(_spriteBatch, _graphics, this, Content);
             levelSelectScene = new LevelSelectScene(_spriteBatch, _graphics, this, Content);
             levelEnd1 = new LevelEndScene (_spriteBatch, _graphics, this, Content);
+            lostScene = new DeathScene(_spriteBatch, _graphics, this, Content);
 
 
             //initialize title menu
@@ -236,6 +238,10 @@ namespace TheDivineAdventure
                 case "LEVEL_END":
                     levelEnd1.Update(gameTime);
                     break;
+                case "IS_DEAD":
+                    playScene.Update(gameTime);
+                    lostScene.Update(gameTime);
+                    break;
                 default:
                     titleScene.Update(gameTime);
                     break;
@@ -280,6 +286,14 @@ namespace TheDivineAdventure
                     GraphicsDevice.DepthStencilState = DepthStencilState.Default;
                     GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
                     pauseScene.Draw(gameTime);
+                    GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                    GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+                    break;
+                case "IS_DEAD":
+                    playScene.Draw(gameTime);
+                    GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                    GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+                    lostScene.Draw(gameTime);
                     GraphicsDevice.DepthStencilState = DepthStencilState.Default;
                     GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
                     break;

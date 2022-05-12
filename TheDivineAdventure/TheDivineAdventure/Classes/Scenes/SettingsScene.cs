@@ -106,13 +106,13 @@ namespace TheDivineAdventure
                 case 0:
                     settingsNoAA.IsActive = true;
                     break;
-                case 1:
+                case 2:
                     settingsAA2.IsActive = true;
                     break;
-                case 2:
+                case 4:
                     settingsAA4.IsActive = true;
                     break;
-                case 3:
+                case 8:
                     settingsAA8.IsActive = true;
                     break;
                 default:
@@ -197,11 +197,13 @@ namespace TheDivineAdventure
                     {
                         _graphics.PreferredBackBufferWidth = Int32.Parse(resWidth.Text);
                         resChanged = true;
+                        settings[0, 1] = resWidth.Text;
                     }
                     if (_graphics.PreferredBackBufferHeight != Int32.Parse(resHeight.Text))
                     {
                         _graphics.PreferredBackBufferHeight = Int32.Parse(resHeight.Text);
                         resChanged = true;
+                        settings[1, 1] = resHeight.Text;
                     }
                     if (resChanged)
                     {
@@ -216,11 +218,8 @@ namespace TheDivineAdventure
                             _graphics.ApplyChanges();
                         }
 
-                        if (parent.Window.IsBorderless)
-                        {
-                            parent.Window.IsBorderless = false;
-                            parent.Window.Position = new Point(parent.Window.Position.X+10, parent.Window.Position.Y+10);
-                        }
+                        parent.Window.IsBorderless = false;
+                        parent.Window.Position = new Point(parent.Window.Position.X+10, parent.Window.Position.Y+10);
                         settings[2, 1] = "0";
                     }//switch to borderless window
                     else if (settingsBorderless.IsActive == true)

@@ -282,3 +282,5 @@ D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\T
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LevelEndScreen_Back.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_LevelEndScreen_Front.xnb
 D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_Rogue_Icon.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\MODEL_Portal.xnb
+D:\Holder\School\CSC316\Assignments\DivineAdventure\Project\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\TEX_DeathScene.xnb

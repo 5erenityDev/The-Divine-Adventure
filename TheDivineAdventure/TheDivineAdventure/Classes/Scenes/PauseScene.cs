@@ -8,7 +8,7 @@ namespace TheDivineAdventure
     public class PauseScene : Scene
     {
 
-        public Texture2D pauseMenu, pauseMenuSheet, emberSheet01;
+        private Texture2D pauseMenu, pauseMenuSheet, emberSheet01;
 
         private AnimatedSprite[] titleEmbers;
         private AnimatedSprite secondaryPauseMenu;
@@ -24,7 +24,6 @@ namespace TheDivineAdventure
         public override void Initialize()
         {
             base.Initialize();
-            LoadContent();
             parent.showCursor = true;
             pauseIsConfirming = 0;
             //create embers
@@ -38,14 +37,13 @@ namespace TheDivineAdventure
                 titleEmbers[i].Frame = rand.Next(6);
             }
         //create buttons
-        pauseResume = new Button(new Vector2(665, 304), new Vector2(284, 60), parent.currentScreenScale);
+            pauseResume = new Button(new Vector2(665, 304), new Vector2(284, 60), parent.currentScreenScale);
             pauseRestart = new Button(new Vector2(656, 405), new Vector2(204, 60), parent.currentScreenScale);
             pauseSettings = new Button(new Vector2(650, 504), new Vector2(222, 60), parent.currentScreenScale);
             pauseQuitMenu = new Button(new Vector2(579, 596), new Vector2(366, 38), parent.currentScreenScale);
             pauseQuitGame = new Button(new Vector2(620, 700), new Vector2(283, 38),parent.currentScreenScale);
             pauseYes = new Button(new Vector2(1053, 527), new Vector2(134, 55),parent.currentScreenScale);
             pauseNo = new Button(new Vector2(1055, 604), new Vector2(135, 55),parent.currentScreenScale);
-
         }
 
         public override void LoadContent()
@@ -84,7 +82,6 @@ namespace TheDivineAdventure
                     secondaryPauseMenu.Pos = new Vector2(910, 306);
                     secondaryPauseMenu.Framerate = 1.5f;
                     pauseIsConfirming = 1;
-                    //currentScene = (1);
                     return;
                 }
                 if (pauseSettings.IsPressed())

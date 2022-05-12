@@ -17,6 +17,7 @@ namespace TheDivineAdventure
         private Texture2D hudL1, hudL2, progIcon, healthBar, staminaBar, manaBar, clericIcon, clericProjectileTex, clericProjImpact, rogueIcon;
         private Texture2D[] clericImpactAnim;
         private Skybox sky;
+        private Color hudFade;
 
         //Projectile Sprites
         private WorldSprite clericProjectile;
@@ -39,6 +40,7 @@ namespace TheDivineAdventure
         private Player player;
         private List<SoundEffect> playerSounds = new List<SoundEffect>();
         public static int score;
+        private bool isDead;
 
         // Enemy
         private List<Enemy> enemyList;
@@ -61,6 +63,9 @@ namespace TheDivineAdventure
             LoadContent();
             //hide cursor
             parent.showCursor = false;
+
+            //create fade color
+            hudFade = Color.White;
 
             // Timer Info
             enemyTimerMax = 5f;
@@ -90,6 +95,9 @@ namespace TheDivineAdventure
 
             //set score to 0
             score = 0;
+
+            //make player alive
+            isDead = false;
 
         }
 
@@ -143,24 +151,27 @@ namespace TheDivineAdventure
         {
             base.Update(gameTime);
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //pause game if window is tabbed out of
-            if (!parent.IsActive)
+            //check if player is alive
+            if (!isDead)
             {
-                parent.currentScene = "PAUSE";
-                parent.pauseScene.Initialize();
-                return;
-            }
-            //pause game on pressing esc
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && parent.lastKeyboard.IsKeyUp(Keys.Escape))
-            {
-                parent.currentScene = "PAUSE";
-                parent.pauseScene.Initialize();
-                return;
-            }
+                //pause game if window is tabbed out of
+                if (!parent.IsActive)
+                {
+                    parent.currentScene = "PAUSE";
+                    parent.pauseScene.Initialize();
+                    return;
+                }
+                //pause game on pressing esc
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape) && parent.lastKeyboard.IsKeyUp(Keys.Escape))
+                {
+                    parent.currentScene = "PAUSE";
+                    parent.pauseScene.Initialize();
+                    return;
+                }
 
-            player.Update(deltaTime, camera);
-            camera.Update(deltaTime, player);
-
+                player.Update(deltaTime, camera);
+                camera.Update(deltaTime, player);
+            }
             // Spawn enemies
             // Stops spawning enemies when player is about to reach the end
             enemyTimer -= deltaTime;
@@ -241,15 +252,18 @@ namespace TheDivineAdventure
             if (player.Pos.Z > 0 && player.Pos.Z < parent.levelLength)
                 travel = (player.Pos.Z * 434 * parent.currentScreenScale.X) / Math.Abs(parent.levelLength);
 
-            // Basic kill player for (will improve once some UI is built up)
-            if (player.Health <= 0)
+            //fade hud out color generator
+            if (isDead)
             {
-                player = new Player(playerSounds, parent.playerRole);
-                score = 0;
-                travel = 0;
-                enemyList.Clear();
-                enemyTimerMax = 3f;
-                enemyTimer = enemyTimerMax;
+                hudFade = new Color(Color.DarkSalmon, 1 - parent.lostScene.fadeIn);
+                return;
+            }
+            // Basic kill player
+            if (player.Health <= 0 )
+            {
+                isDead = true;
+                parent.currentScene = "IS_DEAD";
+                parent.lostScene.Initialize();
             }
 
             //Finish Level
@@ -391,17 +405,21 @@ namespace TheDivineAdventure
                 }
             }
 
+            if (parent.lostScene.fadeIn > 1)
+            {
+                return;
+            }
             // ** Render HUD **
             parent.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             parent.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
             _spriteBatch.Begin();
-            _spriteBatch.Draw(hudL1, Vector2.Zero, null, Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
+            _spriteBatch.Draw(hudL1, Vector2.Zero, null, hudFade, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
             //progessIcon
             if (player.Pos.Z < parent.levelLength)
             {
                 _spriteBatch.Draw(progIcon,
                     new Vector2(714 * parent.currentScreenScale.X + travel, 958 * parent.currentScreenScale.Y),
-                    null, Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
+                    null, hudFade, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 0);
             }
             //Score
             _spriteBatch.DrawString(parent.BigFont, score.ToString(),
@@ -411,19 +429,19 @@ namespace TheDivineAdventure
             _spriteBatch.Draw(healthBar,
                 player.resourceBarUpdate(true, parent.healthBarRec,
                 new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
-                parent.currentScreenScale), Color.White);
+                parent.currentScreenScale), hudFade);
             if (player.IsCaster)
                 _spriteBatch.Draw(manaBar,
                     player.resourceBarUpdate(false, parent.secondBarRec,
                     new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
-                    parent.currentScreenScale), Color.White);
+                    parent.currentScreenScale), hudFade);
             else
                 _spriteBatch.Draw(staminaBar,
                     player.resourceBarUpdate(false, parent.secondBarRec,
                     new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)
-                    , parent.currentScreenScale), Color.White);
+                    , parent.currentScreenScale), hudFade);
             //topHUD layer
-            _spriteBatch.Draw(hudL2, Vector2.Zero, null, Color.White, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
+            _spriteBatch.Draw(hudL2, Vector2.Zero, null, hudFade, 0, Vector2.Zero, parent.currentScreenScale, SpriteEffects.None, 1);
             //draw player Icon
             switch (player.role)
             {
@@ -432,14 +450,14 @@ namespace TheDivineAdventure
                     break;
                 case "ROGUE":
                     _spriteBatch.Draw(rogueIcon, new Vector2(50, 19) * parent.currentScreenScale, null,
-                        Color.White, 0, Vector2.Zero, 0.108f * parent.currentScreenScale, SpriteEffects.None, 1);
+                       hudFade, 0, Vector2.Zero, 0.108f * parent.currentScreenScale, SpriteEffects.None, 1);
                     break;
                 case "MAGE":
 
                     break;
                 default:
                     _spriteBatch.Draw(clericIcon, new Vector2(49, 19) * parent.currentScreenScale, null,
-                        Color.White, 0, Vector2.Zero, 0.071f * parent.currentScreenScale, SpriteEffects.None, 1);
+                        hudFade, 0, Vector2.Zero, 0.071f * parent.currentScreenScale, SpriteEffects.None, 1);
                     break;
             }
             FadeIn(0.01f);

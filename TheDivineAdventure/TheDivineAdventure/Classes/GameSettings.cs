@@ -56,7 +56,7 @@ namespace TheDivineAdventure
 
         public static bool HasSettings()
         {
-            if (File.Exists(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.ToString() + @"\Settings.txt"))
+            if (File.Exists(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.ToString() + @"\Settings.txt")) ;
                 return true;
             return false;
         }
