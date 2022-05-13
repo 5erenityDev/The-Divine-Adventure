@@ -1,6 +1,7 @@
 ﻿///Course:      CSC 316
 ///Project:     Final Project
 ///Creation:    4/14/22
+///Completion:  5/12/22
 ///Authors:     Adkins, Christopher 
 ///             Blankenship, Sean A.
 ///             Michael, Hayden T.
@@ -11,13 +12,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
 
 using System;
-using System.IO;
-using System.Windows;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -130,6 +126,7 @@ namespace TheDivineAdventure
                 }
 
                 MediaPlayer.Volume = float.Parse(settings[4, 1]) * float.Parse(settings[5, 1]);
+                MediaPlayer.IsRepeating = true;
                 Player.volume = float.Parse(settings[4, 1]) * float.Parse(settings[6, 1]);
                 Enemy.volume = float.Parse(settings[4, 1]) * float.Parse(settings[6, 1]);
             }
@@ -325,6 +322,5 @@ namespace TheDivineAdventure
             currentScreenScale = new Vector2(_graphics.PreferredBackBufferWidth / 1920f, _graphics.PreferredBackBufferHeight / 1080f);
 
         }
-
     }
 }

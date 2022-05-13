@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -111,7 +110,7 @@ namespace TheDivineAdventure
                     health = healthMax;
                     secondaryMax = 100;
                     secondary = secondaryMax;
-                    secondaryRegenRate = 0.1f;
+                    secondaryRegenRate = 0.15f;
                     projSpeed = 0f;
                     maxAttTime = 0.5f;
                     maxSpec1Time = 0.5f;
@@ -127,7 +126,7 @@ namespace TheDivineAdventure
                     isCaster = false;
                     initSpeed = 10f;
                     speed = initSpeed;
-                    runSpeed = 4f;
+                    runSpeed = 3f;
                     jumpSpeed = 15f;
                     healthMax = 100;
                     health = healthMax;
@@ -147,7 +146,7 @@ namespace TheDivineAdventure
                     break;
                 case "MAGE":
                     isCaster = true;
-                    initSpeed = 10f;
+                    initSpeed = 15f;
                     speed = initSpeed;
                     runSpeed = 1f;
                     jumpSpeed = 15f;
@@ -155,7 +154,7 @@ namespace TheDivineAdventure
                     health = healthMax;
                     secondaryMax = 300;
                     secondary = secondaryMax;
-                    secondaryRegenRate = 0.15f;
+                    secondaryRegenRate = 0.23f;
                     projSpeed = 5f;
                     maxAttTime = 0.5f;
                     maxSpec1Time = 0.5f;
@@ -169,7 +168,7 @@ namespace TheDivineAdventure
                     break;
                 case "CLERIC":
                     isCaster = true;
-                    initSpeed = 10f;
+                    initSpeed = 11f;
                     speed = initSpeed;
                     runSpeed = 1f;
                     jumpSpeed = 15f;
@@ -177,7 +176,7 @@ namespace TheDivineAdventure
                     health = healthMax;
                     secondaryMax = 100;
                     secondary = secondaryMax;
-                    secondaryRegenRate = 0.15f;
+                    secondaryRegenRate = 0.25f;
                     projSpeed = 15f;
                     maxAttTime = 0.5f;
                     maxSpec1Time = 0.5f;
@@ -438,7 +437,7 @@ namespace TheDivineAdventure
                                 soundEffects[4].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                                 spec3Timer = maxSpec3Time;
                                 this.pos.Z += 400;
-                                secondary -= spec3Cost;
+                                secondary -= spec2Cost;
                             }
                             break;
                         case "CLERIC":
@@ -447,14 +446,12 @@ namespace TheDivineAdventure
                                 soundEffects[4].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                                 spec3Timer = maxSpec3Time;
                                 this.pos.Z += 200;
-                                secondary -= spec3Cost;
+                                secondary -= spec2Cost;
                             }
                             break;
                     }
 
                     spec2Timer = maxSpec2Time;
-
-
                 }
             }
             if (spec3Timer > 0)
@@ -486,23 +483,29 @@ namespace TheDivineAdventure
                             {
                                 soundEffects[3].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                                 health += 25;
-                                secondary -= spec2Cost;
+                                secondary -= spec3Cost;
                             }
                             else
                             {
                                 soundEffects[3].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                                 health = healthMax;
-                                secondary -= spec2Cost;
+                                secondary -= spec3Cost;
                             }
 
                             break;
                         case "CLERIC":
                             soundEffects[3].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
                             if (health + 50 < healthMax)
+                            {
                                 health += 50;
+                                secondary -= spec3Cost;
+                            }
                             else
+                            {
+                                secondary -= spec3Cost;
                                 health = healthMax;
-                            break;
+                            }
+                    break;
                     }
                    
                 }

@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Audio;
-
+using System.Collections.Generic;
+using System.IO;
 using System;
-using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -17,6 +16,7 @@ namespace TheDivineAdventure
         private Button backButton, selectButton, level1Button;
         private int activeLevel;
         private string[,] levelText;
+        private List<(string Role, int Score)> highscores;
 
 
         public LevelSelectScene(SpriteBatch sb, GraphicsDeviceManager graph, Game1 game, ContentManager cont) : base(sb, graph, game, cont)
@@ -29,7 +29,7 @@ namespace TheDivineAdventure
 
             //level one text
             levelText[1, 0] = "   You and your companions have been brought to";
-            levelText[1, 1] = "the underworld to aid the angel ******** in their";
+            levelText[1, 1] = "the underworld to aid the divine being in their";
             levelText[1, 2] = "attempt to belay the assaults of the Great Seven ";
             levelText[1, 3] = "Demons. You now find yourself on the first level, ";
             levelText[1, 4] = "Pride, facing against Lucifer. Can your party";
@@ -61,6 +61,8 @@ namespace TheDivineAdventure
                 titleEmbers[i].Scale = 1 - (rand.Next(-200, 50) / 100f);
                 titleEmbers[i].Frame = rand.Next(6);
             }
+
+            highscores = GetHighScore();
         }
 
         public override void LoadContent()
@@ -160,10 +162,10 @@ namespace TheDivineAdventure
 
             //write current level highscore
             //drop shadow
-            _spriteBatch.DrawString(parent.BigFont, "High Score : 9001", new Vector2(903, 765) * parent.currentScreenScale,
+            _spriteBatch.DrawString(parent.BigFont, "High Score : " + highscores[0].Score, new Vector2(903, 765) * parent.currentScreenScale,
                 new Color(Color.Black, 255), 0f, Vector2.Zero, parent.currentScreenScale * 0.5f, SpriteEffects.None, 1);
             //main text
-            _spriteBatch.DrawString(parent.BigFont, "High Score : 9001", new Vector2(905, 763) * parent.currentScreenScale,
+            _spriteBatch.DrawString(parent.BigFont, "High Score : " + highscores[0].Score, new Vector2(905, 763) * parent.currentScreenScale,
                 parent.textGold, 0f, Vector2.Zero, parent.currentScreenScale*0.5f, SpriteEffects.None, 1);
 
 
@@ -175,6 +177,47 @@ namespace TheDivineAdventure
             FadeIn();
 
             _spriteBatch.End();
+        }
+
+        private List<(string Role, int Score)> GetHighScore()
+        {
+            //define file path
+            string filePath = (Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.ToString() + @"\Level1_HighScores.txt");
+            //write file to array
+            string[] text = File.ReadAllLines(filePath);
+            //creat empty tuple list
+            List<(string Role, int Score)> scoreList = new List<(string Role, int Score)>();
+
+            //populate Tuple list
+            foreach (string line in text)
+            {
+                (string Role, int Score) output;
+                output.Role = line.Substring(0, line.LastIndexOf(':'));
+                output.Score = Int32.Parse(line.Substring(line.LastIndexOf('-') + 2));
+                scoreList.Add(output);
+            }
+            //sort Tuple List
+            sortScoreList(scoreList);
+
+            return scoreList;
+        }
+
+        private void sortScoreList(List<(string Role, int Score)> list)
+        {
+            int length = list.Count;
+            for (int i = 1; i < length; i++)
+            {
+                (string Role, int Score) key = list[i];
+                int j = i - 1;
+
+                while (j >= 0 && list[j].Score < key.Score)
+                {
+                    list[j + 1] = list[j];
+                    j = j - 1;
+                }
+                list[j + 1] = key;
+            }
+
         }
     }
 }

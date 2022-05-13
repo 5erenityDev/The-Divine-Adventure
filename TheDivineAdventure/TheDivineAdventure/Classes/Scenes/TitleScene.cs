@@ -82,7 +82,7 @@ namespace TheDivineAdventure
                 }
                 if (titleScoreboard.IsPressed())
                 {
-                    //currentScene = (1);
+                    parent.currentScene = "LEVEL_END";
                     return;
                 }
                 if (titleSettings.IsPressed())

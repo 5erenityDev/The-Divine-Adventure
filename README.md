@@ -11,7 +11,7 @@ sins.
 	- = In Progress
 	✓ = Done
 	X = Not Started
-### GOALS COMPLETED BY 5/12/22
+### GOALS COMPLETED
 - Shoot 'em up style gameplay ✓
 	- Basic Player Input and Movement ✓
 	- Camera Movement ✓

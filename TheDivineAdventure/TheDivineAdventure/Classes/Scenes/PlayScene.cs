@@ -5,8 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 
 using System;
-using System.Diagnostics;
-using System.Windows;
 using System.Collections.Generic;
 
 namespace TheDivineAdventure

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TheDivineAdventure
 {
@@ -156,8 +155,8 @@ namespace TheDivineAdventure
             else
             {
                 if (this.boundingSphere.Intersects(new BoundingBox(
-                    new Vector3(enemy.Pos.X - 5, enemy.Pos.Y - enemy.Height, enemy.Pos.Z - 5),
-                    new Vector3(enemy.Pos.X + 5, enemy.Pos.Y + enemy.Height, enemy.Pos.Z + 5))))
+                    new Vector3(enemy.Pos.X - 5, enemy.Pos.Y - enemy.Height - 5, enemy.Pos.Z - 10),
+                    new Vector3(enemy.Pos.X + 5, enemy.Pos.Y + enemy.Height + 5, enemy.Pos.Z + 10))))
                 {
                     return true;
                 }
@@ -187,7 +186,7 @@ namespace TheDivineAdventure
 
         private BoundingSphere boundingSphere
         {
-            get { return new BoundingSphere(pos, 0.010000003f); }
+            get { return new BoundingSphere(pos, 0.015f); }
         }
 
         private BoundingBox boundingBox
