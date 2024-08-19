@@ -5,7 +5,6 @@
 ///Authors:     Adkins, Christopher 
 ///             Blankenship, Sean A.
 ///             Michael, Hayden T.
-///             Reed, Lucas
 ///Description: This program is our submission for the final project in CSC 316.
 
 using Microsoft.Xna.Framework;

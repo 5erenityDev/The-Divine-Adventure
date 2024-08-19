@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/SOUND_DivineSpell.wav</SourceFile>
-  <SourceTime>2022-05-12T14:58:21.6758524-04:00</SourceTime>
+  <SourceTime>2024-08-19T17:20:29.4107907-04:00</SourceTime>
   <DestFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/SOUND_DivineSpell.xnb</DestFile>
-  <DestTime>2022-05-12T14:58:39.2354607-04:00</DestTime>
+  <DestTime>2024-08-19T17:21:20.6517027-04:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

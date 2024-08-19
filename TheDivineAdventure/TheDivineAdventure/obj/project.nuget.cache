@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "GkXnth2o2Wz0jgC3XXyM2lxWjXMuxaB0Vpi+fWTjY4Tnuf6hfczWD4c0eBdR7LA4OAREYVqZMjxm9OAVSV0p7g==",
+  "dgSpecHash": "8bNOQgZUmWO3KWv8TYE9k0V80EvtBUObreslF1W9gilal1+wKnU3LsEpV9NOqonwE9J1LeRVVKbxR2jlHMDkvw==",
   "success": true,
   "projectFilePath": "D:\\School\\EKU\\Spring 2022\\CSC 316\\FINAL PROJECT\\The-Divine-Adventure\\TheDivineAdventure\\TheDivineAdventure\\TheDivineAdventure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Seren\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
-    "C:\\Users\\Seren\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512",
-    "C:\\Users\\Seren\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.14\\microsoft.netcore.app.host.win-x64.3.1.14.nupkg.sha512"
+    "C:\\Users\\Seren\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
   ],
   "logs": []
 }

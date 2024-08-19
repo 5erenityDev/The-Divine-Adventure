@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/TEX_Rogue.png</SourceFile>
-  <SourceTime>2022-05-03T22:52:33.7522444-04:00</SourceTime>
+  <SourceTime>2024-08-19T17:20:29.5315877-04:00</SourceTime>
   <DestFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/TEX_Rogue.xnb</DestFile>
-  <DestTime>2022-05-12T13:41:03.9582434-04:00</DestTime>
+  <DestTime>2024-08-19T17:21:25.3011774-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

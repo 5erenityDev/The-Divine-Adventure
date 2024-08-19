@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/SmallFont.spritefont</SourceFile>
-  <SourceTime>2022-04-26T14:32:34.4968666-04:00</SourceTime>
+  <SourceTime>2024-08-19T17:20:29.4227921-04:00</SourceTime>
   <DestFile>D:/School/EKU/Spring 2022/CSC 316/FINAL PROJECT/The-Divine-Adventure/TheDivineAdventure/TheDivineAdventure/Content/bin/DesktopGL/Content/SmallFont.xnb</DestFile>
-  <DestTime>2022-05-12T13:40:59.6907969-04:00</DestTime>
+  <DestTime>2024-08-19T17:21:16.7816771-04:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>LocalizedFontProcessor</Processor>

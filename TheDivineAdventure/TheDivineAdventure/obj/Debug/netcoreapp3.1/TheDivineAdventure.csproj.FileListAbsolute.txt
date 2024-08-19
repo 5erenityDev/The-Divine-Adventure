@@ -14,7 +14,6 @@ D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAd
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\soft_oal.dll
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\SDL2.dll
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\soft_oal.dll
-D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.csprojAssemblyReference.cache
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.AssemblyInfoInputs.cache
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.AssemblyInfo.cs
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.csproj.CoreCompileInputs.cache
@@ -400,3 +399,5 @@ D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAd
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\SOUND_Teleport.xnb
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\SOUND_TradeOff.xnb
 D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\bin\Debug\netcoreapp3.1\Content\SOUND_HealingPotion.xnb
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.csproj.AssemblyReference.cache
+D:\School\EKU\Spring 2022\CSC 316\FINAL PROJECT\The-Divine-Adventure\TheDivineAdventure\TheDivineAdventure\obj\Debug\netcoreapp3.1\TheDivineAdventure.GeneratedMSBuildEditorConfig.editorconfig
